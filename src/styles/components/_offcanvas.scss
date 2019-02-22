@@ -1,0 +1,143 @@
+.sidebar-offcanvas {
+    display: none;
+}
+
+.navbar-toggle {
+    top: 50%;
+    right: 15px;
+    width: 30px;
+    height: 16px;
+    margin: 0;
+    border: none;
+    padding: 0;
+    z-index: 123;
+    position: absolute;
+    transform: translateY(-50%);
+    background: none;
+
+    &::before {
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: block;
+        position: fixed;
+        transform: translateX(-330px);
+    }
+
+    @include hs {
+        cursor: pointer;
+        outline: none;
+    }
+
+    span {
+        left: 2px;
+        right: 2px;
+        height: 3px;
+        display: block;
+        position: absolute;
+        transition: background 0s 0.2s;
+        background: white;
+        text-indent: -999em;
+
+        &::after,
+        &::before {
+            left: 0;
+            right: 2px;
+            width: 100%;
+            height: 3px;
+            content: "";
+            display: block;
+            position: absolute;
+            background: white;
+            transition-delay: 0.2s, 0s;
+            transition-duration: 0.2s, 0.2s;
+        }
+
+        &::before {
+            top: 7px;
+            transition-property: top, transform;
+        }
+
+        &::after {
+            bottom: 7px;
+            transition-property: bottom, transform;
+        }
+    }
+
+    @include breakpoint(get_bp("sm")) {
+        display: none;
+    }
+}
+
+.nav-active .navbar-toggle {
+    &::before {
+        content: "";
+    }
+
+    span {
+        background: none;
+
+        &::before {
+            top: 0;
+            transform: rotate(-45deg);
+            transition-delay: 0s, 0.2s;
+        }
+
+        &::after {
+            bottom: 0;
+            transform: rotate(45deg);
+            transition-delay: 0s, 0.2s;
+        }
+    }
+}
+
+@include breakpoint($offcanvas-break) {
+    body {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-active {
+        overflow: hidden;
+
+        .row-offcanvas.right {
+            transform: translateX(-250px);
+        }
+
+        .banner {
+            transform: translateX(-250px);
+        }
+
+        .wrap {
+            transition: all 0.3s ease-in;
+        }
+    }
+
+    .sidebar-offcanvas {
+        top: 0;
+        width: 250px;
+        height: 100vh;
+        margin: 0;
+        display: block;
+        padding: 0;
+        overflow: hidden;
+        position: fixed;
+        min-height: 100vh;
+    }
+
+    .row-offcanvas {
+        height: 100%;
+        margin: 0;
+        position: relative;
+        transition: all 0.3s ease-out;
+
+        &.right .sidebar-offcanvas {
+            left: 100%;
+            transform: translateX(0);
+        }
+    }
+}

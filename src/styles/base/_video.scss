@@ -1,0 +1,45 @@
+/**
+ * Responsive [video] shortcode
+ */
+.wp-video,
+.mejs-overlay.load,
+video.wp-video-shortcode {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.mejs-container {
+    width: 100% !important;
+    height: 100% !important;
+    padding-top: 56.25%;
+}
+
+.mejs-controls {
+    opacity: 0.6;
+}
+
+.wp-video,
+video.wp-video-shortcode {
+    max-width: 100% !important;
+}
+
+video.wp-video-shortcode {
+    position: relative;
+}
+
+.mejs-mediaelement {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.mejs-overlay-play {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto !important;
+    height: auto !important;
+}

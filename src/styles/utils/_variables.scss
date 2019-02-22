@@ -1,0 +1,51 @@
+/**
+ * Grid sizing settings
+ */
+
+$grid: (
+    gutter: 20px,
+    columns: 12,
+    container: 1200px
+);
+
+/**
+ * Font settings
+ */
+
+$fonts: (
+    base: 16,
+    primary: "'Helvetica', sans-serif"
+);
+
+/**
+ * Colors
+ */
+
+$colors: (
+    "brand": #0c5a9a,
+    "black": #000
+);
+
+/**
+ * Breakpoints
+ */
+
+$breakpoints: (
+    "xss-1": 319px,
+    "xss": 320px,
+    "xs-1": 479px,
+    "xs": 480px,
+    "xsm-1": 639px,
+    "xsm": 640px,
+    "sm-1": 767px,
+    "sm": 768px,
+    "md-1": 991px,
+    "md": 992px,
+    "lg-1": 1023px,
+    "lg": 1024px,
+    "xl-1": 1199px,
+    "xl": 1200px,
+    "xxl": 1360px
+);
+
+$offcanvas-break: map-get($breakpoints, "md-1");

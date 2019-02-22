@@ -1,0 +1,104 @@
+/**
+ * Font sizing shortend
+ */
+
+@mixin font-size($size, $line-height: get_font("base"), $letter-spacing: 0) {
+    @if ($size) {
+        font-size: rem($size);
+    }
+
+    @if ($line-height == 1) {
+        line-height: 1;
+    }
+
+    @if ($line-height != get_font("base")) {
+        line-height: leading($size, $line-height);
+    }
+
+    @if ($letter-spacing != 0) {
+        letter-spacing: spacing($letter-spacing);
+    }
+}
+
+/**
+ * Get custom font family from map
+ */
+
+@mixin font-family($name, $weight: 400, $style: normal) {
+    font-style: $style;
+    font-family: unquote(get_font($name));
+    font-weight: $weight;
+}
+
+/**
+ * Targte IE10/IE11 Media Query
+ */
+@mixin ie11 {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
+
+/**
+ * Input element placeholder crossbrowser
+ */
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &::-moz-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder {
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+/**
+ * Links styling
+ */
+
+@mixin link-colors($normal, $hover: "none") {
+    @if ($hover== "none") {
+        $hover: $normal;
+    }
+
+    &:link,
+    &:focus,
+    &:active,
+    &:visited {
+        color: $normal;
+    }
+
+    &:hover {
+        color: $hover;
+    }
+}
+
+/**
+ * Links - Normal style
+ */
+@mixin ns {
+    &:link,
+    &:visited {
+        @content;
+    }
+}
+
+/**
+ * Links - Hover style
+ */
+@mixin hs {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}

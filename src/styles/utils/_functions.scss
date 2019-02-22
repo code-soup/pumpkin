@@ -1,0 +1,118 @@
+/**
+ *
+ * GETTERS
+ *
+ */
+
+/**
+ * Get breakpoint size from $breakpoints map
+ */
+@function get_bp($key) {
+    @if map-has-key($breakpoints, $key) {
+        @return map-get($breakpoints, $key);
+    }
+
+    @warn "`# {$key}` not defined in $breakpoints.";
+
+    @return null;
+}
+
+/**
+ * Get color hex from $colors map
+ */
+@function get_color($key) {
+    @if map-has-key($colors, $key) {
+        @return map-get($colors, $key);
+    }
+
+    @warn "`# {$key}` not defined in $colors.";
+
+    @return null;
+}
+
+/**
+ * Get font family from $font map
+ */
+@function get_font($name) {
+    @if map-has-key($fonts, $name) {
+        @return map-get($fonts, $name);
+    }
+
+    @warn "Unknown `# {$name}` in $fonts.";
+
+    @return null;
+}
+
+/**
+ * Get font family from $font map
+ */
+@function get_opt($name) {
+    @if map-has-key($grid, $name) {
+        @return map-get($grid, $name);
+    }
+
+    @warn "Unknown `# {$name}` in $grid.";
+
+    @return null;
+}
+
+/**
+ *
+ * GRID FUNCTIONS
+ *
+ */
+
+/**
+ * Columns span
+ */
+@function span($span, $grid-columns: get_opt("columns")) {
+    $column: 100 / $grid-columns;
+
+    @return percentage($span * $column) / 100;
+}
+
+/**
+ * Get gutter width
+ */
+@function gutter($half: false) {
+    $gutter: get_opt("gutter");
+
+    @if ($half == true) {
+        @return $gutter / 2;
+    }
+
+    @return $gutter;
+}
+
+/**
+ *
+ * FONT FUNCTIONS
+ *
+ */
+
+/**
+ * Convert pixel to REM
+ */
+@function rem($pixels, $context: get_font("base")) {
+    @return #{$pixels/$context}rem;
+}
+
+/**
+ * Converts Photoshop line heights to CSS REM
+ */
+@function leading($font-size, $leading) {
+    $lh: (($leading / 2) + $font-size);
+
+    @if ($lh < 100) {
+        $lh: $lh + 100;
+    }
+
+    @return (($leading / $font-size) * 100) * 1%;
+}
+
+/**
+ * Converts Photoshop letter spacing to CSS REM
+ */
+@function spacing($spacing) {
+    @return ($spacing / 1000) * 1rem;
+}

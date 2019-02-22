@@ -1,0 +1,47 @@
+{
+    "name": "codesoup/pumpkin",
+    "type": "wordpress-theme",
+    "license": "MIT",
+    "description": "WordPress starter theme with a modern development workflow",
+    "homepage": "https://www.codesoup.co/pumpkin/",
+    "authors": [
+        {
+            "name": "Vlado Bosnjak",
+            "email": "vb@bobz.co",
+            "homepage": "https://www.bobz.co"
+        }
+    ],
+    "keywords": ["wordpress"],
+    "support": {
+        "issues": "https://github.com/code-soup/pumpkin/issues"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "advanced-custom-fields/advanced-custom-fields-pro",
+                "version": "5.7.10",
+                "type": "wordpress-plugin",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://connect.advancedcustomfields.com/index.php?p=pro&a=download"
+                },
+                "require": {
+                    "philippbaschke/acf-pro-installer": "^1.0",
+                    "composer/installers": "^1.0"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "composer/installers": "~1.0",
+        "soberwp/models": "1.1.0-p",
+        "advanced-custom-fields/advanced-custom-fields-pro": "~5.7.10"
+    },
+    "extra": {
+        "installer-paths": {
+            "vendor/{$name}": ["vendor/package"]
+        }
+    }
+}
