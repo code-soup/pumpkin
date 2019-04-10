@@ -20,7 +20,7 @@
             "type": "package",
             "package": {
                 "name": "advanced-custom-fields/advanced-custom-fields-pro",
-                "version": "5.7.10",
+                "version": "5.7.13",
                 "type": "wordpress-plugin",
                 "dist": {
                     "type": "zip",
@@ -37,7 +37,7 @@
         "php": ">=7.1.0",
         "composer/installers": "~1.0",
         "soberwp/models": "1.1.0-p",
-        "advanced-custom-fields/advanced-custom-fields-pro": "~5.7.10"
+        "advanced-custom-fields/advanced-custom-fields-pro": "~5.7.13"
     },
     "extra": {
         "installer-paths": {
