@@ -1,3 +1,3 @@
-<?php if ( ! defined( 'ABSPATH' ) || ! NF()->get_sidebar() ) exit;
+<?php if ( ! defined( 'ABSPATH' ) || ! CS()->get_sidebar() ) exit;
 
-dynamic_sidebar( NF()->get_sidebar() );
+dynamic_sidebar( CS()->get_sidebar() );

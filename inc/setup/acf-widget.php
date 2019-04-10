@@ -46,25 +46,25 @@ class ACF_Widget {
 	public function register_cpt() {
 
 		$labels = [
-			'name'               => _x( 'ACF Page Widgets', 'post type general name', 'nof' ),
-			'singular_name'      => _x( 'ACF Page Widget', 'post type singular name', 'nof' ),
-			'menu_name'          => _x( 'Page widgets', 'admin menu', 'nof' ),
-			'name_admin_bar'     => _x( 'Page widget', 'add new on admin bar', 'nof' ),
-			'add_new'            => _x( 'Add New', 'Page widget', 'nof' ),
-			'add_new_item'       => __( 'Add New Page widget', 'nof' ),
-			'new_item'           => __( 'New Page widget', 'nof' ),
-			'edit_item'          => __( 'Edit Page widget', 'nof' ),
-			'view_item'          => __( 'View Page widget', 'nof' ),
-			'all_items'          => __( 'All Page widgets', 'nof' ),
-			'search_items'       => __( 'Search Page widgets', 'nof' ),
-			'parent_item_colon'  => __( 'Parent Page widgets:', 'nof' ),
-			'not_found'          => __( 'No Page widgets found.', 'nof' ),
-			'not_found_in_trash' => __( 'No Page widgets found in Trash.', 'nof' )
+			'name'               => _x( 'ACF Page Widgets', 'post type general name', 'pumpkin' ),
+			'singular_name'      => _x( 'ACF Page Widget', 'post type singular name', 'pumpkin' ),
+			'menu_name'          => _x( 'Page widgets', 'admin menu', 'pumpkin' ),
+			'name_admin_bar'     => _x( 'Page widget', 'add new on admin bar', 'pumpkin' ),
+			'add_new'            => _x( 'Add New', 'Page widget', 'pumpkin' ),
+			'add_new_item'       => __( 'Add New Page widget', 'pumpkin' ),
+			'new_item'           => __( 'New Page widget', 'pumpkin' ),
+			'edit_item'          => __( 'Edit Page widget', 'pumpkin' ),
+			'view_item'          => __( 'View Page widget', 'pumpkin' ),
+			'all_items'          => __( 'All Page widgets', 'pumpkin' ),
+			'search_items'       => __( 'Search Page widgets', 'pumpkin' ),
+			'parent_item_colon'  => __( 'Parent Page widgets:', 'pumpkin' ),
+			'not_found'          => __( 'No Page widgets found.', 'pumpkin' ),
+			'not_found_in_trash' => __( 'No Page widgets found in Trash.', 'pumpkin' )
 		];
 
 		$args = [
 			'labels'             => $labels,
-			'description'        => __( 'Description.', 'nof' ),
+			'description'        => __( 'Description.', 'pumpkin' ),
 			'public'             => false,
 			'publicly_queryable' => false,
 			'show_ui'            => true,

@@ -21,7 +21,7 @@
         {
             "key": "field_599554de39fa0",
             "label": "Logo",
-            "name": "nf_logo",
+            "name": "cs_logo",
             "type": "image",
             "instructions": "",
             "required": 0,
@@ -45,7 +45,7 @@
         {
             "key": "field_599554e739fa1",
             "label": "Favicon",
-            "name": "nf_favicon",
+            "name": "cs_favicon",
             "type": "image",
             "instructions": "",
             "required": 0,
@@ -85,7 +85,7 @@
         {
             "key": "field_5995593217a29",
             "label": "Copyright",
-            "name": "nf_copyright",
+            "name": "cs_copyright",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -120,7 +120,7 @@
         {
             "key": "field_5996acd414fd8",
             "label": "Social Profiles",
-            "name": "nf_social_profiles",
+            "name": "cs_social_profiles",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -200,7 +200,7 @@
         {
             "key": "field_59b1735633a77",
             "label": "Sidebars",
-            "name": "nf_sidebars",
+            "name": "cs_sidebars",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -256,7 +256,7 @@
         {
             "key": "field_59cdfd748caef",
             "label": "Custom CSS",
-            "name": "nf_custom_css",
+            "name": "cs_custom_css",
             "type": "textarea",
             "instructions": "",
             "required": 0,
@@ -291,7 +291,7 @@
         {
             "key": "field_59cdffb08caf1",
             "label": "Head Tag",
-            "name": "nf_head",
+            "name": "cs_head",
             "type": "textarea",
             "instructions": "Code goes to head tag of the page",
             "required": 0,
@@ -310,7 +310,7 @@
         {
             "key": "field_59cdffe58caf2",
             "label": "Body Tag Open",
-            "name": "nf_body_open",
+            "name": "cs_body_open",
             "type": "textarea",
             "instructions": "Code goes just after body tag is open",
             "required": 0,
@@ -329,7 +329,7 @@
         {
             "key": "field_59ce000a8caf3",
             "label": "Body Tag Close",
-            "name": "nf_body_close",
+            "name": "cs_body_close",
             "type": "textarea",
             "instructions": "Code goes just before body tag is closed",
             "required": 0,
@@ -364,7 +364,7 @@
         {
             "key": "field_59b16a8df56e0",
             "label": "Google Maps API Key",
-            "name": "nf_gmaps_api",
+            "name": "cs_gmaps_api",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -383,7 +383,7 @@
         {
             "key": "field_59ce009c670cd",
             "label": "Typekit",
-            "name": "nf_typekit",
+            "name": "cs_typekit",
             "type": "url",
             "instructions": "Typekit JS script URL, eg: https:\/\/use.typekit.net\/xyz.js",
             "required": 0,

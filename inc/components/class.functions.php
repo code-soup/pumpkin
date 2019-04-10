@@ -14,7 +14,7 @@ class CS_Functions {
 	public function get_logo($url = false) {
 
 		$src = false;
-		$img = get_key('nf_logo');
+		$img = get_key('cs_logo');
 
 
 		if ( is_numeric($img) ) :
@@ -155,7 +155,7 @@ class CS_Functions {
 	 */
 	public function social() {
 
-		$social = get_key('nf_social_profiles');
+		$social = get_key('cs_social_profiles');
 
 		if ($social) : ?>
 			<ul class="social">
@@ -226,13 +226,13 @@ class CS_Functions {
 				<?php elseif ( is_search() ) : ?>
 
 					<li>
-						<span><?= __('Search Results', 'nof'); ?></span>
+						<span><?= __('Search Results', 'pumpkin'); ?></span>
 					</li>
 
 				<?php elseif ( is_404() ) : ?>
 
 					<li>
-						<span><?= __('Not Found', 'nof'); ?></span>
+						<span><?= __('Not Found', 'pumpkin'); ?></span>
 					</li>
 				<?php endif; ?>
 			</ol>
@@ -265,8 +265,8 @@ class CS_Functions {
 			'total'     => $query->max_num_pages,
 			'format'    => '?paged=%#%',
 			'current'   => max( 1, get_query_var('paged') ),
-			'prev_text' => __('Prev', 'nof'),
-			'next_text' => __('Next', 'nof'),
+			'prev_text' => __('Prev', 'pumpkin'),
+			'next_text' => __('Next', 'pumpkin'),
 		));
 
 		if ($query->max_num_pages > 1) : ?>
@@ -289,8 +289,8 @@ class CS_Functions {
 		$paginate = paginate_links( array(
 			'base'      => add_query_arg( 'cpage', '%#%' ),
 			'format'    => '',
-			'prev_text' => __('Prev', 'nof'),
-			'next_text' => __('Next', 'nof'),
+			'prev_text' => __('Prev', 'pumpkin'),
+			'next_text' => __('Next', 'pumpkin'),
 			'total'     => ceil($total / $perpage),
 			'current'   => $current,
 			'type'      => 'array'

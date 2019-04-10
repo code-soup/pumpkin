@@ -26,7 +26,7 @@ if ( function_exists('acf_add_options_page') ) {
  */
 add_action('acf/init', function () {
 
-	$key = get_key('nf_gmaps_api');
+	$key = get_key('cs_gmaps_api');
 
 	if ( ! $key ) {
 		$key = 'AIzaSyDoVervtRaPVCC276PsdPF5flnqrwzkcC4';

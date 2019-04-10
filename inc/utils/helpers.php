@@ -27,7 +27,7 @@ if ( ! function_exists('get_key')) :
 
 	function get_key($k, $a = false) {
 
-		global $widget, $nf;
+		global $widget, $cs;
 		$val = false;
 
 
@@ -53,8 +53,8 @@ if ( ! function_exists('get_key')) :
 			if ( is_array($widget) ) {
 				$array = $widget;
 			}
-			elseif ( is_array($nf)) {
-				$array = $nf;
+			elseif ( is_array($cs)) {
+				$array = $cs;
 			}
 		endif;
 
@@ -130,7 +130,7 @@ endif;
  */
 if ( ! function_exists('vb_trim_word')) :
 
-	function nf_trim_word( $text, $length ) {
+	function cs_trim_word( $text, $length ) {
 		$trimmed = wp_trim_words( $text, $num_words = $length, $more = null );
 		return $trimmed;
 	}
@@ -143,7 +143,7 @@ endif;
  */
 if ( ! function_exists('vb_trim_chars')) :
 
-	function nf_trim_chars( $text, $length = 45, $append = '&hellip;' ) {
+	function cs_trim_chars( $text, $length = 45, $append = '&hellip;' ) {
 
 		$length = (int) $length;
 		$text   = trim( strip_tags( $text ) );

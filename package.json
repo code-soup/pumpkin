@@ -1,15 +1,15 @@
 {
-    "name": "carrot",
+    "name": "pumpkin",
     "version": "0.0.1",
     "author": "Vlado Bosnjak <hi@codesoup.co>",
-    "homepage": "https://www.codesoup.co/carrot",
+    "homepage": "https://www.codesoup.co/pumpkin",
     "private": true,
     "repository": {
         "type": "git",
-        "url": "git://github.com/code-soup/carrot.git"
+        "url": "git://github.com/code-soup/pumpkin.git"
     },
     "bugs": {
-        "url": "https://github.com/code-soup/carrot/issues"
+        "url": "https://github.com/code-soup/pumpkin/issues"
     },
     "licenses": [
         {

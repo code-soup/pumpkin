@@ -32,8 +32,8 @@ add_filter('acf/load_field/name=select_sidebar', function ( $field ) {
 
 	$field['choices'] = [];
 
-	if ( get_key('nf_sidebars') ) :
-		foreach ( get_key('nf_sidebars') as $sidebar ) :
+	if ( get_key('cs_sidebars') ) :
+		foreach ( get_key('cs_sidebars') as $sidebar ) :
 
 			$id = sanitize_title( $sidebar['sidebar_name'] );
 			$field['choices'][$id] = $sidebar['sidebar_name'];

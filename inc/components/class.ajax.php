@@ -11,7 +11,7 @@ class CS_Ajax {
 
 	public function __construct() {
 
-		global $nf, $current_user;
+		global $cs, $current_user;
 
 		// Process any form
 		add_action('wp_ajax_do_process_form', [$this, 'process_form']);
