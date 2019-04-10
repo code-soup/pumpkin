@@ -274,20 +274,26 @@ class CS {
 
 
 		/**
-		 * Include Typekit fonts WP way
-		 */
-		$typekit = get_key('cs_typekit');
+         * Include Typekit fonts from Theme Options WP way
+         */
+        $typekit = get_key('cs_typekit');
 
-		if ( $typekit ) {
-			wp_enqueue_script( 'cs/typekit', $typekit, [], null );
-			wp_add_inline_script( 'cs/typekit', 'try{Typekit.load({ async: true });}catch(e){}' );
-		}
+        if ( strpos( $typekit, 'css' ) )
+        {
+            wp_enqueue_style('cs/typekit', trim( $typekit ), false, null);
+        }
+        elseif ( strpos( $typekit, 'js' ) )
+        {
+            wp_enqueue_script( 'cs/typekit', $typekit, [], null );
+            wp_add_inline_script( 'cs/typekit', 'try{Typekit.load({ async: true });}catch(e){}' );
+        }
 
 		// Theme CSS
 		wp_enqueue_style('cs/css', Assets\asset_path('styles/main.css'), false, null);
 
 		// Custom CSS from Theme Options
-		if( file_exists( get_stylesheet_directory() . '/custom.css') && get_key('cs_custom_css') ) {
+		if( file_exists( get_stylesheet_directory() . '/custom.css') && get_key('cs_custom_css') )
+        {
 			wp_enqueue_style('cs/custom_css', $this->theme_uri('/custom.css'), false, null);
 		}
 

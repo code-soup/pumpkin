@@ -46,3 +46,5 @@ b) Add key,eg: ACF_PRO_KEY=abcd
 - remove these folder from .gitignore so they get uploaded on push
 vendor
 wp-content
+
+6. rename /src/config-local-example,json > config-local.json and update paths based on your local install
