@@ -3,7 +3,7 @@
 /**
  * Option pages
  */
-if ( function_exists('acf_add_options_page') ) {
+if ( function_exists('acf_add_options_page') ) :
 
 	acf_add_options_page([
 		'page_title' => 'Theme Options',
@@ -17,7 +17,8 @@ if ( function_exists('acf_add_options_page') ) {
 		'title'  => 'Settings',
 		'parent' => 'theme-options',
 	]);
-}
+
+endif;
 
 
 
@@ -27,11 +28,6 @@ if ( function_exists('acf_add_options_page') ) {
 add_action('acf/init', function () {
 
 	$key = get_key('cs_gmaps_api');
-
-	if ( ! $key ) {
-		$key = 'AIzaSyDoVervtRaPVCC276PsdPF5flnqrwzkcC4';
-	}
-
 	acf_update_setting('google_api_key', $key);
 });
 
