@@ -81,7 +81,6 @@
         "yargs": "~13.2.2"
     },
     "dependencies": {
-        "ajv": "6.10.0",
         "babel-loader": "^8.0.5",
         "breakpoint-sass": "^2.7.1",
         "jquery": "^3.3.1",
