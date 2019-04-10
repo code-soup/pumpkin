@@ -9,6 +9,9 @@ composer.lock
 npm-debug.log
 yarn-error.log
 
+# don't commit local config
+src/config-local.json
+
 # OSX Files
 .DS_Store
 .DS_Store?

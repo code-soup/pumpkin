@@ -40,6 +40,16 @@ if ( locate_template('vendor/autoload.php') )
 
 
 /**
+ * Custom Post Types folder using Sober/models
+ *
+ * @link( https://github.com/soberwp/models, documentation )
+ */
+add_filter('sober/models/path', function() {
+    
+    return trailingslashit( get_stylesheet_directory() ) . 'inc/models';
+});
+
+/**
  * Theme includes
  */
 $includes = [
