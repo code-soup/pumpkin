@@ -154,10 +154,7 @@ let webpackConfig = {
         jquery: "jQuery",
     },
     plugins: [
-        new CleanPlugin([config.paths.dist], {
-            root: config.paths.root,
-            verbose: false,
-        }),
+        new CleanPlugin(),
         new SVGSpritemapPlugin("assets/icons/*.svg", {
             output: {
                 svg4everybody: true,
