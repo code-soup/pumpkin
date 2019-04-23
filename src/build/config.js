@@ -4,10 +4,9 @@ const merge = require("webpack-merge");
 
 const desire = require("./util/desire");
 
-const userConfig = merge(
-    desire(`${__dirname}/../config`),
-    desire(`${__dirname}/../config-local`)
-);
+const userConfig = desire(`${__dirname}/../config-local`)
+    ? desire(`${__dirname}/../config-local`)
+    : desire(`${__dirname}/../config`);
 
 const isProduction = !!((argv.env && argv.env.production) || argv.p);
 const rootPath =

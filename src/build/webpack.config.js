@@ -155,7 +155,7 @@ let webpackConfig = {
     },
     plugins: [
         new CleanPlugin(),
-        new SVGSpritemapPlugin("assets/icons/*.svg", {
+        new SVGSpritemapPlugin("src/icons/*.svg", {
             output: {
                 svg4everybody: true,
                 filename: "sprite/spritemap.svg",
