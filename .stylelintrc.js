@@ -3,7 +3,6 @@ module.exports = {
     rules: {
         "indentation": 4,
         "no-empty-source": null,
-        "string-quotes": "double",
         "at-rule-no-unknown": [
             true,
             {
