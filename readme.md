@@ -33,22 +33,22 @@ Powered by Webpack build script
 - Bitbucket pipeline for deploying theme over FTP/SFTP
 
 ### Install instructions
-1. Clone repository \s\s 
+1. Clone repository &nbsp;
 `git clone git@github.com:code-soup/pumpkin.git .`
 
-2. Start fresh \s\s 
-`rm -rf .git` \s\s 
-`git init` \s\s 
-`git add .` \s\s 
-`git commit -am 'init'` \s\s 
+2. Start fresh &nbsp;
+`rm -rf .git` &nbsp;
+`git init` &nbsp;
+`git add .` &nbsp;
+`git commit -am 'init'` &nbsp;
 
-3. Create `.env` file and add your ACF PRO key \s\s 
+3. Create `.env` file and add your ACF PRO key &nbsp;
 `ACF_PRO_KEY=abcd`
 
-4. Install PHP dependencies \s\s 
+4. Install PHP dependencies &nbsp;
 `composer install`
 
-5. Install node packages \s\s. 
+5. Install node packages &nbsp;
 `yarn`
 
 6. Rename `/src/config-local-example.json` to `config-local.json` and update paths to your local environment
