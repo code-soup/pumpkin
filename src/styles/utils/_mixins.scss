@@ -81,24 +81,3 @@
         color: $hover;
     }
 }
-
-/**
- * Links - Normal style
- */
-@mixin ns {
-    &:link,
-    &:visited {
-        @content;
-    }
-}
-
-/**
- * Links - Hover style
- */
-@mixin hs {
-    &:hover,
-    &:focus,
-    &:active {
-        @content;
-    }
-}

@@ -4,8 +4,8 @@
 @import "utils/_placeholders";
 
 /** Import everything */
-@import "autoload/**/*";
-@import "base/**/*";
-@import "components/**/*";
-@import "layouts/**/*";
-@import "widgets/**/*";
+@import "autoload/**/*.scss";
+@import "base/**/*.scss";
+@import "components/**/*.scss";
+@import "layouts/**/*.scss";
+@import "widgets/**/*.scss";

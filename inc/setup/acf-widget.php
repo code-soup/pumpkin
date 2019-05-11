@@ -1,4 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) )
+    exit;
 
 class ACF_Widget {
 
@@ -45,25 +46,8 @@ class ACF_Widget {
 	 */
 	public function register_cpt() {
 
-		$labels = [
-			'name'               => _x( 'ACF Page Widgets', 'post type general name', 'pumpkin' ),
-			'singular_name'      => _x( 'ACF Page Widget', 'post type singular name', 'pumpkin' ),
-			'menu_name'          => _x( 'Page widgets', 'admin menu', 'pumpkin' ),
-			'name_admin_bar'     => _x( 'Page widget', 'add new on admin bar', 'pumpkin' ),
-			'add_new'            => _x( 'Add New', 'Page widget', 'pumpkin' ),
-			'add_new_item'       => __( 'Add New Page widget', 'pumpkin' ),
-			'new_item'           => __( 'New Page widget', 'pumpkin' ),
-			'edit_item'          => __( 'Edit Page widget', 'pumpkin' ),
-			'view_item'          => __( 'View Page widget', 'pumpkin' ),
-			'all_items'          => __( 'All Page widgets', 'pumpkin' ),
-			'search_items'       => __( 'Search Page widgets', 'pumpkin' ),
-			'parent_item_colon'  => __( 'Parent Page widgets:', 'pumpkin' ),
-			'not_found'          => __( 'No Page widgets found.', 'pumpkin' ),
-			'not_found_in_trash' => __( 'No Page widgets found in Trash.', 'pumpkin' )
-		];
-
 		$args = [
-			'labels'             => $labels,
+			'label '             => 'ACF Page Widget',
 			'description'        => __( 'Description.', 'pumpkin' ),
 			'public'             => false,
 			'publicly_queryable' => false,
@@ -88,16 +72,15 @@ class ACF_Widget {
 	 */
 	public static function body_class_setup( $classes ) {
 
-		$meta = get_post_meta(get_the_ID(), 'page_widgets', true);
+		$meta = get_post_meta( get_the_ID(), 'page_widgets', true );
 
-		if ( $meta ) {
-			foreach ($meta as $wgt) {
-				$wgt = str_replace('_', '-', $wgt );
-				$classes[] = str_replace('wgt', 'pw', $wgt);
-			}
-		}
+        if ( ! $meta )
+            return array_unique($classes);
 
-		return array_unique($classes);
+        foreach ( $meta as $wgt )
+        {
+            $classes[] = sanitize_title( str_replace('wgt', 'pw', $wgt) );
+        }
 	}
 
 
@@ -124,13 +107,15 @@ class ACF_Widget {
 	 */
 	private static function get_slug( $wgt ) {
 
-		if ( get_key('acf_fc_layout', $wgt) ) {
-
-			return str_replace('_', '-', $wgt['acf_fc_layout'] );
+		if ( get_key('acf_fc_layout', $wgt) )
+        {
+			return sanitize_title( $wgt['acf_fc_layout'] );
 		}
 
 		if ( get_key('name', $wgt) )
+        {
 			return $wgt['name'];
+        }
 	}
 
 

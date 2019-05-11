@@ -1,4 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) )
+    exit;
 
 
 /**
@@ -6,22 +7,25 @@
  */
 add_filter('acf/load_field/name=gform_id', function ( $field ) {
 
-	global $wpdb;
+    global $wpdb;
 
+    if ( ! function_exists('gravity_form') )
+        return $field;
 
-	$field['choices'] = [];
+    $forms = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}gf_form" );
 
-	$forms = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}rg_form" );
+    if ( ! $forms )
+        return $field;
 
-	if ( ! $forms ) :
-		foreach ( $forms as $k => $v ) {
-			$field['choices'][ $v->id ] = apply_filters('the_title', $v->title);
-		}
-	endif;
+    $field['choices'] = [];
 
-	return $field;
+    foreach ( $forms as $k => $v )
+    {
+        $field['choices'][ $v->id ] = apply_filters('the_title', $v->title);
+    }
+
+    return $field;
 });
-
 
 
 
@@ -30,16 +34,16 @@ add_filter('acf/load_field/name=gform_id', function ( $field ) {
  */
 add_filter('acf/load_field/name=select_sidebar', function ( $field ) {
 
-	$field['choices'] = [];
+	if ( ! get_key('cs_sidebars') )
+        return $field;
 
-	if ( get_key('cs_sidebars') ) :
-		foreach ( get_key('cs_sidebars') as $sidebar ) :
+    $field['choices'] = [];
 
-			$id = sanitize_title( $sidebar['sidebar_name'] );
-			$field['choices'][$id] = $sidebar['sidebar_name'];
-
-		endforeach;
-	endif;
+	foreach ( get_key('cs_sidebars') as $sidebar )
+    {
+        $id = sanitize_title( $sidebar['sidebar_name'] );
+        $field['choices'][$id] = $sidebar['sidebar_name'];
+    }
 
 	return $field;
 });
