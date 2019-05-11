@@ -51,4 +51,6 @@ Powered by Webpack build script
 5. Install node packages\
 `yarn`
 
-6. Rename `/src/config-local-example.json` to `config-local.json` and update paths to your local environment
+6. Rename \
+`/src/config-local-example.json` to `config-local.json` \
+and update paths to your local environment
