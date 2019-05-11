@@ -40,7 +40,7 @@ Powered by Webpack build script
 `rm -rf .git`\
 `git init`\
 `git add .`\
-`git commit -am 'init'`\
+`git commit -am 'init'`
 
 3. Create `.env` file and add your ACF PRO key\
 `ACF_PRO_KEY=abcd`
