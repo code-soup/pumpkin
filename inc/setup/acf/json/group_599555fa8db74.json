@@ -1,0 +1,74 @@
+{
+    "key": "group_599555fa8db74",
+    "title": "Page Widgets",
+    "fields": [
+        {
+            "key": "field_599556074af14",
+            "label": "Page Widgets",
+            "name": "page_widgets",
+            "type": "flexible_content",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "599997951eda1": {
+                    "key": "599997951eda1",
+                    "name": "wgt_editor",
+                    "label": "Editor",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_599997951eda2",
+                            "label": "Widget",
+                            "name": "widget",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "field_59b2915851587"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Add Widget",
+            "min": "",
+            "max": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1504874885
+}

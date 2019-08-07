@@ -25,7 +25,7 @@
         transform: translateX(-330px);
     }
 
-    @include hs {
+    &::hover {
         cursor: pointer;
         outline: none;
     }

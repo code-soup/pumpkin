@@ -199,10 +199,10 @@ let webpackConfig = {
                 eslint: {failOnWarning: false, failOnError: true },
             },
         }),
-        new StyleLintPlugin({
+        /* new StyleLintPlugin({
             failOnError: !config.enabled.watcher,
             syntax: "scss",
-        }),
+        }), */
         new FriendlyErrorsWebpackPlugin(),
     ],
 }; /** Let's only load dependencies as needed */
