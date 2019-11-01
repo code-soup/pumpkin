@@ -16,7 +16,7 @@ const rootPath =
 
 const config = merge(
     {
-        open: true,
+        open: false,
         copy: "images/**/*",
         copyUnmodified: "icons/**/*",
         proxyUrl: "http://localhost:3000",
