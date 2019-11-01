@@ -5,16 +5,16 @@ class CS_Functions {
 	public function __construct() {}
 
 
-
-
 	/**
 	 * Logo
 	 * Returns HTML for logo set in options
 	 */
 	public function get_logo($url = false) {
 
+		global $cs;
+
 		$src = false;
-		$img = get_key('cs_logo');
+		$img = get_key('cs_logo', $cs);
 
 
 		if ( is_numeric($img) ) :
@@ -23,7 +23,7 @@ class CS_Functions {
 			$w   = $img[1];
 			$h   = $img[2];
 
-		elseif ( is_array($img)) :
+		elseif ( is_array($img) ) :
 
 			$w   = $img['sizes']['large-width'];
 			$h   = $img['sizes']['large-height'];
@@ -33,8 +33,10 @@ class CS_Functions {
 		if ( ! $src )
 			return;
 
-		if ($url)
-			return $src; ?>
+		if ( $url )
+			return $src;
+
+		ob_start(); ?>
 
 		<a href="<?= home_url('/'); ?>">
 
@@ -45,7 +47,9 @@ class CS_Functions {
 			<?php endif; ?>
 		</a>
 
-	<?php }
+		<?php return ob_get_clean();
+
+	}
 
 
 
