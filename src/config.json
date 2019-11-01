@@ -9,7 +9,7 @@
             "styles/admin.scss"
         ]
     },
-    "publicPath": "pumpkin/wp-content/themes/pumpkin",
+    "publicPath": "/pumpkin/wp-content/themes/pumpkin",
     "publicPathProduction": "/wp-content/themes/pumpkin",
     "devUrl": "http://bobz.lan",
     "proxyUrl": "http://localhost:3000",
