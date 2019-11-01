@@ -1,0 +1,7 @@
+.nav-main {
+	display: none;
+
+	@include breakpoint($offcanvas-break) {
+		display: block;
+	}
+}

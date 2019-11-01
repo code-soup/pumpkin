@@ -1,6 +1,7 @@
 <header class="banner">
 
 	<button type="button" class="navbar-toggle" data-toggle="offcanvas">
+		<span class="hamburger"></span>
     	<span class="sr-only">Toggle navigation</span>
 	</button>
 

@@ -3,16 +3,15 @@
 }
 
 .navbar-toggle {
-    top: 50%;
+    top: 12px;
     right: 15px;
     width: 30px;
-    height: 16px;
+    height: 30px;
     margin: 0;
     border: none;
     padding: 0;
     z-index: 123;
     position: absolute;
-    transform: translateY(-50%);
     background: none;
 
     &:before {
@@ -22,77 +21,44 @@
         height: 100vh;
         display: block;
         position: fixed;
-        transform: translateX(-330px);
     }
 
-    &::hover {
-        cursor: pointer;
+    &:hover,
+    &:focus {
         outline: none;
     }
 
-    span {
-        left: 2px;
-        right: 2px;
-        height: 3px;
-        display: block;
-        position: absolute;
-        transition: background 0s 0.2s;
-        background: white;
-        text-indent: -999em;
-
-        &::after,
-        &::before {
-            left: 0;
-            right: 2px;
-            width: 100%;
-            height: 3px;
-            content: "";
-            display: block;
-            position: absolute;
-            background: white;
-            transition-delay: 0.2s, 0s;
-            transition-duration: 0.2s, 0.2s;
-        }
-
-        &::before {
-            top: 7px;
-            transition-property: top, transform;
-        }
-
-        &::after {
-            bottom: 7px;
-            transition-property: bottom, transform;
-        }
-    }
-
-    @include breakpoint(get_bp("sm")) {
+    @include breakpoint($offcanvas-break) {
         display: none;
     }
 }
 
-.nav-active .navbar-toggle {
+.active-offcanvas .navbar-toggle {
     &::before {
-        content: "";
+        content: '';
     }
 
-    span {
+    .hamburger {
         background: none;
 
         &::before {
             top: 0;
             transform: rotate(-45deg);
-            transition-delay: 0s, 0.2s;
         }
 
         &::after {
             bottom: 0;
             transform: rotate(45deg);
-            transition-delay: 0s, 0.2s;
-        }
+		}
+
+		&::before,
+		&::after {
+			transition-delay: 0s, 0.2s;
+		}
     }
 }
 
-@include breakpoint($offcanvas-break) {
+@include breakpoint(0 $offcanvas-break) {
     body {
         width: 100%;
         height: 100%;
@@ -101,43 +67,52 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    .nav-active {
-        overflow: hidden;
-
-        .row-offcanvas.right {
-            transform: translateX(-250px);
-        }
-
-        .banner {
-            transform: translateX(-250px);
-        }
-
-        .wrap {
-            transition: all 0.3s ease-in;
-        }
-    }
-
-    .sidebar-offcanvas {
-        top: 0;
-        width: 250px;
-        height: 100vh;
-        margin: 0;
-        display: block;
-        padding: 0;
-        overflow: hidden;
-        position: fixed;
-        min-height: 100vh;
+    .banner {
+        min-height: 1px;
     }
 
     .row-offcanvas {
         height: 100%;
         margin: 0;
         position: relative;
-        transition: all 0.3s ease-out;
+        transform: none;
+        z-index: -1;
+	}
 
-        &.right .sidebar-offcanvas {
-            left: 100%;
-            transform: translateX(0);
+	.banner,
+	.row-offcanvas {
+		transition: transform 0.3s ease-out;
+	}
+
+	.sidebar-offcanvas {
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        margin: 0;
+        display: block;
+        padding: 0;
+        overflow: auto;
+        position: fixed;
+        min-height: 100vh;
+        transform: none;
+        transition: all 0.3s ease-out;
+    }
+
+	.active-offcanvas {
+        overflow: hidden;
+
+		.banner,
+		.row-offcanvas.right  {
+            transform: translateX(-250px);
         }
+
+		.row-offcanvas.right {
+			z-index: -1;
+		}
+
+        .sidebar-offcanvas {
+            right: 0;
+		}
     }
 }
