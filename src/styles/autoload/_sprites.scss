@@ -1,23 +1,24 @@
 $sprites: (
-    "tick-inside-circle": "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 510 510'%3e%3cg%3e%3cpath d='M150.45 206.55l-35.7 35.7L229.5 357l255-255-35.7-35.7-219.3 219.3-79.05-79.05zM459 255c0 112.2-91.8 204-204 204S51 367.2 51 255 142.8 51 255 51c20.4 0 38.25 2.55 56.1 7.65l40.801-40.8C321.3 7.65 288.15 0 255 0 114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255h-51z'/%3e%3c/g%3e%3c/svg%3e"
+    'tick-inside-circle': "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 510 510'%3e%3cg%3e%3cpath d='M150.45 206.55l-35.7 35.7L229.5 357l255-255-35.7-35.7-219.3 219.3-79.05-79.05zM459 255c0 112.2-91.8 204-204 204S51 367.2 51 255 142.8 51 255 51c20.4 0 38.25 2.55 56.1 7.65l40.801-40.8C321.3 7.65 288.15 0 255 0 114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255h-51z'/%3e%3c/g%3e%3c/svg%3e"
 );
 
 $sizes: (
-    "tick-inside-circle": (
-        "width": 510px,
-        "height": 510px
+    'tick-inside-circle': (
+        'width': 510px,
+        'height': 510px
     )
 );
 
 $variables: (
+    /* EMPTY */
 );
 
 // https://github.com/waldemarfm/sass-svg-uri/blob/v1.0.0/_svg-uri.scss
-@function sprite-str-replace($string, $search, $replace: "") {
+@function sprite-str-replace($string, $search, $replace: '') {
     $index: str-index($string, $search);
 
-    @if type-of($replace) == "null" {
-        $replace: "";
+    @if type-of($replace) == 'null' {
+        $replace: '';
     }
 
     @if ( $index ) {
@@ -28,17 +29,17 @@ $variables: (
 }
 
 @function sprite-svg-uri($value) {
-    $encoded: "";
+    $encoded: '';
     $slice: 2000;
     $index: 0;
 
     @for $i from 1 through ceil(str-length($value) / $slice) {
         $chunk: str-slice($value, $index, $index + $slice - 1);
         $chunk: sprite-str-replace($chunk, '"', "'");
-        $chunk: sprite-str-replace($chunk, "<", "%3C");
-        $chunk: sprite-str-replace($chunk, ">", "%3E");
-        $chunk: sprite-str-replace($chunk, "&", "%26");
-        $chunk: sprite-str-replace($chunk, "#", "%23");
+        $chunk: sprite-str-replace($chunk, '<', '%3C');
+        $chunk: sprite-str-replace($chunk, '>', '%3E');
+        $chunk: sprite-str-replace($chunk, '&', '%26');
+        $chunk: sprite-str-replace($chunk, '#', '%23');
         $encoded: #{$encoded}#{$chunk};
         $index: $index + $slice;
     }
@@ -51,26 +52,22 @@ $variables: (
 
     // Inject variables
     $default-variables: map-get($variables, $name);
-
-    @if type-of($default-variables) == "map" {
+    @if type-of($default-variables) == 'map' {
         @each $key, $value in map-merge($default-variables, $user-variables) {
             @if ( not map-has-key($default-variables, $key) ) {
-                @warn "Sprite \'#{$name}\' does not support variable named \'#{$key}\'";
+                @warn 'Sprite \'#{$name}\' does not support variable named \'#{$key}\'';
             }
 
-            $sprite: sprite-str-replace($sprite, "___#{$key}___", sprite-svg-uri(quote($value)));
+            $sprite: sprite-str-replace($sprite, '___#{$key}___', sprite-svg-uri(quote(#{$value})));
         }
-    }
-
-    @else if type-of($user-variables) == "map" {
-        @warn "Sprite \'#{$name}\' does not contain any variables";
+    } @else if type-of($user-variables) == 'map' {
+        @warn 'Sprite \'#{$name}\' does not contain any variables';
     }
 
     background: url($sprite) center no-repeat;
 
     @if $include-size {
         $size: map-get($sizes, $name);
-
         background-size: map-get($size, width) map-get($size, height);
     }
 }
