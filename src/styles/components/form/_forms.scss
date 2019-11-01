@@ -1,0 +1,35 @@
+input[type='date'],
+input[type='email'],
+input[type='file'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+textarea,
+select {
+    width: 100%;
+    border: 1px solid transparent;
+    outline: none;
+
+    &:focus {
+        border-color: get_color('brand');
+    }
+}
+
+input[type='submit'] {
+    border: none;
+}
+
+label,
+button:hover,
+input[type='submit']:hover {
+	cursor: pointer;
+}
+
+textarea {
+	max-width: 100%;
+	min-width: 100%;
+	min-height: 60px;
+}
