@@ -80,7 +80,9 @@ class ACF_Widget {
         foreach ( $meta as $wgt )
         {
             $classes[] = sanitize_title( str_replace('wgt', 'pw', $wgt) );
-        }
+		}
+
+		return array_unique($classes);
 	}
 
 
