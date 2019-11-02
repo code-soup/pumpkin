@@ -111,7 +111,7 @@ class ACF_Widget {
 
 		if ( get_key('acf_fc_layout', $wgt) )
         {
-			return sanitize_title( $wgt['acf_fc_layout'] );
+			return str_replace('_', '-', sanitize_title( $wgt['acf_fc_layout'] ));
 		}
 
 		if ( get_key('name', $wgt) )
