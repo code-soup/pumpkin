@@ -19,3 +19,11 @@ img {
     display: block;
     max-width: 100%;
 }
+
+.thumb span {
+    background-size: cover;
+    background-repeat: no-repeat;
+	background-position: center;
+    display: block;
+	// add padding-top per widget / instance
+}
