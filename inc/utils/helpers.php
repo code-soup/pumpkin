@@ -296,3 +296,27 @@ if ( ! function_exists('svg_icon')) :
 		echo $re;
 	}
 endif;
+
+if(!function_exists('get_acf_oembed')) {
+	/**
+	 * Include ACF Youtube oembed
+	 */
+	function get_acf_oembed( $field ) {
+
+		if( empty( $field ) ) return;
+
+		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $field, $match);
+
+		if ( empty($match[1]) ) return $field;
+
+		return sprintf(
+			'<iframe width="640" height="360"
+				src="https://www.youtube-nocookie.com/embed/%s?feature=oembed"
+				frameborder="0"
+				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen>
+			</iframe>',
+			$match[1]
+		);
+	}
+}
