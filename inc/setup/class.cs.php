@@ -133,7 +133,7 @@ class CS {
 
 
 	/**
-	 * Load and register Sidebars from options page
+	 * Load and register Sidebars from Wordpress > Theme Options > Sidebars
 	 */
 	private function register_sidebars() {
 
@@ -274,7 +274,7 @@ class CS {
 
 
 		/**
-         * Include Typekit fonts from Theme Options WP way
+         * WP way to include Typekit fonts from Wordpress > Theme Options > Misc > Typekit
          */
         $typekit = get_key('cs_typekit');
 

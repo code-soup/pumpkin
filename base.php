@@ -2,6 +2,7 @@
 
 use CS\Setup;
 use CS\Wrapper;
+use CS\Components\ClassFunctions as Functions;
 
 ?>
 <!doctype html>
@@ -34,7 +35,7 @@ use CS\Wrapper;
 				<?php include Wrapper\template_path(); ?>
 			</main>
 
-			<?php if ( CS()->get_sidebar() ) : ?>
+			<?php if ( Functions::get_sidebar() ) : ?>
 				<aside class="sidebar">
 					<?php get_template_part('templates/partials/sidebar'); ?>
 				</aside>

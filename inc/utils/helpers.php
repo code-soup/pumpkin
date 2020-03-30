@@ -128,7 +128,7 @@ endif;
 /**
  * Trim text to X words
  */
-if ( ! function_exists('vb_trim_word')) :
+if ( ! function_exists('cs_trim_word')) :
 
 	function cs_trim_word( $text, $length ) {
 		$trimmed = wp_trim_words( $text, $num_words = $length, $more = null );
@@ -139,9 +139,9 @@ endif;
 
 
 /**
- * Trim text to X chars
+ * Trim text to X chars and append elipsis symbol
  */
-if ( ! function_exists('vb_trim_chars')) :
+if ( ! function_exists('cs_trim_chars')) :
 
 	function cs_trim_chars( $text, $length = 45, $append = '&hellip;' ) {
 
@@ -164,8 +164,9 @@ if ( ! function_exists('vb_trim_chars')) :
 endif;
 
 
+
 /**
- * Debug
+ * Debug mail
  */
 if ( ! function_exists('debug_wpmail')) :
 
@@ -192,7 +193,9 @@ if ( ! function_exists('debug_wpmail')) :
 endif;
 
 
-
+/**
+ * Get HTML for image content from ACF field
+ */
 function get_acf_img( $array, $size = 'full', $nowh = false ) {
 
 	if ( ! is_array($array)) {
@@ -222,7 +225,6 @@ function get_acf_img( $array, $size = 'full', $nowh = false ) {
 		$h = '100';
 	}
 
-	// printaj($array);
 
 	if ( $nowh ) :
 		echo '<img src="'. $s .'" alt="'. $array['alt'] .'">';
@@ -232,6 +234,10 @@ function get_acf_img( $array, $size = 'full', $nowh = false ) {
 }
 
 
+/**
+ * Debug
+ * Print_r with <pre> tags for readable output
+ */
 if ( ! function_exists('printaj')) :
 
 	function printaj( $var, $return = false ) {
@@ -243,6 +249,10 @@ if ( ! function_exists('printaj')) :
 endif;
 
 
+/**
+ * Debug
+ * var_dump with <pre> tags for readable output
+ */
 if ( ! function_exists('dumpaj')) :
 
 	function dumpaj( $var, $return = false ) {
@@ -254,6 +264,9 @@ endif;
 
 
 
+/**
+ * Easy include SVG (or PNG) icons by icon filename in assets folder
+ */
 if ( ! function_exists('svg_icon')) :
 	function svg_icon( $icon = false, $return = false, $original = false ) {
 
@@ -297,10 +310,12 @@ if ( ! function_exists('svg_icon')) :
 	}
 endif;
 
+
+
+/**
+ * Include ACF Youtube oembed
+ */
 if(!function_exists('get_acf_oembed')) {
-	/**
-	 * Include ACF Youtube oembed
-	 */
 	function get_acf_oembed( $field ) {
 
 		if( empty( $field ) ) return;

@@ -1,5 +1,17 @@
 <header class="banner">
 
+	<?php
+		/**
+		 * Development
+		 * test get_logo function
+		 */
+		use CS\Components\ClassFunctions as Functions;
+
+		if( Functions::get_logo() ) {
+			printf('<div class="logo-wrap">%s</div>', Functions::get_logo());
+		}
+	?>
+
 	<?php if ( has_nav_menu('nav_primary') ) : ?>
 	    <nav class="navbar-main">
 	    	<?php wp_nav_menu( ['theme_location' => 'nav_primary', 'menu_class' => 'nav nav-main', 'container' => false] ); ?>

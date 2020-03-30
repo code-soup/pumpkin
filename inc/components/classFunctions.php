@@ -1,15 +1,19 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php
 
-class CS_Functions {
+namespace CS\components;
 
-	public function __construct() {}
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+class ClassFunctions {
+
+
 
 
 	/**
 	 * Logo
-	 * Returns HTML for logo set in options
+	 * Returns HTML for logo set in WordPress > Theme Options > Branding
 	 */
-	public function get_logo($url = false) {
+	static function get_logo($url = false) {
 
 		global $cs;
 
@@ -60,9 +64,19 @@ class CS_Functions {
 
 
 
-
-
-	public function get_button( $button, $return_url = false ) {
+	/**
+	 * Button
+	 * Return HTML for a button
+	 * Reqires arguments as in example bellow
+	 * echo Theme::get_button([
+			'btn_type'		=>	3,
+			'btn_style'		=>	1,
+			'btn_title'		=>	'button text',
+			'btn_url'		=>	'codesoup.co',
+			'btn-obj'		=>	''
+			]);
+	 */
+	static function get_button( $button, $return_url = false ) {
 
 		if ( ! is_array($button) || get_key('btn_type', $button) == 1 )
 			return;
@@ -156,8 +170,9 @@ class CS_Functions {
 
 	/**
 	 * Social Icons
+	 * Get HTML for Social Icons from Wordpress > Theme Options > Social Profiles
 	 */
-	public function social() {
+	static function social() {
 
 		$social = get_key('cs_social_profiles');
 
@@ -183,7 +198,7 @@ class CS_Functions {
 	/**
 	 * Get sidebar for current page
 	 */
-	public function get_sidebar() {
+	static function get_sidebar() {
 
 		global $post;
 
@@ -198,8 +213,9 @@ class CS_Functions {
 
 	/**
 	 * Breadcrumbs
+	 * Custom function for outputting Breadcrumbs list
 	 */
-	public function breadcrumbs() {
+	static function breadcrumbs() {
 
 		if ( is_front_page() )
 			return;
@@ -256,7 +272,7 @@ class CS_Functions {
 	/**
 	 * Custom WP_Query pagination
 	 */
-	public function paginate( $query = null ) {
+	static function paginate( $query = null ) {
 
 		global $wp_query;
 
@@ -288,7 +304,7 @@ class CS_Functions {
 	/**
 	 * Pagination for custom SQL query
 	 */
-	public function paginate_sql( $total = 1, $perpage = 10, $current = 1) {
+	static function paginate_sql( $total = 1, $perpage = 10, $current = 1) {
 
 		$paginate = paginate_links( array(
 			'base'      => add_query_arg( 'cpage', '%#%' ),
@@ -309,8 +325,4 @@ class CS_Functions {
 			</ul>
 		<?php endif;
 	}
-}
-
-function CS() {
-	return new CS_Functions();
 }

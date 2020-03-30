@@ -1,5 +1,7 @@
 <?php if (!defined('ABSPATH')) exit;
 
+use CS\Components\ClassFunctions as Functions;
+
 
 /**
  * Change admin footer text
@@ -27,13 +29,12 @@ add_filter('login_headertitle', function () {
 });
 
 
-
 /**
  * Repace WP Login style
  */
 add_action( 'login_enqueue_scripts', function () {
 
-	$logo = CS()->get_logo(true); ?>
+	$logo = Functions::get_logo(true); ?>
 
 	<style type="text/css">
 		body.login {

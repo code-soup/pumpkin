@@ -34,7 +34,7 @@ endif;
 /**
  * Load Composer
  */
-if ( locate_template('vendor/autoload.php') ) 
+if ( locate_template('vendor/autoload.php') )
 	require_once locate_template('vendor/autoload.php');
 
 
@@ -45,7 +45,7 @@ if ( locate_template('vendor/autoload.php') )
  * @link( https://github.com/soberwp/models, documentation )
  */
 add_filter('sober/models/path', function() {
-    
+
     return trailingslashit( get_stylesheet_directory() ) . 'inc/models';
 });
 
@@ -64,7 +64,7 @@ $includes = [
     'wp-mods/wp-cleanup',
     'wp-mods/wp-core',
     'wp-mods/wp-login',
-	'components/class.functions',
+	// 'components/class.functions',
 	'components/class.ajax',
 	'components/class.user',
 	'plugin-mods/gravity-forms',
