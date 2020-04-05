@@ -1,10 +1,12 @@
 <?php
 
+
 use CS\Setup;
-use CS\Wrapper;
-use CS\Components\ClassFunctions as Functions;
+use CS\Utils;
+use CS\Components\Functions;
 
 ?>
+
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <?php get_template_part('templates/partials/head'); ?>
@@ -32,7 +34,7 @@ use CS\Components\ClassFunctions as Functions;
 		<div class="wrap">
 
 			<main class="main">
-				<?php include Wrapper\template_path(); ?>
+				<?php include Utils\template_path(); ?>
 			</main>
 
 			<?php if ( Functions::get_sidebar() ) : ?>

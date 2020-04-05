@@ -1,8 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
+
 global $widget;
 
-if ( empty( get_key('editor') ) )
+if ( empty( CS\Utils\Helpers::get_key('editor') ) )
 	return; ?>
 
 <section class="<?= $widget['class']; ?>">

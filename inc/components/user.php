@@ -1,13 +1,11 @@
 <?php
 
-namespace CS\User;
+namespace CS\Components;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) )
+	exit;
 
-class User extends \WP_User
-{
+class User extends \WP_User {
 
     /**
      * Getters

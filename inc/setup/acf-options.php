@@ -1,5 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
+use CS\Utils\Helpers;
+
 /**
  * Option pages
  */
@@ -27,7 +29,7 @@ endif;
  */
 add_action('acf/init', function () {
 
-	$key = get_key('cs_gmaps_api');
+	$key = Helpers::get_key('cs_gmaps_api');
 	acf_update_setting('google_api_key', $key);
 });
 

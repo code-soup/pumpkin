@@ -5,11 +5,23 @@
 		 * Development
 		 * test get_logo function
 		 */
-		use CS\Components\ClassFunctions as Functions;
+		$logo = CS\Components\Functions::get_logo();
 
-		if( Functions::get_logo() ) {
-			printf('<div class="logo-wrap">%s</div>', Functions::get_logo());
-		}
+		if( $logo )
+			printf( '<div class="logo-wrap">%s</div>', $logo );
+
+
+		/**
+		 * Including a function doesn't work
+		 * According to specs it should work:
+		 * https://www.php.net/manual/en/language.namespaces.importing.php
+		 */
+		// use function CS\Components\Functions\get_logo; // This should work
+		// use function CS\components\Functions\get_logo as get_logo; // This should also work
+
+		// if( get_logo() ) {
+		// 	printf( '<div class="logo-wrap">%s</div>', get_logo() );
+		// }
 	?>
 
 	<?php if ( has_nav_menu('nav_primary') ) : ?>

@@ -1,3 +1,3 @@
-<?php if ( ! defined( 'ABSPATH' ) || ! CS\Components\ClassFunctions::get_sidebar() ) exit;
+<?php if ( ! defined( 'ABSPATH' ) || ! CS\Components\Functions::get_sidebar() ) exit;
 
-dynamic_sidebar( CS\Components\ClassFunctions::get_sidebar());
+dynamic_sidebar( CS\Components\Functions::get_sidebar());

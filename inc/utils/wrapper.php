@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Wrapper;
+namespace CS\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -13,14 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 
 function template_path() {
-	return CS_Wrapping::$main_template;
+	return Wrapper::$main_template;
 }
 
 function sidebar_path() {
-	return new CS_Wrapping('templates/partials/sidebar.php');
+	return new Wrapper('templates/partials/sidebar.php');
 }
 
-class CS_Wrapping {
+class Wrapper {
 	// Stores the full path to the main template file
 	public static $main_template;
 
@@ -32,6 +32,10 @@ class CS_Wrapping {
 
 	// Stores the base name of the template file; e.g. 'page' for 'page.php' etc.
 	public static $base;
+
+	public function register() {
+		add_filter('template_include', [$this, 'wrap'], 109);
+	}
 
 	public function __construct($template = 'base.php') {
 		$this->slug = basename($template, '.php');
@@ -62,7 +66,6 @@ class CS_Wrapping {
 			self::$base = false;
 		}
 
-		return new CS_Wrapping();
+		return new Wrapper();
 	}
 }
-add_filter('template_include', [__NAMESPACE__ . '\\CS_Wrapping', 'wrap'], 109);

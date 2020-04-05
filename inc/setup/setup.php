@@ -2,10 +2,11 @@
 
 namespace CS\Setup;
 
+if ( ! defined( 'ABSPATH' ) )
+	exit;
+
 use CS\Assets;
-
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+use CS\Utils\Helpers as Helpers;
 
 /**
  * NoFramework Environemnt class
@@ -16,36 +17,37 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @version 1.2
  * @license http://www.opensource.org/licenses/mit-license.html MIT License
  */
-class CS {
+
+class Setup {
 
 	public $cs;
 
 	private $sidebars;
-
 
 	public static function init() {
 		$class = __CLASS__;
 		new $class;
 	}
 
+
 	/**
 	 * Constructor on WP init hook
 	 */
-	public function __construct() {
+	public function register() {
 
 
 		/**
 		 * Load Settings and Sidebars
 		 */
-		if ( function_exists('get_fields') ) :
-
+		// if ( function_exists('get_fields') ) :
+		if ( method_exists('\CS\Utils\Helpers', 'get_fields') ) :
 			$this->load_options();
 			$this->register_sidebars();
 			$this->set_sidebar();
 			$this->user_custom_scripts();
 		endif;
 
-
+// \CS\Utils\Helpers::test();
 		/**
 		 * Actions
 		 */
@@ -84,7 +86,7 @@ class CS {
 	 * Every time Theme options are saved, cache is flushed and re-generated to get new data
 	 * This will prevent to many DB Queries made by ACF
 	 */
-	private function load_options() {
+	 function load_options() {
 
 		global $cs;
 
@@ -138,8 +140,8 @@ class CS {
 	private function register_sidebars() {
 
 
-		if ( get_key('cs_sidebars') ) :
-			foreach ( get_key('cs_sidebars') as $sidebar ) :
+		if ( Helpers::get_key('cs_sidebars') ) :
+			foreach ( Helpers::get_key('cs_sidebars') as $sidebar ) :
 
 				register_sidebar([
 					'name'          => $sidebar['sidebar_name'],
@@ -174,7 +176,7 @@ class CS {
 			/**
 			 * Set Sidebar per post type
 			 */
-			switch ( get_key('post_type', $post) ) :
+			switch ( Helpers::get_key('post_type', $post) ) :
 
 				case 'page':
 
@@ -276,7 +278,7 @@ class CS {
 		/**
          * WP way to include Typekit fonts from Wordpress > Theme Options > Misc > Typekit
          */
-        $typekit = get_key('cs_typekit');
+        $typekit = Helpers::get_key('cs_typekit');
 
         if ( strpos( $typekit, 'css' ) )
         {
@@ -368,26 +370,26 @@ class CS {
 	 */
 	public function user_custom_scripts() {
 
-		if ( get_key('cs_head') ) {
+		if ( Helpers::get_key('cs_head') ) {
 
 			add_action('wp_head', function() {
-				the_key('cs_head');
+				Helpers::the_key('cs_head');
 			});
 		}
 
 
-		if ( get_key('cs_body_open') ) {
+		if ( Helpers::get_key('cs_body_open') ) {
 
 			add_action('get_header', function() {
-				the_key('cs_body_open');
+				Helpers::the_key('cs_body_open');
 			});
 		}
 
 
-		if ( get_key('cs_body_close') ) {
+		if ( Helpers::get_key('cs_body_close') ) {
 
 			add_action('wp_footer', function() {
-				the_key('cs_body_close');
+				Helpers::the_key('cs_body_close');
 			});
 		}
 	}
@@ -399,10 +401,10 @@ class CS {
 	 */
 	public function body_class( $classes ) {
 
-		if ( get_key('sidebar') ) {
+		if ( Helpers::get_key('sidebar') ) {
 
 			$classes[] = 'has-sidebar';
-			$classes[] = get_key('sidebar');
+			$classes[] = Helpers::get_key('sidebar');
 		}
 
 		return array_unique($classes);
@@ -419,7 +421,7 @@ class CS {
 	public function set_favicon() {
 
 		$src = false;
-		$img = get_key('cs_favicon');
+		$img = Helpers::get_key('cs_favicon');
 
 
 		if ( is_numeric($img) ) :
@@ -427,7 +429,7 @@ class CS {
 			$src = wp_get_attachment_image_src( $img, 'full');
 			$src = $src[0];
 
-		elseif ( get_key('url', $img) ) :
+		elseif ( Helpers::get_key('url', $img) ) :
 
 			$src = $img['url'];
 
@@ -444,5 +446,5 @@ class CS {
 
 	<?php }
 }
-add_filter('init', [__NAMESPACE__ . '\\CS', 'init']);
-add_action('after_setup_theme', [ __NAMESPACE__ . '\\CS', 'setup']);
+add_filter('init', [__NAMESPACE__ . '\\Setup', 'init']);
+add_action('after_setup_theme', [ __NAMESPACE__ . '\\Setup', 'setup']);

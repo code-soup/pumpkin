@@ -5,30 +5,33 @@ if ( ! defined('WP_ENV') )
     define('WP_ENV', 'production');
 
 
-define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
-define( 'CS_ACF_ABSPATH', trailingslashit( get_template_directory() ) . CS_ACF_PATH );
+// define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
+// define( 'CS_ACF_ABSPATH', trailingslashit( get_template_directory() ) . CS_ACF_PATH );
+// define( 'CS_ACF_JSON_PATH',  get_stylesheet_directory() . '/inc/setup/acf/json' );
 
-/**
- * Include ACF
- */
-if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ):
 
-    require_once CS_ACF_ABSPATH . 'acf.php';
+// /**
+//  * Include ACF
+//  */
+// if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ):
 
-    // Tweak paths
-    add_filter('acf/settings/dir', function ($dir) {
-        return trailingslashit( get_template_directory_uri() ) . CS_ACF_PATH;
-    });
+// 	// Include ACF PRO from theme folder
+//     require_once CS_ACF_ABSPATH . 'acf.php';
 
-    add_filter('acf/settings/path', function ($path) {
-        return CS_ACF_ABSPATH;
-    });
+//     // Tweak paths
+//     add_filter('acf/settings/dir', function ($dir) {
+//         return trailingslashit( get_template_directory_uri() ) . CS_ACF_PATH;
+//     });
 
-    // Disable ACF menu if not in a development env
-    if (WP_ENV !== 'development')
-        add_filter('acf/settings/show_admin', '__return_false');
+//     add_filter('acf/settings/path', function ($path) {
+//         return CS_ACF_ABSPATH;
+//     });
 
-endif;
+//     // Disable ACF menu if not in a development env
+//     if (WP_ENV !== 'development')
+//         add_filter('acf/settings/show_admin', '__return_false');
+
+// endif;
 
 
 /**
@@ -37,6 +40,13 @@ endif;
 if ( locate_template('vendor/autoload.php') )
 	require_once locate_template('vendor/autoload.php');
 
+
+/**
+ * register all classes from namespace
+ */
+if ( class_exists('CS\Init') ) {
+	CS\init::register_services();
+}
 
 
 /**
@@ -49,26 +59,28 @@ add_filter('sober/models/path', function() {
     return trailingslashit( get_stylesheet_directory() ) . 'inc/models';
 });
 
+
 /**
  * Theme includes
  */
 $includes = [
-    'utils/helpers',
+    // 'utils/helpers',
 	'utils/assets',
-	'utils/wrapper',
-	'setup/class.cs',
-	'setup/acf-options',
-	'setup/acf-load-fields',
-	'setup/acf-widget',
+	// 'utils/wrapper',
+	// 'setup/class.cs',
+	// 'setup/acf-options',
+	// 'setup/acf-load-fields',
+	// 'setup/acf-widget',
     'wp-mods/wp-admin',
     'wp-mods/wp-cleanup',
     'wp-mods/wp-core',
     'wp-mods/wp-login',
 	// 'components/class.functions',
 	'components/class.ajax',
-	'components/class.user',
+	// 'components/class.user', // removed as it will not be used any longer
 	'plugin-mods/gravity-forms',
 ];
+
 
 
 // Woocommerce
@@ -83,6 +95,6 @@ foreach ( $includes as $file ) {
 	   require_once locate_template('inc/' . $file . '.php');
     }
     else {
-        echo $file;
+        echo $file . ' file is missing !';
     }
 }

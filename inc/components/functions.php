@@ -1,24 +1,24 @@
 <?php
 
-namespace CS\components;
+namespace CS\Components;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) )
+	exit;
 
-class ClassFunctions {
+use CS\Utils\Helpers;
 
-
-
+class Functions {
 
 	/**
 	 * Logo
-	 * Returns HTML for logo set in WordPress > Theme Options > Branding
+	 * Returns HTML for logo image set in WordPress > Theme Options > Branding
 	 */
 	static function get_logo($url = false) {
 
 		global $cs;
 
 		$src = false;
-		$img = get_key('cs_logo', $cs);
+		$img = Helpers::get_key('cs_logo', $cs);
 
 
 		if ( is_numeric($img) ) :
@@ -78,7 +78,7 @@ class ClassFunctions {
 	 */
 	static function get_button( $button, $return_url = false ) {
 
-		if ( ! is_array($button) || get_key('btn_type', $button) == 1 )
+		if ( ! is_array($button) || Helpers::get_key('btn_type', $button) == 1 )
 			return;
 
 
@@ -88,7 +88,7 @@ class ClassFunctions {
 		/**
 		 * Button Type
 		 */
-		switch ( get_key('btn_type', $button) ) :
+		switch ( Helpers::get_key('btn_type', $button) ) :
 
 			case 2:
 
@@ -97,7 +97,7 @@ class ClassFunctions {
 
 			case 3:
 
-				$url  = get_key('btn_url', $button);
+				$url  = Helpers::get_key('btn_url', $button);
 				$open = '_blank';
 			break;
 
@@ -113,7 +113,7 @@ class ClassFunctions {
 
 			case 6:
 
-				$url  = get_key('btn_file', $button);
+				$url  = Helpers::get_key('btn_file', $button);
 			break;
 
 			default:
@@ -128,8 +128,6 @@ class ClassFunctions {
 		if ($return_url) {
 			return $url;
 		}
-
-
 
 
 		switch ( $button['btn_style']) {
@@ -174,7 +172,7 @@ class ClassFunctions {
 	 */
 	static function social() {
 
-		$social = get_key('cs_social_profiles');
+		$social = Helpers::get_key('cs_social_profiles');
 
 		if ($social) : ?>
 			<ul class="social">
@@ -202,7 +200,7 @@ class ClassFunctions {
 
 		global $post;
 
-		return get_key('sidebar', $post);
+		return Helpers::get_key('sidebar', $post);
 	}
 
 

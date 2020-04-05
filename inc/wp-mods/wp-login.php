@@ -1,6 +1,5 @@
 <?php if (!defined('ABSPATH')) exit;
 
-use CS\Components\ClassFunctions as Functions;
 
 
 /**
@@ -34,7 +33,7 @@ add_filter('login_headertitle', function () {
  */
 add_action( 'login_enqueue_scripts', function () {
 
-	$logo = Functions::get_logo(true); ?>
+	$logo = CS\Components\Functions::get_logo(true); ?>
 
 	<style type="text/css">
 		body.login {
@@ -60,7 +59,7 @@ add_action( 'login_enqueue_scripts', function () {
 		}
 
 		body.login div#login h1 a {
-			width: 100%;
+			width: calc(100% - 20px);
 			height: 120px;
 			margin: 0 auto;
 			display: block;

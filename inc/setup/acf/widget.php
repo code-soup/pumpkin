@@ -1,12 +1,20 @@
 <?php
 
-namespace cs\acf\widget;
-
+namespace CS\Setup\ACF;
 
 if ( ! defined( 'ABSPATH' ) )
-    exit;
+	exit;
 
-class ACF_Widget {
+use CS\Utils\Helpers;
+
+class Widget {
+
+
+	function register () {
+		add_action('init', [$this, 'init'], 456 );
+		add_filter('body_class', [$this, 'body_class_setup'], 99, 1);
+	}
+
 
 	public static function init( ) {
 		$class = __CLASS__;
@@ -19,30 +27,27 @@ class ACF_Widget {
 		if ( ! function_exists('get_fields') )
 			return;
 
+		// Post Type
 		$this->register_cpt();
-        $this->load_page_widgets();
 
+
+
+
+		/**
+		 * Hook into post and get post meta info
+		 */
+		add_action( 'the_post', function ($post) {
+
+			if ( ! function_exists('get_field') || is_admin() )
+				return;
+
+
+			if ( is_singular(['page']) )
+				$post->meta = get_field('page_widgets');
+
+		}, 10, 1);
 	}
 
-
-    /**
-     * Hook into post and get post meta info
-     */
-    public function load_page_widgets() {
-
-        add_action( 'the_post', function ( $post ) {
-
-            if ( ! function_exists('get_field') || is_admin() ) {
-                return;
-            }
-
-
-            if ( is_singular( ['page'] ) ) {
-                $post->meta = get_field('page_widgets');
-            }
-
-        }, 10, 1);
-    }
 
 
 
@@ -88,7 +93,9 @@ class ACF_Widget {
         foreach ( $meta as $wgt )
         {
             $classes[] = sanitize_title( str_replace('wgt', 'pw', $wgt) );
-        }
+		}
+
+		return array_unique($classes);
 	}
 
 
@@ -115,12 +122,12 @@ class ACF_Widget {
 	 */
 	private static function get_slug( $wgt ) {
 
-		if ( get_key('acf_fc_layout', $wgt) )
+		if ( Helpers::get_key('acf_fc_layout', $wgt) )
         {
-			return sanitize_title( $wgt['acf_fc_layout'] );
+			return str_replace('_', '-', sanitize_title( $wgt['acf_fc_layout'] ));
 		}
 
-		if ( get_key('name', $wgt) )
+		if ( Helpers::get_key('name', $wgt) )
         {
 			return $wgt['name'];
         }
@@ -138,19 +145,19 @@ class ACF_Widget {
 
 		$class   = ['wgt'];
 		$class[] = self::get_slug($wgt);
-		$class[] = get_key('bg_color', $wgt);
+		$class[] = Helpers::get_key('bg_color', $wgt);
 
-		if ( get_key('bg_color', $wgt) )
+		if ( Helpers::get_key('bg_color', $wgt) )
 			$class[] = 'bg-color';
 
-		if ( get_key('bg_image', $wgt) )
+		if ( Helpers::get_key('bg_image', $wgt) )
 			$class[] = 'bg-image';
 
-		if ( get_key('wgt_type', $wgt) )
-			$class[] = 'type-' . get_key('wgt_type', $wgt);
+		if ( Helpers::get_key('wgt_type', $wgt) )
+			$class[] = 'type-' . Helpers::get_key('wgt_type', $wgt);
 
-		if ( get_key('wgt_style', $wgt) )
-			$class[] = 'style-' . get_key('wgt_style', $wgt);
+		if ( Helpers::get_key('wgt_style', $wgt) )
+			$class[] = 'style-' . Helpers::get_key('wgt_style', $wgt);
 
 
 		return implode(' ', array_filter($class));
@@ -186,7 +193,7 @@ class ACF_Widget {
 		$content = false;
 		$params  = wp_parse_args($params, $defaults);
 		$params  = array_filter($params);
-		$data    = get_key('meta', $post);
+		$data    = Helpers::get_key('meta', $post);
 
 
 		/**
@@ -209,10 +216,10 @@ class ACF_Widget {
 		/**
 		 * Display specific widget
 		 */
-		if (get_key('name', $params)) :
+		if (Helpers::get_key('name', $params)) :
 
 			// Custom widget data
-			if ( get_key('fields', $params) ) :
+			if ( Helpers::get_key('fields', $params) ) :
 
 				$wgt         = $params['fields'];
 				$wgt['name'] = $params['name'];
@@ -240,7 +247,7 @@ class ACF_Widget {
 			/**
 			 * Include specific widgets
 			 */
-			if ( get_key('include', $params) ) :
+			if ( Helpers::get_key('include', $params) ) :
 				foreach ($data as $key => $wgt) :
 
 					$slug = self::get_slug($wgt);
@@ -255,7 +262,7 @@ class ACF_Widget {
 			/**
 			 * Exclude specific widgets
 			 */
-			elseif (get_key('exclude', $params)) :
+			elseif (Helpers::get_key('exclude', $params)) :
 
 				foreach ($data as $key => $wgt) :
 
@@ -322,5 +329,3 @@ class ACF_Widget {
 		endif;
 	}
 }
-add_action('init', ['ACF_Widget', 'init'], 456 );
-add_filter('body_class', ['ACF_Widget', 'body_class_setup'], 99, 1);
