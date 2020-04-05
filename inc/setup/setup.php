@@ -5,7 +5,7 @@ namespace CS\Setup;
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-use CS\Assets;
+use CS\Utils\Assets;
 use CS\Utils\Helpers;
 
 /**
@@ -288,7 +288,7 @@ class Setup {
         }
 
 		// Theme CSS
-		wp_enqueue_style('cs/css', Assets\asset_path('styles/main.css'), false, null);
+		wp_enqueue_style('cs/css', Assets::asset_path('styles/main.css'), false, null);
 
 		// Custom CSS from Theme Options
 		if( file_exists( get_stylesheet_directory() . '/custom.css') && Helpers::get_key('cs_custom_css') )
@@ -301,7 +301,7 @@ class Setup {
 		if ( is_single() && comments_open() && get_option('thread_comments'))
 			wp_enqueue_script('comment-reply');
 
-		wp_enqueue_script('cs/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
+		wp_enqueue_script('cs/js', Assets::asset_path('scripts/main.js'), ['jquery'], null, true);
 
 
 		/**
@@ -334,8 +334,8 @@ class Setup {
 	 */
 	public function scripts_backend() {
 
-		wp_enqueue_script('cs/wp-js', Assets\asset_path('scripts/admin.js'), ['jquery'], null, true);
-		wp_enqueue_style('cs/wp-css', Assets\asset_path('styles/admin.css'), false, null);
+		wp_enqueue_script('cs/wp-js', Assets::asset_path('scripts/admin.js'), ['jquery'], null, true);
+		wp_enqueue_style('cs/wp-css', Assets::asset_path('styles/admin.css'), false, null);
 	}
 
 

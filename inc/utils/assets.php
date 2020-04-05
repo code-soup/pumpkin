@@ -1,8 +1,33 @@
 <?php
 
-namespace CS\Assets;
+namespace CS\Utils;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) )
+	exit;
+
+
+class Assets {
+	static function asset_path($filename) {
+		$dist_path = get_stylesheet_directory() . '/dist/';
+		$dist_url  = get_stylesheet_directory_uri() . '/dist/';
+		$file      = basename($filename);
+		static $manifest;
+
+		if (empty($manifest)) {
+			$manifest_path = $dist_path . 'assets.json';
+			$manifest = new JsonManifest($manifest_path);
+		}
+
+		$files = $manifest->get();
+
+		if (array_key_exists($filename, $files)) {
+
+			return $dist_url  . $files[$filename];
+		} else {
+			return $dist_url . $filename;
+		}
+	}
+}
 
 /**
  * Get paths for assets
@@ -38,26 +63,5 @@ class JsonManifest {
 			}
 		}
 		return $collection;
-	}
-}
-
-function asset_path($filename) {
-	$dist_path = get_stylesheet_directory() . '/dist/';
-	$dist_url  = get_stylesheet_directory_uri() . '/dist/';
-	$file      = basename($filename);
-	static $manifest;
-
-	if (empty($manifest)) {
-		$manifest_path = $dist_path . 'assets.json';
-		$manifest = new JsonManifest($manifest_path);
-	}
-
-	$files = $manifest->get();
-
-	if (array_key_exists($filename, $files)) {
-
-		return $dist_url  . $files[$filename];
-	} else {
-		return $dist_url . $filename;
 	}
 }
