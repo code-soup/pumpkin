@@ -42,14 +42,14 @@ $includes = [
 	// 'setup/acf-options',
 	// 'setup/acf-load-fields',
 	// 'setup/acf-widget',
-    'wp-mods/wp-admin',
-    'wp-mods/wp-cleanup',
-    'wp-mods/wp-core',
-    'wp-mods/wp-login',
+    'wp-mods/wp-admin', // only filters and actions
+    'wp-mods/wp-cleanup', // only filters and actions
+    'wp-mods/wp-core', // only filters and actions
+    'wp-mods/wp-login', // only filters and actions
 	// 'components/class.functions',
-	'components/class.ajax',
-	// 'components/class.user', // removed as it will not be used any longer
-	'plugin-mods/gravity-forms',
+	'components/class.ajax', // to be removed?
+	// 'components/class.user', // to be removed?
+	'plugin-mods/gravity-forms', // only filters and actions
 ];
 
 
