@@ -5,35 +5,6 @@ if ( ! defined('WP_ENV') )
     define('WP_ENV', 'production');
 
 
-// define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
-// define( 'CS_ACF_ABSPATH', trailingslashit( get_template_directory() ) . CS_ACF_PATH );
-// define( 'CS_ACF_JSON_PATH',  get_stylesheet_directory() . '/inc/setup/acf/json' );
-
-
-// /**
-//  * Include ACF
-//  */
-// if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ):
-
-// 	// Include ACF PRO from theme folder
-//     require_once CS_ACF_ABSPATH . 'acf.php';
-
-//     // Tweak paths
-//     add_filter('acf/settings/dir', function ($dir) {
-//         return trailingslashit( get_template_directory_uri() ) . CS_ACF_PATH;
-//     });
-
-//     add_filter('acf/settings/path', function ($path) {
-//         return CS_ACF_ABSPATH;
-//     });
-
-//     // Disable ACF menu if not in a development env
-//     if (WP_ENV !== 'development')
-//         add_filter('acf/settings/show_admin', '__return_false');
-
-// endif;
-
-
 /**
  * Load Composer
  */

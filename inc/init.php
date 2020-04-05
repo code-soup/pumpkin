@@ -10,11 +10,11 @@ final class init {
 	 */
 	public static function get_services() {
 		return[
-			Setup\Setup::class,
 			Setup\ACF\Init::class,
 			Setup\ACF\Widget::class,
 			Setup\ACF\Options::class,
 			Setup\ACF\LoadField::class,
+			Setup\Setup::class,
 			Utils\Wrapper::class
 		];
 	}

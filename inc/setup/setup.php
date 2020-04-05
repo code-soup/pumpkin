@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 use CS\Assets;
-use CS\Utils\Helpers as Helpers;
+use CS\Utils\Helpers;
 
 /**
  * NoFramework Environemnt class
@@ -35,23 +35,20 @@ class Setup {
 	 */
 	public function register() {
 
-
 		/**
 		 * Load Settings and Sidebars
 		 */
-		// if ( function_exists('get_fields') ) :
-		if ( method_exists('\CS\Utils\Helpers', 'get_fields') ) :
+		if ( function_exists('get_fields') ) :
 			$this->load_options();
 			$this->register_sidebars();
 			$this->set_sidebar();
 			$this->user_custom_scripts();
 		endif;
 
-// \CS\Utils\Helpers::test();
+
 		/**
 		 * Actions
 		 */
-
 		// Add Favicon to head
 		add_action('wp_head', [ $this, 'set_favicon']);
 
@@ -114,7 +111,7 @@ class Setup {
 			set_transient('cs_options', $cs, 3600 * 24);
 
 
-			$css = get_key('cs_custom_css', $cs);
+			$css = Helpers::get_key('cs_custom_css', $cs);
 
 			if ( $css ) :
 
@@ -294,7 +291,7 @@ class Setup {
 		wp_enqueue_style('cs/css', Assets\asset_path('styles/main.css'), false, null);
 
 		// Custom CSS from Theme Options
-		if( file_exists( get_stylesheet_directory() . '/custom.css') && get_key('cs_custom_css') )
+		if( file_exists( get_stylesheet_directory() . '/custom.css') && Helpers::get_key('cs_custom_css') )
         {
 			wp_enqueue_style('cs/custom_css', $this->theme_uri('/custom.css'), false, null);
 		}

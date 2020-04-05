@@ -9,6 +9,7 @@ use CS\Utils\Helpers;
 
 class Functions {
 
+
 	/**
 	 * Logo
 	 * Returns HTML for logo image set in WordPress > Theme Options > Branding
