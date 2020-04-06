@@ -1,19 +1,27 @@
 <?php if ( ! defined('ABSPATH') ) exit;
 
 
+/**
+ * Set WordPress environment to production if not otherwise defined
+ * WP_ENV is usually defined in the wp-config.php file located in the wordpress root
+ * This will affect some development settings
+ * i.e. weather the Custom Fields menu item will show up in backend or not (will not show up in production environment)
+ */
 if ( ! defined('WP_ENV') )
     define('WP_ENV', 'production');
 
 
 /**
  * Load Composer
+ * for Namespacing and Autoloading functionality
  */
 if ( locate_template('vendor/autoload.php') )
 	require_once locate_template('vendor/autoload.php');
 
 
 /**
- * register all classes from namespace
+ * Theme includes
+ * Register all required classes from namespace
  */
 if ( class_exists('CS\Init') ) {
 	CS\init::register_services();
@@ -21,7 +29,9 @@ if ( class_exists('CS\Init') ) {
 
 
 /**
- * Custom Post Types folder using Sober/models
+ * Set Custom Post Types file location using Sober/models
+ * WordPress plugin to create custom post types and taxonomies using JSON, YAML or PHP files
+ * Theme uses models.json file located in the directory set in the filter below
  *
  * @link( https://github.com/soberwp/models, documentation )
  */
@@ -32,40 +42,29 @@ add_filter('sober/models/path', function() {
 
 
 /**
- * Theme includes
+ * Debug
+ * print_r with <pre> tags for readable output
  */
-$includes = [
-    // 'utils/helpers',
-	// 'utils/assets',
-	// 'utils/wrapper',
-	// 'setup/class.cs',
-	// 'setup/acf-options',
-	// 'setup/acf-load-fields',
-	// 'setup/acf-widget',
-    'wp-mods/wp-admin', // only filters and actions
-    'wp-mods/wp-cleanup', // only filters and actions
-    'wp-mods/wp-core', // only filters and actions
-    'wp-mods/wp-login', // only filters and actions
-	// 'components/class.functions',
-	'components/class.ajax', // to be removed?
-	// 'components/class.user', // to be removed?
-	'plugin-mods/gravity-forms', // only filters and actions
-];
+if ( ! function_exists('printaj')) :
+
+	function printaj( $var, $return = false ) {
+		print_r('<pre>');
+		print_r($var, $return);
+		print_r('</pre>');
+	}
+
+endif;
 
 
+/**
+ * Debug
+ * var_dump with <pre> tags for readable output
+ */
+if ( ! function_exists('dumpaj')) :
 
-// Woocommerce
-if ( function_exists('is_woocommerce') )
-	$includes[] = 'plugin-mods/woocommerce/tweaks';
-
-
-
-foreach ( $includes as $file ) {
-
-    if ( locate_template('inc/' . $file . '.php') ) {
-	   require_once locate_template('inc/' . $file . '.php');
-    }
-    else {
-        echo $file . ' file is missing !';
-    }
-}
+	function dumpaj( $var, $return = false ) {
+		var_dump('<pre>');
+		var_dump($var, $return);
+		var_dump('</pre>');
+	}
+endif;

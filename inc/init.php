@@ -7,6 +7,7 @@ final class init {
 	/**
 	 * Store all the classes inside an arraty
 	 * @return array Full list of classes
+	 * The order will determine the load order
 	 */
 	public static function get_services() {
 		return[
@@ -15,7 +16,13 @@ final class init {
 			Setup\ACF\Options::class,
 			Setup\ACF\LoadField::class,
 			Setup\Setup::class,
-			Utils\Wrapper::class
+			Utils\Wrapper::class,
+			Mods\WP\Admin::class,
+			Mods\WP\Cleanup::class,
+			Mods\WP\Core::class,
+			Mods\WP\Login::class,
+			Mods\Plugins\GravityForms::class,
+			Mods\Plugins\WooCommerce::class,
 		];
 	}
 
