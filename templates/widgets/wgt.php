@@ -3,7 +3,7 @@
 
 global $widget; ?>
 
-<section class="<?= $widget['class']; ?>">
+<section class="<?php echo $widget['class']; ?>">
 </section>
 
 <?php $widget = null;

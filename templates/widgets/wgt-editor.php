@@ -5,10 +5,10 @@ global $widget;
 if ( empty( get_key('editor') ) )
 	return; ?>
 
-<section class="<?= $widget['class']; ?>">
+<section class="<?php echo $widget['class']; ?>">
 	<div class="container">
 		<div class="entry-content">
-			<?= wpautop( $widget['editor'] ); ?>
+			<?php echo wpautop( $widget['editor'] ); ?>
 		</div>
 	</div>
 </section>
