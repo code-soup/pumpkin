@@ -440,7 +440,7 @@ class CS {
 		if ( ! $src )
 			return; ?>
 
-		<link rel="icon" type="image/png" href="<?= $src; ?>"/>
+		<link rel="icon" type="image/png" href="<?php echo $src; ?>"/>
 
 	<?php }
 }

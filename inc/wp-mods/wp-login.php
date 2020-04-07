@@ -66,7 +66,7 @@ add_action( 'login_enqueue_scripts', function () {
 			padding: 10px 10px 30px;
 			background-size: contain;
 			<?php if($logo): ?>
-			background-image: url('<?= $logo; ?>');
+			background-image: url('<?php echo $logo; ?>');
 			<?php endif; ?>
 		}
 	</style>

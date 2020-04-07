@@ -36,12 +36,12 @@ class CS_Functions {
 		if ($url)
 			return $src; ?>
 
-		<a href="<?= home_url('/'); ?>">
+		<a href="<?php echo home_url('/'); ?>">
 
 			<?php if ( strpos($src, '.svg') !== false ) : ?>
-				<img src="<?= $src; ?>" alt="<?= get_bloginfo('name'); ?>" />
+				<img src="<?php echo $src; ?>" alt="<?php echo get_bloginfo('name'); ?>" />
 			<?php else : ?>
-				<img src="<?= $src; ?>" width="<?= $w; ?>" height="<?= $h; ?>" alt="<?= get_bloginfo('name'); ?>" />
+				<img src="<?php echo $src; ?>" width="<?php echo $w; ?>" height="<?php echo $h; ?>" alt="<?php echo get_bloginfo('name'); ?>" />
 			<?php endif; ?>
 		</a>
 
@@ -161,9 +161,9 @@ class CS_Functions {
 			<ul class="social">
 				<?php foreach ($social as $s) : ?>
 					<li>
-						<a href="<?= $s['profile_url']; ?>" target="_blank" class="icon-social-<?= $s['network']; ?>">
+						<a href="<?php echo $s['profile_url']; ?>" target="_blank" class="icon-social-<?php echo $s['network']; ?>">
 							<?php svg_icon($s['network']); ?>
-							<span class="sr-only"><?= $s['network']; ?></span>
+							<span class="sr-only"><?php echo $s['network']; ?></span>
 						</a>
 					</li>
 				<?php endforeach; ?>
@@ -206,15 +206,15 @@ class CS_Functions {
 		<div class="breadcrumb">
 			<ol>
 				<li>
-					<a href="<?= home_url('/'); ?>">Home</a>
+					<a href="<?php echo home_url('/'); ?>">Home</a>
 				</li>
 
 				<?php if ( is_page() ) :
 
 					if ($post->post_parent) : ?>
 						<li>
-							<a href="<?= get_permalink($post->post_parent); ?>">
-								<?= get_the_title($post->post_parent); ?>
+							<a href="<?php echo get_permalink($post->post_parent); ?>">
+								<?php echo get_the_title($post->post_parent); ?>
 							</a>
 						</li>
 					<?php endif; ?>
@@ -226,13 +226,13 @@ class CS_Functions {
 				<?php elseif ( is_search() ) : ?>
 
 					<li>
-						<span><?= __('Search Results', 'pumpkin'); ?></span>
+						<span><?php echo __('Search Results', 'pumpkin'); ?></span>
 					</li>
 
 				<?php elseif ( is_404() ) : ?>
 
 					<li>
-						<span><?= __('Not Found', 'pumpkin'); ?></span>
+						<span><?php echo __('Not Found', 'pumpkin'); ?></span>
 					</li>
 				<?php endif; ?>
 			</ol>
@@ -272,7 +272,7 @@ class CS_Functions {
 		if ($query->max_num_pages > 1) : ?>
 			<ul class="pagination">
 				<?php foreach ( $paginate as $page ) : ?>
-					<li><?= $page; ?></li>
+					<li><?php echo $page; ?></li>
 				<?php endforeach; ?>
 			</ul>
 		<?php endif;
@@ -300,7 +300,7 @@ class CS_Functions {
 		if ( $total > $perpage ) : ?>
 			<ul class="pagination">
 				<?php foreach ( $paginate as $page ) : ?>
-					<li><?= $page; ?></li>
+					<li><?php echo $page; ?></li>
 				<?php endforeach; ?>
 			</ul>
 		<?php endif;
