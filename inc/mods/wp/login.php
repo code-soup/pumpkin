@@ -41,7 +41,7 @@ class Login {
 		 */
 		add_action( 'login_enqueue_scripts', function () {
 
-			$logo = CS\Components\Functions::get_logo(true); ?>
+			$logo = \CS\Components\Functions::get_logo(true); ?>
 
 			<style type="text/css">
 				body.login {
