@@ -10,6 +10,9 @@ composer.lock
 npm-debug.log
 yarn-error.log
 
+# ignore Visual Studio Code FTP setup folder
+.vscode
+
 # don't commit local config
 src/config-local.json
 
