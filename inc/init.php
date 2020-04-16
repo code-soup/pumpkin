@@ -2,7 +2,7 @@
 
 namespace CS;
 
-final class init {
+final class Init {
 
 	/**
 	 * Store all the classes inside an arraty
@@ -11,18 +11,18 @@ final class init {
 	 */
 	public static function get_services() {
 		return[
-			Setup\ACF\Init::class,
-			Setup\ACF\Widget::class,
-			Setup\ACF\Options::class,
-			Setup\ACF\LoadField::class,
-			Setup\Setup::class,
-			Utils\Wrapper::class,
-			Mods\WP\Admin::class,
-			Mods\WP\Cleanup::class,
-			Mods\WP\Core::class,
-			Mods\WP\Login::class,
-			Mods\Plugins\GravityForms::class,
-			Mods\Plugins\WooCommerce::class,
+			setup\acf\Init::class,
+			setup\acf\Widget::class,
+			setup\acf\Options::class,
+			setup\acf\LoadField::class,
+			setup\Setup::class,
+			utils\Wrapper::class,
+			mods\wp\Admin::class,
+			mods\wp\Cleanup::class,
+			mods\wp\Core::class,
+			mods\wp\Login::class,
+			mods\plugins\GravityForms::class,
+			mods\plugins\WooCommerce::class,
 		];
 	}
 

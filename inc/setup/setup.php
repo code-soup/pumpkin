@@ -1,12 +1,12 @@
 <?php
 
-namespace CS\Setup;
+namespace CS\setup;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-use CS\Utils\Assets;
-use CS\Utils\Helpers;
+use CS\utils\Assets;
+use CS\utils\Helpers;
 
 /**
  * NoFramework Environemnt class

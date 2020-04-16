@@ -1,11 +1,11 @@
 <?php
 
-namespace CS\Components;
+namespace CS\components;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-use CS\Utils\Helpers;
+use CS\utils\Helpers;
 
 class Functions {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Mods\WP;
+namespace CS\mods\wp;
 
 if (!defined('ABSPATH'))
 	exit;
@@ -41,7 +41,7 @@ class Login {
 		 */
 		add_action( 'login_enqueue_scripts', function () {
 
-			$logo = \CS\Components\Functions::get_logo(true); ?>
+			$logo = \CS\components\Functions::get_logo(true); ?>
 
 			<style type="text/css">
 				body.login {

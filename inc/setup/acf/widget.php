@@ -5,7 +5,7 @@ namespace CS\Setup\ACF;
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-use CS\Utils\Helpers;
+use CS\utils\Helpers;
 
 class Widget {
 

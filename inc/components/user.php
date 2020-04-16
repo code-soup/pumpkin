@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Components;
+namespace CS\components;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Mods\WP;
+namespace CS\mods\wp;
 
 if (!defined('ABSPATH'))
 	exit;

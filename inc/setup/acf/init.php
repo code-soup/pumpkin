@@ -1,11 +1,11 @@
 <?php
 
-namespace CS\Setup\ACF;
+namespace CS\setup\acf;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-use CS\Utils\Helpers;
+use CS\utils\Helpers;
 
 class Init {
 

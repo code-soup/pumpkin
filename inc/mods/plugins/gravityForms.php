@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Mods\Plugins;
+namespace CS\mods\plugins;
 
 if (!defined('ABSPATH'))
 	exit;
