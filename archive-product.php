@@ -13,11 +13,16 @@
  * @see 	    https://docs.woocommerce.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     3.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+/**
+ * Output WooCommerce content.
+ * This function is only used in the optional 'woocommerce.php' template. which people can add to their themes to add basic woocommerce support. without hooks or modifying core templates.
+ * Located at wc-template-functions.php
+ */
 woocommerce_content();
