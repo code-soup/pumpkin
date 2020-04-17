@@ -1,9 +1,9 @@
 <?php
 
 
-use CS\Setup;
+// use CS\Setup;
 use CS\Utils;
-use CS\Components\Functions;
+use CS\components\Functions;
 
 ?>
 

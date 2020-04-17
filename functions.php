@@ -24,7 +24,7 @@ if ( locate_template('vendor/autoload.php') )
  * Register all required classes from namespace
  */
 if ( class_exists('CS\Init') ) {
-	CS\init::register_services();
+	CS\Init::register_services();
 }
 
 

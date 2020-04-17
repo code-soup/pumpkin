@@ -3,7 +3,7 @@
 
 global $widget;
 
-if ( empty( CS\Utils\Helpers::get_key('editor') ) )
+if ( empty( CS\utils\Helpers::get_key('editor') ) )
 	return; ?>
 
 <section class="<?= $widget['class']; ?>">
