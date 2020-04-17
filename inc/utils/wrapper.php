@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\utils;
+namespace CS\Utils;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
