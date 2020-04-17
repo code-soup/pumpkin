@@ -1,7 +1,7 @@
 <?php
 
-use CS\Setup;
-use CS\Wrapper;
+use CS\Utils;
+use CS\components\Functions;
 
 ?>
 <!doctype html>
@@ -31,10 +31,10 @@ use CS\Wrapper;
 		<div class="wrap">
 
 			<main class="main">
-				<?php include Wrapper\template_path(); ?>
+				<?php include Utils\template_path(); ?>
 			</main>
 
-			<?php if ( CS()->get_sidebar() ) : ?>
+			<?php if ( Functions::get_sidebar() ) : ?>
 				<aside class="sidebar">
 					<?php get_template_part('templates/partials/sidebar'); ?>
 				</aside>
