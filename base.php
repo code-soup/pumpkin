@@ -1,10 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-
-// use CS\Setup;
-=======
->>>>>>> d949262a4a41343bd1990c40a8af7a28810d11b2
 use CS\Utils;
 use CS\components\Functions;
 
