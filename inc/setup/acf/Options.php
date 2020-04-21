@@ -1,6 +1,6 @@
 <?php
 
-namespace CS\Setup\ACF;
+namespace CS\setup\acf;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
