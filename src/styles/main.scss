@@ -1,11 +1,9 @@
-@import "utils/_variables";
-@import "utils/_functions";
-@import "utils/_mixins";
-@import "utils/_placeholders";
+@import "_utils/variables";
+@import "_utils/functions";
+@import "_utils/mixins/general";
+@import "_utils/mixins/media-queries";
+@import "_utils/placeholders";
 
-/** Import everything */
-@import "autoload/**/*.scss";
-@import "base/**/*.scss";
-@import "components/**/*.scss";
-@import "layouts/**/*.scss";
-@import "widgets/**/*.scss";
+/** Import everything from npm dependencies */
+
+@import "_npm-modules/**/*.scss";

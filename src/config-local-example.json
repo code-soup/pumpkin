@@ -1,6 +1,0 @@
-{
-    "publicPath": "pumpkin/wp-content/themes/pumpkin",
-    "publicPathProduction": "/wp-content/themes/pumpkin",
-    "devUrl": "http://site.local",
-    "proxyUrl": "http://localhost:3000",
-}

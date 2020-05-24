@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * NoFramework Environemnt class
+ * Pumpkin base class
  *
  *
  * @author  Vlado Bosnjak
@@ -44,6 +44,12 @@ class CS {
 			$this->set_sidebar();
 			$this->user_custom_scripts();
 		endif;
+
+
+        /**
+         * 
+         */
+        $this->assets = new Assets\Assets();
 
 
 		/**
@@ -289,7 +295,7 @@ class CS {
         }
 
 		// Theme CSS
-		wp_enqueue_style('cs/css', Assets\asset_path('styles/main.css'), false, null);
+		wp_enqueue_style('cs/css', $this->assets->get('main.css'), false, null);
 
 		// Custom CSS from Theme Options
 		if( file_exists( get_stylesheet_directory() . '/custom.css') && get_key('cs_custom_css') )
@@ -302,7 +308,7 @@ class CS {
 		if ( is_single() && comments_open() && get_option('thread_comments'))
 			wp_enqueue_script('comment-reply');
 
-		wp_enqueue_script('cs/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
+		wp_enqueue_script('cs/js', $this->assets->get('main.js'), ['jquery'], null, true);
 
 
 		/**
@@ -335,8 +341,8 @@ class CS {
 	 */
 	public function scripts_backend() {
 
-		wp_enqueue_script('cs/wp-js', Assets\asset_path('scripts/admin.js'), ['jquery'], null, true);
-		wp_enqueue_style('cs/wp-css', Assets\asset_path('styles/admin.css'), false, null);
+		wp_enqueue_script('cs/wp-js', $this->assets->get('admin.js'), ['jquery'], null, true);
+		wp_enqueue_style('cs/wp-css', $this->assets->get('admin.css'), false, null);
 	}
 
 

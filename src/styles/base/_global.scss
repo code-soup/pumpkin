@@ -5,17 +5,8 @@
 }
 
 body {
+    background: #000;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.sr-only {
-    @extend %sr-only;
-}
-
-img {
-    height: auto;
-    display: block;
-    max-width: 100%;
 }
