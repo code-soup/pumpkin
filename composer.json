@@ -2,7 +2,7 @@
     "name": "codesoup/pumpkin",
     "type": "wordpress-theme",
     "license": "MIT",
-    "description": "Compontent oriented WordPress starter theme with a modern development workflow",
+    "description": "Component oriented WordPress starter theme with a modern development workflow",
     "homepage": "https://www.codesoup.co/pumpkin/",
     "authors": [
         {
@@ -11,7 +11,9 @@
             "homepage": "https://www.codesoup.co"
         }
     ],
-    "keywords": ["wordpress"],
+    "keywords": [
+        "wordpress"
+    ],
     "support": {
         "issues": "https://github.com/code-soup/pumpkin/issues"
     },
@@ -46,7 +48,9 @@
     },
     "extra": {
         "installer-paths": {
-            "vendor/{$name}": ["vendor/package"]
+            "vendor/{$name}": [
+                "vendor/package"
+            ]
         }
     }
 }

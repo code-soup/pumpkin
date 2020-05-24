@@ -7,57 +7,104 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Get paths for assets
  */
-class JsonManifest {
+class Assets {
+
+    /**
+     * Manifest file object containing list of all hashed assets
+     * @var Object
+     */
 	private $manifest;
 
-	public function __construct($manifest_path) {
-		if (file_exists($manifest_path)) {
-			$this->manifest = json_decode(file_get_contents($manifest_path), true);
+
+    /**
+     * Absolut path to theme 'dist' folder
+     * @var string
+     */
+    private $dist_path;
+
+
+    /**
+     * URI to theme 'dist' folder
+     * @var string
+     */
+    private $dist_uri;
+
+
+    /**
+     * Initiate
+     */
+	public function __construct() {
+
+        $this->dist_path     = sprintf( '%s/dist', get_stylesheet_directory() );
+        $this->dist_uri      = sprintf( '%s/dist', get_stylesheet_directory_uri() );
+        $this->manifest_path = sprintf( '%s/assets.json', $this->dist_path );
+
+        /**
+         * Test for assets.json
+         */
+		if (file_exists($this->manifest_path)) {
+			$this->manifest = json_decode(file_get_contents($this->manifest_path), true);
 		} else {
 			$this->manifest = [];
 		}
 	}
 
-	public function get() {
-		return $this->manifest;
+
+    /**
+     * Get full URI to single asset
+     * 
+     * @param  string $filename File name
+     * @return string           URI to resource
+     */
+	public function get( $filename ) {
+
+        return $this->locate( $filename );
 	}
 
-	public function getPath($key = '', $default = null) {
-		$collection = $this->manifest;
-		if (is_null($key)) {
-			return $collection;
-		}
-		if (isset($collection[$key])) {
-			return $collection[$key];
-		}
-		foreach (explode('.', $key) as $segment) {
-			if (!isset($collection[$segment])) {
-				return $default;
-			} else {
-				$collection = $collection[$segment];
-			}
-		}
-		return $collection;
-	}
-}
 
-function asset_path($filename) {
-	$dist_path = get_stylesheet_directory() . '/dist/';
-	$dist_url  = get_stylesheet_directory_uri() . '/dist/';
-	$file      = basename($filename);
-	static $manifest;
 
-	if (empty($manifest)) {
-		$manifest_path = $dist_path . 'assets.json';
-		$manifest = new JsonManifest($manifest_path);
-	}
+    /**
+     * Fix URL for requested files
+     * 
+     * @param  string $filename Requested asset
+     * @return [type]           [description]
+     */
+    private function locate( $filename ) {
 
-	$files = $manifest->get();
+        // Return URL to requested file from manifest
+        if ( array_key_exists($filename, $this->manifest) )
+        {
+            return sprintf( '%s/%s', $this->dist_uri, $this->manifest[ $filename ]);
+        }
 
-	if (array_key_exists($filename, $files)) {
+        /**
+         * Fix URI to requested resource
+         * Manifest is correctly generated only for images
+         * For other types we need to append folder
+         */
+        $file = pathinfo($filename);
+        $dir  = '/';
 
-		return $dist_url  . $files[$filename];
-	} else {
-		return $dist_url . $filename;
-	}
+        switch ( $file['extension'] ) {
+            case 'js':
+                $dir = '/scripts/';
+            break;
+
+            case 'css':
+                $dir = '/styles/';
+            break;
+            
+            default:
+                $dir = '/';
+            break;
+        }
+
+        // Spritemap specific
+        if ( 'spritemap.svg' == $filename )
+        {
+            $dir = '/sprite/';
+        }
+
+        return $this->dist_uri . $dir . $filename;
+    }
 }

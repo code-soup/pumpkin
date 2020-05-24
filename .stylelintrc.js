@@ -1,7 +1,8 @@
 module.exports = {
-    extends: "stylelint-config-standard",
+    extends: "stylelint-config-wordpress/scss",
+    ignoreFiles: ["src/styles/_npm-modules/_sprites.scss"],
     rules: {
-        "indentation": 4,
+        indentation: 4,
         "no-empty-source": null,
         "at-rule-no-unknown": [
             true,
@@ -27,6 +28,18 @@ module.exports = {
                     "responsive",
                     "variants",
                     "screen",
+                ],
+            },
+        ],
+        "at-rule-empty-line-before": [
+            "always",
+            {
+                except: [
+                    "inside-block",
+                    "first-nested",
+                    "after-same-name",
+                    "blockless-after-blockless",
+                    "blockless-after-same-name-blockless",
                 ],
             },
         ],
