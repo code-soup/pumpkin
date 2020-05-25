@@ -7,3 +7,7 @@
 /** Import everything from npm dependencies */
 
 @import "_npm-modules/**/*.scss";
+
+.my {
+    display: flex;
+}

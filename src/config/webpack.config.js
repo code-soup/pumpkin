@@ -18,8 +18,7 @@ let webpackConfig = {
         modules: false,
         entrypoints: false,
     },
-    target: "web",
-    devtool: "inline-source-map",
+    devtool: config.enabled.production ? false : "cheap-module-source-map",
     module: require("./webpack/config.module"),
     resolveLoader: {
         moduleExtensions: ["-loader"],
@@ -29,7 +28,6 @@ let webpackConfig = {
         enforceExtension: false,
         alias: {
             utils: resolver("../scripts/util"),
-            config: resolver("./config"),
             widgets: resolver("../scripts/widgets"),
             components: resolver("../scripts/components"),
         },
@@ -44,6 +42,9 @@ let webpackConfig = {
     optimization: require("./webpack/config.optimization"),
 };
 
+/**
+ * Include webpack-dev-server config
+ */
 if (config.enabled.watcher) {
     webpackConfig = merge(webpackConfig, require("./webpack/config.watch"));
 }
@@ -51,7 +52,8 @@ if (config.enabled.watcher) {
 /**
  * Production only config
  */
-if (config.enabled.production) {
+if (config.enabled.production)
+{
     const { default: ImageminPlugin } = require("imagemin-webpack-plugin");
     const imageminMozjpeg = require("imagemin-mozjpeg");
     const WebpackAssetsManifest = require("webpack-assets-manifest");

@@ -25,16 +25,15 @@ module.exports = {
             use: [{ loader: "cache" }, { loader: "babel" }],
         },
         {
-            test: /\.s?[ca]ss$/,
+            test: /\.s[ac]ss$/i,
             include: config.paths.src,
             use: [
                 config.enabled.watcher
                     ? "style"
                     : MiniCssExtractPlugin.loader,
-                {
-                    loader: "css",
-                    options: { sourceMap: !config.enabled.production },
-                },
+                { loader: "css" },
+                { loader: "resolve-url" },
+                { loader: "sass" },
                 {
                     loader: "postcss",
                     options: {
@@ -42,19 +41,6 @@ module.exports = {
                             path: __dirname,
                             ctx: config,
                         },
-                        sourceMap: !config.enabled.production,
-                    },
-                },
-                {
-                    loader: "resolve-url",
-                    options: {
-                        sourceMap: !config.enabled.production,
-                    },
-                },
-                {
-                    loader: "sass",
-                    options: {
-                        sourceMap: !config.enabled.production,
                     },
                 },
             ],
