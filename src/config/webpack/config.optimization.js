@@ -1,4 +1,5 @@
 module.exports = {
+    minimize: true,
     noEmitOnErrors: true,
     mangleWasmImports: true,
     splitChunks: {
@@ -21,5 +22,4 @@ module.exports = {
             },
         },
     },
-    minimize: true,    
 };

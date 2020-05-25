@@ -31,9 +31,10 @@ module.exports = {
                 config.enabled.watcher
                     ? "style"
                     : MiniCssExtractPlugin.loader,
-                { loader: "css" },
-                { loader: "resolve-url" },
-                { loader: "sass" },
+                {
+                    loader: "css",
+                    options: { importLoaders: 3 },
+                },
                 {
                     loader: "postcss",
                     options: {
@@ -43,6 +44,8 @@ module.exports = {
                         },
                     },
                 },
+                { loader: "resolve-url" },
+                { loader: "sass" },
             ],
         },
         {
