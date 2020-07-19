@@ -61,7 +61,6 @@
         "@babel/preset-env": "^7.9.6",
         "babel-loader": "^8.1.0",
         "breakpoint-sass": "^2.7.1",
-        "bs-html-injector": "~3.0.3",
         "cache-loader": "~4.1.0",
         "clean-webpack-plugin": "^3.0.0",
         "copy-globs-webpack-plugin": "^0.3.0",
