@@ -1,8 +1,8 @@
 <?php if ( ! defined('ABSPATH') ) exit;
 
 
-if ( ! defined('WP_ENV') )
-    define('WP_ENV', 'production');
+if ( ! defined('WP_ENVIRONMENT_TYPE') )
+    define('WP_ENVIRONMENT_TYPE', 'development');
 
 
 define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
@@ -25,7 +25,7 @@ if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ):
     });
 
     // Disable ACF menu if not in a development env
-    if (WP_ENV !== 'development')
+    if (wp_get_environment_type() !== 'development')
         add_filter('acf/settings/show_admin', '__return_false');
 
 endif;
@@ -34,7 +34,7 @@ endif;
 /**
  * Load Composer
  */
-if ( locate_template('vendor/autoload.php') ) 
+if ( locate_template('vendor/autoload.php') )
 	require_once locate_template('vendor/autoload.php');
 
 
@@ -45,7 +45,7 @@ if ( locate_template('vendor/autoload.php') )
  * @link( https://github.com/soberwp/models, documentation )
  */
 add_filter('sober/models/path', function() {
-    
+
     return trailingslashit( get_stylesheet_directory() ) . 'inc/models';
 });
 

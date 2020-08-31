@@ -30,7 +30,7 @@ if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ) :
 
 
     // Disable ACF menu if not in a development env
-    if ( WP_ENV !== 'development' ) {
+    if ( wp_get_environment_type() !== 'development' ) {
         add_filter('acf/settings/show_admin', '__return_false');
     }
 
