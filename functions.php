@@ -2,7 +2,7 @@
 
 
 if ( ! defined('WP_ENVIRONMENT_TYPE') )
-    define('WP_ENVIRONMENT_TYPE', 'development');
+	define('WP_ENVIRONMENT_TYPE', 'production');
 
 
 define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
@@ -25,7 +25,7 @@ if ( ! class_exists('ACF') && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ):
     });
 
     // Disable ACF menu if not in a development env
-    if (wp_get_environment_type() !== 'development')
+    if (WP_ENVIRONMENT_TYPE !== 'development')
         add_filter('acf/settings/show_admin', '__return_false');
 
 endif;
