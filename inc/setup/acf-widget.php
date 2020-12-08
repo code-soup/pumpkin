@@ -80,7 +80,9 @@ class ACF_Widget {
         foreach ( $meta as $wgt )
         {
             $classes[] = sanitize_title( str_replace('wgt', 'pw', $wgt) );
-        }
+		}
+
+		return array_unique($classes);
 	}
 
 
@@ -106,6 +108,8 @@ class ACF_Widget {
 	 * Get Slug
 	 */
 	private static function get_slug( $wgt ) {
+
+		$wgt = str_replace("_", "-", $wgt);
 
 		if ( get_key('acf_fc_layout', $wgt) )
         {

@@ -4,14 +4,18 @@
 .container {
     margin: 0 auto;
     position: relative;
-    max-width: get_opt("container");
+    max-width: get-option("container");
     padding-left: gutter(true);
     padding-right: gutter(true);
 }
 
 .row {
-    margin-left: -gutter(true);
-    margin-right: -gutter(true);
+
+    /* prettier-ignore */
+    margin-left: - gutter(true);
+
+    /* prettier-ignore */
+    margin-right: - gutter(true);
 
     > [class^="span-"] {
         position: relative;

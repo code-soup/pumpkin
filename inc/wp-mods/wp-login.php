@@ -22,7 +22,7 @@ add_filter('login_headerurl', function () {
 /**
  * WP Login Logo title
  */
-add_filter('login_headertitle', function () {
+add_filter('login_headertext', function () {
 	return get_bloginfo( 'title' );
 });
 
@@ -58,10 +58,15 @@ add_action( 'login_enqueue_scripts', function () {
 			display: none;
 		}
 
+		body.login div#login h1 {
+			margin-right: 10px;
+			margin-left: 10px;
+		}
+
 		body.login div#login h1 a {
 			width: 100%;
 			height: 120px;
-			margin: 0 auto;
+			margin: 0 -10px 20px;
 			display: block;
 			padding: 10px 10px 30px;
 			background-size: contain;

@@ -28,7 +28,7 @@
 
 @function get-font($name) {
     @if map-has-key($fonts, $name) {
-        @return unquote(map-get($fonts, $name));
+        @return map-get($fonts, $name);
     }
     @warn "`# {$key}` not defined in $fonts, please add color to styles/_utils/variables";
     @return null;
@@ -55,11 +55,12 @@
  * @return {int}            line-height in %
  */
 
-@function calc-leading($font-size, $leading: 19) {
-    @if ($leading == 1) {
-        @return 1;
+@function calc-leading($font-size, $leading) {
+    $lh: (($leading / 2) + $font-size);
+    @if ($lh < 100) {
+        $lh: $lh + 100;
     }
-    @return $font-size + ($leading / 2) * 1%;
+    @return (($leading / $font-size) * 100) * 1%;
 }
 
 /**
@@ -75,15 +76,11 @@
 }
 
 /**
- * Converts font-size pixel to rem units
- *
- * @param  {int} $size font-size in pixels
- *
- * @return {int}       font-size in rem
+ * Convert pixel to REM
  */
 
-@function calc-rem($font-size) {
-    @return $font-size / get-font("base-size") * 1rem;
+@function calc-rem($pixels, $context: get-font("base-size")) {
+    @return #{$pixels/$context}rem;
 }
 
 /**
@@ -96,7 +93,7 @@
  * Columns span
  */
 
-@function span($span, $grid-columns: get-opt("columns")) {
+@function span($span, $grid-columns: get-option("columns")) {
     $column: 100 / $grid-columns;
     @return percentage($span * $column) / 100;
 }
@@ -106,7 +103,7 @@
  */
 
 @function gutter($half: false) {
-    $gutter: get-opt("gutter");
+    $gutter: get-option("gutter");
     @if ($half == true) {
         @return $gutter / 2;
     }

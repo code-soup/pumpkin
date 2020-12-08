@@ -38,10 +38,12 @@ let webpackConfig = {
         jquery: "jQuery",
     },
     performance: {
-        hints: "error",
+		hints: "error",
+		maxEntrypointSize: 1000000,
+		maxAssetSize: 1000000,
     },
     plugins: require("./webpack/config.plugins"),
-    optimization: require("./webpack/config.optimization"),
+	optimization: require("./webpack/config.optimization"),
 };
 
 if (config.enabled.watcher) {
