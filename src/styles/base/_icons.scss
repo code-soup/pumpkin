@@ -10,3 +10,52 @@
     overflow: hidden;
     vertical-align: top;
 }
+
+.hamburger {
+    display: block;
+    position: absolute;
+    height: 3px;
+    top: 50%;
+    right: 2px;
+    left: 2px;
+    background-color: get_color("brand");
+    transform: translateY(-50%);
+    transition: background-color 0.2s;
+
+    &::after,
+    &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        right: 2px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: get_color("brand");
+        transition: transform 0.6s;
+    }
+
+    &::before {
+        top: 10px;
+        transition-property: top, transform;
+    }
+
+    &::after {
+        bottom: 10px;
+        transition-property: bottom, transform;
+    }
+}
+
+.active-offcanvas .navbar-toggle .hamburger {
+    background-color: transparent;
+
+    &::before {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+
+    &::after {
+        bottom: 0;
+        transform: rotate(45deg);
+    }
+}

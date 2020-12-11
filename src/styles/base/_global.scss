@@ -5,8 +5,27 @@
 }
 
 body {
-    background: #000;
+    background: get_color("white");
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.sr-only {
+    @extend %sr-only;
+}
+
+.toggler {
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.toggler,
+.toggler.active {
+    transition: max-height 0.3s ease-in;
+}
+
+.toggler:not(.active) {
+    max-height: 0 !important;
+}
+

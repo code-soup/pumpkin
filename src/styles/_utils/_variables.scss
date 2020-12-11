@@ -4,7 +4,7 @@
 $grid: (
     "gutter": 20px,
     "columns": 12,
-    "container": 1440px
+    "container": 1440px,
 );
 
 /**
@@ -22,7 +22,7 @@ $fonts: (
 $colors: (
     "brand": #0c5a9a,
     "black": #000,
-    "white": #fff
+    "white": #fff,
 );
 
 /**
@@ -41,5 +41,7 @@ $breakpoints: (
     "desktop-s": 1400px,
     "desktop-m": 1640px,
     "desktop-l": 1880px,
-    "desktop-xl": 2480px
+    "desktop-xl": 2480px,
 );
+
+$offcanvas-break: map-get($breakpoints, "laptop-s");

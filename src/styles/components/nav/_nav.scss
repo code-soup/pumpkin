@@ -1,0 +1,15 @@
+.nav {
+
+    li {
+        list-style-type: none;
+    }
+
+    a {
+        display: block;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.2s ease;
+        @include link-colors(get_color("brand"), lighten(get_color("brand"), 20));
+    }
+}

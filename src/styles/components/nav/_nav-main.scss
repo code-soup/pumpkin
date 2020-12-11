@@ -1,0 +1,14 @@
+.nav-main {
+    display: none;
+    padding-left: 0;
+
+    a {
+        padding: 10px;
+        margin-right: 5px;
+        margin-left: 5px;
+        text-align: center;
+    }
+    @include breakpoint($offcanvas-break) {
+        display: flex;
+    }
+}

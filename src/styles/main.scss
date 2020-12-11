@@ -7,3 +7,10 @@
 /** Import everything from npm dependencies */
 
 @import "_npm-modules/**/*.scss";
+
+/** Import everything else */
+
+@import "base/global";
+@import "base/icons";
+@import "components/form/**/*.scss";
+@import "components/nav/**/*.scss";
