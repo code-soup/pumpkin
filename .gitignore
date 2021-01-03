@@ -16,6 +16,7 @@ yarn-error.log
 
 # don't commit local config
 src/config-local.json
+src/config-local.js
 
 # OSX Files
 .DS_Store
