@@ -44,7 +44,7 @@ endif;
  */
 add_action( 'acf/init', function () {
 
-    $key = get_key('cs_gmaps_api');
+    $key = get_key('options_cs_gmaps_api');
     acf_update_setting('google_api_key', $key);
 });
 

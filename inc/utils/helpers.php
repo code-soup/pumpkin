@@ -46,7 +46,7 @@ if ( ! function_exists('get_key')) :
 
 
 		/**
-		 * Get value from froots/widget variable
+		 * Get value from pumpkin/widget variable
 		 */
 		if ( ! $array ) :
 
