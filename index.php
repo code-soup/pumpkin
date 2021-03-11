@@ -4,7 +4,7 @@ get_template_part('templates/partials/page', 'header');
 
 if ( ! have_posts() ) : ?>
 	<div class="alert alert-warning">
-    	<?php _e('Sorry, no results were found.', 'froots'); ?>
+    	<?php _e('Sorry, no results were found.', 'pumpkin'); ?>
   	</div>
  	<?php get_search_form();
 endif;
