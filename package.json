@@ -62,7 +62,6 @@
         "bs-html-injector": "~3.0.3",
         "clean-webpack-plugin": "^4.0.0",
         "css-loader": "^6.7.3",
-        "cssnano": "^5.1.15",
         "eslint": "^8.34.0",
         "eslint-webpack-plugin": "^4.0.0",
         "file-loader": "^6.2.0",
