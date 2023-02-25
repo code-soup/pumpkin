@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) )
     exit;
 
 
-define( 'CS_ACF_PATH',  'wp-content/plugins/advanced-custom-fields-pro/' );
+define( 'CS_ACF_PATH',  'vendor/advanced-custom-fields-pro/' );
 define( 'CS_ACF_ABSPATH', trailingslashit( get_template_directory() ) . CS_ACF_PATH );
 define( 'CS_ACF_JSON_PATH',  get_stylesheet_directory() . '/inc/setup/acf/json' );
 
