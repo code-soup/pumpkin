@@ -1,17 +1,15 @@
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    noEmitOnErrors: true,
     mangleWasmImports: true,
     removeAvailableModules: true,
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
     flagIncludedChunks: true,
-    occurrenceOrder: true,
     splitChunks: {
         chunks: 'async',
         minSize: 30000,
-        maxSize: 0,
+        maxSize: 3000000,
         minChunks: 1,
         maxAsyncRequests: 6,
         maxInitialRequests: 4,
@@ -31,9 +29,12 @@ module.exports = {
     minimize: true,
     minimizer: [
         new TerserPlugin({
-            cache: true,
             parallel: true,
-            sourceMap: false,
+            terserOptions: {
+              ecma: undefined,
+              compress: true,
+              safari10: true,
+            },
         }),
     ],
 };

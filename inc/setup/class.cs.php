@@ -239,19 +239,6 @@ class CS {
 		add_theme_support('html5', ['caption', 'comment-form', 'comment-list', 'gallery', 'search-form']);
 
 
-		// Soli Cleanup plugin
-		add_theme_support('soil-clean-up');
-		add_theme_support('soil-disable-asset-versioning');
-		add_theme_support('soil-disable-trackbacks');
-		add_theme_support('soil-jquery-cdn');
-		add_theme_support('soil-nav-walker');
-		add_theme_support('soil-nice-search');
-		add_theme_support('soil-relative-urls');
-
-		// Theme functions
-		add_theme_support( 'woocommerce' );
-		add_theme_support( 'cs_sidebars' );
-
 
 		remove_theme_support( 'starter-content' );
 	}

@@ -3,5 +3,4 @@
  * No jQuery here sorry
  */
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("ok! ok!");
 });

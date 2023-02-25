@@ -1,4 +1,4 @@
-const merge = require("webpack-merge");
+const { merge } = require('webpack-merge');
 const resolver = require("./util/resolve");
 const config = require("./config");
 
@@ -18,12 +18,10 @@ let webpackConfig = {
         modules: false,
         entrypoints: false,
     },
+    cache: true,
     target: "web",
     devtool: "inline-source-map",
     module: require("./webpack/config.module"),
-    resolveLoader: {
-        moduleExtensions: ["-loader"],
-    },
     resolve: {
         modules: [config.paths.src, "node_modules"],
         enforceExtension: false,
