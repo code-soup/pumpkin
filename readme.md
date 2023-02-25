@@ -42,8 +42,8 @@ Powered by Webpack build script
 `git add .`\
 `git commit -am 'init'`
 
-3. Create `.env` file and add your ACF PRO key\
-`ACF_PRO_KEY=abcd`
+3. Generate `auth.json` file in your ACF account and save it to them root
+https://www.advancedcustomfields.com/resources/installing-acf-pro-with-composer/
 
 4. Install PHP dependencies\
 `composer install`
