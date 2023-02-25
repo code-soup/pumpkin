@@ -2,17 +2,12 @@
  * Webpack modules
  */
 
+const path = require("path");
 const config = require("../config");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     rules: [
-        {
-            enforce: "pre",
-            test: /\.js$/,
-            include: config.paths.src,
-            use: "eslint",
-        },
         {
             enforce: "pre",
             test: /\.(js|s?[ca]ss)$/,
@@ -22,37 +17,37 @@ module.exports = {
         {
             test: /\.js$/,
             exclude: [/node_modules/],
-            use: [{ loader: "cache" }, { loader: "babel" }],
+            use: [{ loader: "cache-loader" }, { loader: "babel-loader" }],
         },
         {
             test: /\.s?[ca]ss$/,
             include: config.paths.src,
             use: [
                 config.enabled.watcher
-                    ? "style"
+                    ? "style-loader"
                     : MiniCssExtractPlugin.loader,
                 {
-                    loader: "css",
+                    loader: "css-loader",
                     options: { sourceMap: !config.enabled.production },
                 },
                 {
-                    loader: "postcss",
+                    loader: "postcss-loader",
                     options: {
-                        config: {
-                            path: __dirname,
-                            ctx: config,
+                        postcssOptions: {
+                            plugins: [
+                                ["postcss-preset-env"],
+                            ],
                         },
-                        sourceMap: !config.enabled.production,
                     },
                 },
                 {
-                    loader: "resolve-url",
+                    loader: "resolve-url-loader",
                     options: {
                         sourceMap: !config.enabled.production,
                     },
                 },
                 {
-                    loader: "sass",
+                    loader: "sass-loader",
                     options: {
                         sourceMap: !config.enabled.production,
                     },
@@ -62,7 +57,7 @@ module.exports = {
         {
             test: /\.(ttf|otf|eot|woff2?|png|jpe?g|gif|svg|ico)$/,
             include: config.paths.src,
-            loader: "url",
+            loader: "url-loader",
             options: {
                 limit: 4096,
                 name: `[path]${config.fileName}.[ext]`,
@@ -71,7 +66,7 @@ module.exports = {
         {
             test: /\.(ttf|otf|eot|woff2?|png|jpe?g|gif|svg|ico)$/,
             include: /node_modules/,
-            loader: "url",
+            loader: "url-loader",
             options: {
                 limit: 4096,
                 outputPath: "vendor/",

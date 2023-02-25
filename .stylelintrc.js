@@ -1,8 +1,10 @@
 module.exports = {
-    extends: "stylelint-config-wordpress/scss",
-    ignoreFiles: ["src/styles/_npm-modules/_sprites.scss"],
+    extends: ["stylelint-config-standard-scss"],
+    ignoreFiles: [
+        'node_modules/**/*',
+        "src/styles/_npm-modules/_sprites.scss",
+    ],
     rules: {
-        indentation: 4,
         "no-empty-source": null,
         "at-rule-no-unknown": [
             true,

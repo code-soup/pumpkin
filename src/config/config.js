@@ -1,5 +1,5 @@
 const path = require("path");
-const merge = require("webpack-merge");
+const { merge } = require('webpack-merge');
 const { argv } = require("yargs");
 
 const desire = require("./util/desire");

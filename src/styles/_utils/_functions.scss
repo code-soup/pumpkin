@@ -55,9 +55,10 @@
  * @return {int}            line-height in %
  */
 
-@function calc-leading($font-size, $leading) {
+@function calc-leading($font-size, $leading)
+{
     $lh: (($leading / 2) + $font-size);
-    @if ($lh < 100) {
+    @if $lh < 100 {
         $lh: $lh + 100;
     }
     @return (($leading / $font-size) * 100) * 1%;
@@ -80,7 +81,7 @@
  */
 
 @function calc-rem($pixels, $context: get-font("base-size")) {
-    @return #{$pixels/$context}rem;
+    @return #{$pixels / $context}rem;
 }
 
 /**
@@ -104,7 +105,7 @@
 
 @function gutter($half: false) {
     $gutter: get-option("gutter");
-    @if ($half == true) {
+    @if $half == true {
         @return $gutter / 2;
     }
     @return $gutter;

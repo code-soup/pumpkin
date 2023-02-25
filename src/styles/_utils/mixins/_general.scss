@@ -7,16 +7,16 @@
     $line-height: get-font("base-size"),
     $letter-spacing: 0
 ) {
-    @if ($font-size) {
+    @if $font-size {
         font-size: calc-rem($font-size);
     }
-    @if ($line-height == 1) {
+    @if $line-height == 1 {
         line-height: 1;
     }
-    @if ($line-height != get-font("base-size")) {
+    @if $line-height != get-font("base-size") {
         line-height: calc-leading($font-size, $line-height);
     }
-    @if ($letter-spacing != 0) {
+    @if $letter-spacing != 0 {
         letter-spacing: calc-spacing($letter-spacing);
     }
 }
@@ -26,13 +26,13 @@
  */
 
 @mixin font-family($name, $weight: 400, $style: "normal") {
-    @if ($style != "normal") {
+    @if $style != "normal" {
         font-style: $style;
     }
-    @if ($name) {
-        font-family: unquote(get-font($name));
+    @if $name {
+        font-family: get-font($name);
     }
-    @if ($weight != 400 and $weight != "normal") {
+    @if $weight != 400 and $weight != "normal" {
         font-weight: $weight;
     }
 }
@@ -63,8 +63,10 @@
  * @return {mixed} scss code
  */
 
-@mixin input-placeholder {
+/* stylelint-disable selector-no-vendor-prefix */
 
+@mixin input-placeholder
+{
     &::-webkit-input-placeholder {
         @content;
     }
@@ -81,6 +83,8 @@
         @content;
     }
 }
+
+/* stylelint-enable selector-no-vendor-prefix */
 
 /**
  * Links styling
@@ -110,7 +114,7 @@
  */
 
 @mixin link-colors($normal, $hover: "none") {
-    @if ($hover == "none") {
+    @if $hover == "none" {
         $hover: $normal;
     }
 
