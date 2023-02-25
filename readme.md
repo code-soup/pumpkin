@@ -29,9 +29,6 @@ Powered by Webpack build script
 - Browsersync
 - SVG Spritemap
 
-### Extras
-- Bitbucket pipeline for deploying theme over FTP/SFTP
-
 ### Install instructions
 1. Clone repository\
 `git clone git@github.com:code-soup/pumpkin.git .`
@@ -42,8 +39,8 @@ Powered by Webpack build script
 `git add .`\
 `git commit -am 'init'`
 
-3. Generate `auth.json` file in your ACF account and save it to them root
-https://www.advancedcustomfields.com/resources/installing-acf-pro-with-composer/
+3. Generate `auth.json` file in your ACF account and save it to them root.
+Get detailed instructions here: https://www.advancedcustomfields.com/resources/installing-acf-pro-with-composer/
 
 4. Install PHP dependencies\
 `composer install`
