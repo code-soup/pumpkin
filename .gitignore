@@ -18,6 +18,9 @@ yarn-error.log
 src/config-local.json
 src/config-local.js
 
+# ACF PRO Auth to run with composer
+auth.json
+
 # OSX Files
 .DS_Store
 .DS_Store?

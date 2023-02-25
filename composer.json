@@ -2,7 +2,7 @@
     "name": "codesoup/pumpkin",
     "type": "wordpress-theme",
     "license": "MIT",
-    "description": "Component oriented WordPress starter theme with a modern development workflow",
+    "description": "Component oriented WordPress starter.",
     "homepage": "https://www.codesoup.co/pumpkin/",
     "authors": [
         {
@@ -25,20 +25,26 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://pivvenit.github.io/acf-composer-bridge/composer/v3/library/"
+            "url": "https://connect.advancedcustomfields.com"
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=8.0.0",
         "composer/installers": "~1.0",
         "soberwp/models": "1.1.0-p",
-        "advanced-custom-fields/advanced-custom-fields-pro": "^5.9"
+        "wpengine/advanced-custom-fields-pro": "*"
     },
     "extra": {
         "installer-paths": {
             "vendor/{$name}": [
-                "vendor/package"
+                "vendor/package",
+                "type:wordpress-plugin"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
         }
     }
 }
