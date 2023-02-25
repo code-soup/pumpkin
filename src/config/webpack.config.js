@@ -18,6 +18,7 @@ let webpackConfig = {
         modules: false,
         entrypoints: false,
     },
+    cache: true,
     target: "web",
     devtool: "inline-source-map",
     module: require("./webpack/config.module"),

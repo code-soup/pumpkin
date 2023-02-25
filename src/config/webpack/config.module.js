@@ -17,7 +17,9 @@ module.exports = {
         {
             test: /\.js$/,
             exclude: [/node_modules/],
-            use: [{ loader: "cache-loader" }, { loader: "babel-loader" }],
+            use: [
+                { loader: "babel-loader" }
+            ],
         },
         {
             test: /\.s?[ca]ss$/,
