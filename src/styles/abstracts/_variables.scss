@@ -1,0 +1,59 @@
+/**
+ * Grid sizing settings
+ */
+$grid: (
+    "gutter": 20px,
+    "columns": 12,
+    "container": 1440px
+);
+
+/**
+ * Font settings
+ */
+$fonts: (
+    "base-size": 16,
+    "inter": "Roboto, sans-serif",
+);
+
+/**
+ * Colors - Global Tokens (CSS Custom Properties)
+ */
+:root {
+    // Legacy colors
+    --color-brand: #ff4136;
+    --color-black: #000;
+    --color-white: #fff;
+    --color-gray: #333;
+    
+    // Neutral
+    --color-neutral-white: #FFFFFF;
+    
+    // Typography Variables
+    --font-primary: #{get-font("inter")};
+    --text-primary: var(--color-gray);
+    --text-heading: var(--color-gray);
+    --bg-body: #fff;
+    
+    // Status Colors
+    --color-success: #10b981;
+    --color-error: #ef4444;
+}
+
+/**
+ * Breakpoints
+ *
+ * Based on: https://yesviz.com/viewport/
+ */
+$breakpoints: (
+    "mobile-m": 370px,
+    "mobile-l": 410px,
+    "tablet-s": 620px,
+    "tablet-m": 750px,
+    "laptop-s": 1020px,
+    "laptop-m": 1170px,
+    "laptop-l": 1320px,
+    "desktop-s": 1400px,
+    "desktop-m": 1640px,
+    "desktop-l": 1880px,
+    "desktop-xl": 2480px
+);

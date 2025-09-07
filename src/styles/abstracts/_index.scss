@@ -1,0 +1,9 @@
+// Import variables first so they're available to functions
+@use 'variables' as *;
+@use 'functions' as *;
+
+// Forward all abstract modules
+@forward 'variables';
+@forward 'functions';
+@forward 'mixins';
+@forward 'placeholders'; 

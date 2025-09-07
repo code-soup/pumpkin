@@ -1,40 +1,49 @@
-const TerserPlugin = require('terser-webpack-plugin');
+/**
+ * Webpack optimization configuration
+ */
 
-module.exports = {
-    mangleWasmImports: true,
-    removeAvailableModules: true,
-    removeEmptyChunks: true,
-    mergeDuplicateChunks: true,
-    flagIncludedChunks: true,
+import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+
+export default (config, { isProduction }) => ({
+    // Enable tree shaking and module concatenation in production
+    usedExports: true,
+    concatenateModules: isProduction,
+    sideEffects: true,
+
+    // Set chunk and module IDs to be deterministic in production for long-term caching
+    chunkIds: isProduction ? 'deterministic' : 'named',
+    moduleIds: isProduction ? 'deterministic' : 'named',
+
+    // Extract webpack runtime into a single chunk for better caching
+    runtimeChunk: 'single',
+    
+    // Code splitting configuration
     splitChunks: {
-        chunks: 'async',
-        minSize: 30000,
-        maxSize: 3000000,
-        minChunks: 1,
-        maxAsyncRequests: 6,
-        maxInitialRequests: 4,
-        automaticNameDelimiter: '~',
+        chunks: 'all',
         cacheGroups: {
-            defaultVendors: {
-                test: /[\\/]node_modules[\\/]/,
-                priority: -10,
-            },
-            default: {
-                minChunks: 2,
-                priority: -20,
-                reuseExistingChunk: true,
-            },
+            default: false,
+            vendors: false, // Turn off default behavior
+            // Group all vendor code from node_modules into a single chunk
+			vendor: {
+				name: 'vendor-libs',
+				test: /[\\/]node_modules[\\/]/,
+				chunks: 'all',
+				enforce: true,
+			},
         },
     },
-    minimize: true,
+    
+    // Minification configuration (production only)
+    minimize: isProduction,
     minimizer: [
         new TerserPlugin({
             parallel: true,
             terserOptions: {
-              ecma: undefined,
-              compress: true,
-              safari10: true,
+                compress: true,
+                safari10: true,
             },
         }),
+        new CssMinimizerPlugin(),
     ],
-};
+});

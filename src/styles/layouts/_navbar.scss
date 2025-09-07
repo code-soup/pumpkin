@@ -1,0 +1,17 @@
+@use '@styles/abstracts' as *;
+
+.website-header {
+    z-index: 5;
+    position: relative;
+    background: black;
+    
+    .span-logo {
+        padding: 16px 0 14px 0;
+        background: rgba(black, .8);
+    }
+
+    .span-logo a {
+        display: block;
+        max-width: 120px;
+    }
+}

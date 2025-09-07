@@ -1,5 +1,14 @@
-@import "_utils/variables";
-@import "_utils/functions";
-@import "_utils/mixins/general";
-@import "_utils/mixins/media-queries";
-@import "_utils/placeholders";
+/**
+ * Admin Stylesheet
+ * 
+ * This is the main entry point for the admin-facing styles.
+ */
+
+// Abstract imports (variables, functions, mixins)
+@use 'abstracts' as *;
+
+// Core imports
+@use './core/admin/acf-fields' as *;
+
+// Vendor/Third-party
+// @use 'vendor/sprites' as *;

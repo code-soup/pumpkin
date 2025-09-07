@@ -1,53 +1,50 @@
-# Pumpkin
-Pumpkin is a WordPress Starter Theme with a specific workflow, built on top of ACF PRO plugin which enables you to build component based custom themes.
-Powered by Webpack build script
+This boilerplate is not yet ready for production, it's a WiP
 
-### Features
-- Component base theme organization
-- Component based code splitting
-- Inline critical CSS
-- Improved accessibility
-- Theme wrapper
-- Built in sidebar manager
-- Predefined Theme Options (Further extendable with ACF PRO)
-- PSR-4 Autoloader
-- Composer for PHP dependencies
-- SoberWP models for creating custom post types
+It's a collection of best practices for streamlined theme development and maintenance using ACF Pro.
+After more than 300 custom WP theme built and more than 15 years working with WordPress this is a custom workflow proven to work for me in every environment.
+Focus is on keeping things DRY, reusable and organized.
 
-### WP Mods
-- WordPress clean up
-- Custom login screen
-- Custom 404 page
-- Cached nav menus
+Key concepts:
 
-### Assets
-- Yarn package management
-- Webpack build script
-- ES6 + Babel
-- SCSS
-- Assets versioning
-- Browsersync
-- SVG Spritemap
+- Folder based template loader with per-page-template overrides
+Template becomes visible as soon as folder is created
+Eg:
+1. /templates/post-type/{post-type-name}/{page-template-name}/index.php
+2. /templates/post-type/{post-type-name}/index.php
 
-### Install instructions
-1. Clone repository\
-`git clone git@github.com:code-soup/pumpkin.git .`
+Or can override only part of the template:
+1. /templates/post-type/{post-type-name}/{page-template-name}/footer.php
+2. /templates/post-type/{post-type-name}/footer.php
+3. /templates/shared/footer.php
 
-2. Start fresh\
-`rm -rf .git`\
-`git init`\
-`git add .`\
-`git commit -am 'init'`
+Per page-template/post-type specific css/js bundle
+- All files related to a specifc template are saved inside same page-template folder.
+- Webpack script looks for page templates on build, based on index.scss/js index-async.scss/js, bundles it and script loader is loading appropriate css/js per page template. index-async.scss/js loading is defered.
+- common/shared scss/js is manually added in config.user.js
 
-3. Generate `auth.json` file in your ACF account and save it to them root.
-Get detailed instructions here: https://www.advancedcustomfields.com/resources/installing-acf-pro-with-composer/
+ACF Flexible Field 
+- Used to create reusable sections, ACF Admin categories to organize them
+- Field values are retrieved with helper PHP class
 
-4. Install PHP dependencies\
-`composer install`
+- Theme Options are saved with ACF into custom post type, also by specifying page-template and load them with PHP helper class
+- Global page-config.php with hardcoded options, can be overrided for each template
 
-5. Install node packages\
-`yarn`
+Reusable static compoments
+- with custom PHP abstract class to reuse them across the site and add new ones using same pattern
+Eg: templates/share/components/website-logo
+All files required for this component are saved in this folder, later you include css/js in custom page template where required.
 
-6. Rename \
-`/src/config-local-example.json` to `config-local.json` \
-and update paths to your local environment
+
+### Getting started
+- Requirements:
+  - PHP 8.0+, WordPress 6.x
+  - Node.js >= 20.9.0, npm or yarn
+  - ACF Pro (theme expects ACF fields; JSON sync recommended)
+- Quick start:
+  - Activate the theme in WordPress
+  - Install deps: `npm i`
+  - Dev server (HMR): `npm run dev`
+  - Build (dev mode): `npm run build`
+  - Build (production): `npm run build:prod`
+  - Lint: `npm run lint` (or `lint:scripts`, `lint:styles`)
+  - Clean dist: `npm run clean`

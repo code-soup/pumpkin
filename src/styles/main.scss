@@ -1,9 +1,23 @@
-@import "_utils/variables";
-@import "_utils/functions";
-@import "_utils/mixins/general";
-@import "_utils/mixins/media-queries";
-@import "_utils/placeholders";
+/**
+ * Main Stylesheet
+ * 
+ * This is the main entry point for the public-facing styles.
+ */
 
-/** Import everything from npm dependencies */
+// Abstract imports (variables, functions, mixins)
+@use '@/styles/abstracts' as *;
 
-@import "_npm-modules/**/*";
+// Core imports
+@use '@styles/core' as *;
+
+// Components
+@use '@styles/components' as *;
+
+// Layouts
+@use '@styles/layouts' as *;
+
+// Sections
+@use '@styles/sections' as *;
+
+// @use '@styles/vendor/sprites' as *;
+

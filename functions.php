@@ -1,101 +1,70 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	exit;}
+<?php
+// functions.php
 
+// Don't allow direct access to file
+defined('ABSPATH') || die;
 
-if ( ! defined( 'WP_ENVIRONMENT_TYPE' ) ) {
-	define( 'WP_ENVIRONMENT_TYPE', 'production' );
+// Load Composer's autoloader
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+
+    add_filter( 'acf_admin_categories_plugin_dir_url', function( $base_url ) {
+
+        return sprintf(
+            '%s/vendor/acf-admin-categories',
+            get_stylesheet_directory_uri()
+        );
+    });
+
+    require_once __DIR__ . '/vendor/acf-admin-categories/index.php';
 }
 
-
-define( 'CS_ACF_PATH', 'vendor/advanced-custom-fields/advanced-custom-fields-pro/' );
-define( 'CS_ACF_ABSPATH', trailingslashit( get_template_directory() ) . CS_ACF_PATH );
+\CodeSoup\Pumpkin\Core\Bootstrap::get_instance();
 
 /**
- * Include ACF
+ * Centralized initialization function for the theme
+ * 
+ * Handles the proper initialization sequence:
+ * 1. Load page config first
+ * 2. Then initialize Bootstrap
+ * 
+ * This prevents multiple initializations and ensures proper configuration order
  */
-if ( ! class_exists( 'ACF' ) && file_exists( CS_ACF_ABSPATH . 'acf.php' ) ) :
 
-	require_once CS_ACF_ABSPATH . 'acf.php';
+// Run initialization on template_redirect (after WordPress has determined the template)
+add_action('template_redirect', function() {
+    // Use static variable to track initialization state
+    static $initialized = false;
+    
+    // Only run once
+    if ($initialized) {
+        return;
+    }
+    
+    // Only run in frontend
+    if (is_admin() || wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST)) {
+        return;
+    }
+    
+    // Skip in autosave or cron
+    if (defined('DOING_AUTOSAVE') || defined('DOING_CRON')) {
+        return;
+    }
+    
+    // First, load page configuration
+    $template_loader = \CodeSoup\Pumpkin\WpMods\TemplateLoader::get_instance();
+    
+    // Load page config using template loader's method 
+    $template_loader->set_page_config();
+    
+    // Then initialize Bootstrap (which will use the config we just loaded)
+    \CodeSoup\Pumpkin\Core\Bootstrap::get_instance();
+    
+    // Mark as initialized
+    $initialized = true;
+}, 5);
 
-	// Tweak paths
-	add_filter(
-		'acf/settings/dir',
-		function ( $dir ) {
-			return trailingslashit( get_template_directory_uri() ) . CS_ACF_PATH;
-		}
-	);
+// add_filter( 'auto_update_plugin', '__return_false' );
 
-	add_filter(
-		'acf/settings/path',
-		function ( $path ) {
-			return CS_ACF_ABSPATH;
-		}
-	);
-
-	// Disable ACF menu if not in a development env
-	if ( WP_ENVIRONMENT_TYPE !== 'development' ) {
-		add_filter( 'acf/settings/show_admin', '__return_false' );
-	}
-
-endif;
-
-
-/**
- * Load Composer
- */
-if ( locate_template( 'vendor/autoload.php' ) ) {
-	require_once locate_template( 'vendor/autoload.php' );
-}
-
-
-
-/**
- * Custom Post Types folder using Sober/models
- *
- * @link( https://github.com/soberwp/models, documentation )
- */
-add_filter(
-	'sober/models/path',
-	function() {
-
-		return trailingslashit( get_stylesheet_directory() ) . 'inc/models';
-	}
-);
-
-/**
- * Theme includes
- */
-$includes = array(
-	'utils/helpers',
-	'utils/assets',
-	'utils/wrapper',
-	'setup/class.cs',
-	'setup/acf-options',
-	'setup/acf-load-fields',
-	'setup/acf-widget',
-	'wp-mods/wp-admin',
-	'wp-mods/wp-cleanup',
-	'wp-mods/wp-core',
-	'wp-mods/wp-login',
-	'components/class.functions',
-	'components/class.ajax',
-	'components/class.user',
-	'plugin-mods/gravity-forms',
-);
-
-
-// Woocommerce
-if ( function_exists( 'is_woocommerce' ) ) {
-	$includes[] = 'plugin-mods/woocommerce/tweaks';
-}
-
-
-
-foreach ( $includes as $file ) {
-
-	if ( locate_template( 'inc/' . $file . '.php' ) ) {
-		require_once locate_template( 'inc/' . $file . '.php' );
-	} else {
-		echo $file;
-	}
-}
+// Include plugin mods for admin 
+include 'includes/plugin-mods/index.php';

@@ -1,0 +1,176 @@
+@use '@styles/abstracts' as *;
+
+.button-menu-toggle {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+
+    .menu {
+        top: 50%;
+        right: 100%;
+        color: white;
+        position: absolute;
+        transform: translateY(2px);
+        font-size: 10px;
+        line-height: 0;
+        pointer-events: none;
+        text-transform: uppercase;
+    }
+}
+
+// Show navbar when hamburger is checked
+.checkbox-menu-toggle:checked ~ .navbar-mobile {
+    transform: none;
+    transition: transform .15s ease-out;
+}
+
+// Mobile Menu Toggle (Hidden Checkbox)
+.checkbox-menu-toggle {
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    opacity: 0;
+    position: absolute;
+}
+
+// Hamburger Animation (when checked) - Sequential animation
+.checkbox-menu-toggle:checked + .button-menu-toggle .hamburger-icon {
+    .hamburger-line:nth-child(1) {
+        animation: topLineToX 0.6s ease forwards;
+    }
+    
+    .hamburger-line:nth-child(2) {
+        animation: middleLineHide 0.3s ease forwards;
+    }
+    
+    .hamburger-line:nth-child(3) {
+        animation: bottomLineToX 0.6s ease forwards;
+    }
+}
+
+// Reverse animation when unchecked
+.checkbox-menu-toggle:not(:checked) + .button-menu-toggle .hamburger-icon {
+    .hamburger-line:nth-child(1) {
+        animation: topLineFromX 0.6s ease forwards;
+    }
+    
+    .hamburger-line:nth-child(2) {
+        animation: middleLineShow 0.3s ease 0.3s forwards;
+    }
+    
+    .hamburger-line:nth-child(3) {
+        animation: bottomLineFromX 0.6s ease forwards;
+    }
+}
+
+
+// Hamburger Icon
+.hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 14px;
+    height: 10px;
+    cursor: pointer;
+    
+    @include breakpoint(1100px) {
+        display: none;
+    }
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-white);
+    transition: all 0.3s ease;
+    transform-origin: center;
+    
+    &:nth-child(1) {
+        transform-origin: center;
+    }
+    
+    &:nth-child(3) {
+        transform-origin: center;
+    }
+}
+
+@include breakpoint( 1000px )
+{
+    .navbar-mobile,
+    .button-menu-toggle,
+    .checkbox-menu-toggle {
+        display: none !important;
+    }
+}
+
+// Keyframe animations
+@keyframes topLineToX {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(4px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(4px) rotate(45deg);
+    }
+}
+
+@keyframes bottomLineToX {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-4px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-4px) rotate(-45deg);
+    }
+}
+
+@keyframes middleLineHide {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes topLineFromX {
+    0% {
+        transform: translateY(4px) rotate(45deg);
+    }
+    50% {
+        transform: translateY(4px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes bottomLineFromX {
+    0% {
+        transform: translateY(-4px) rotate(-45deg);
+    }
+    50% {
+        transform: translateY(-4px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes middleLineShow {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

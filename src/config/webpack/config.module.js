@@ -1,79 +1,19 @@
 /**
- * Webpack modules
+ * Webpack module rules configuration
+ * Uses modular loader configurations from loaders directory
  */
+import preLoaders from './loaders/pre.js';
+import scriptLoaders from './loaders/scripts.js';
+import styleLoaders from './loaders/styles.js';
+import assetLoaders from './loaders/assets.js';
 
-const path = require("path");
-const config = require("../config");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-module.exports = {
-    rules: [
-        {
-            enforce: "pre",
-            test: /\.(js|s?[ca]ss)$/,
-            include: config.paths.src,
-            loader: "import-glob",
-        },
-        {
-            test: /\.js$/,
-            exclude: [/node_modules/],
-            use: [
-                { loader: "babel-loader" }
-            ],
-        },
-        {
-            test: /\.s?[ca]ss$/,
-            include: config.paths.src,
-            use: [
-                config.enabled.watcher
-                    ? "style-loader"
-                    : MiniCssExtractPlugin.loader,
-                {
-                    loader: "css-loader",
-                    options: { sourceMap: !config.enabled.production },
-                },
-                {
-                    loader: "postcss-loader",
-                    options: {
-                        postcssOptions: {
-                            plugins: [
-                                ["postcss-preset-env"],
-                            ],
-                        },
-                    },
-                },
-                {
-                    loader: "resolve-url-loader",
-                    options: {
-                        sourceMap: !config.enabled.production,
-                    },
-                },
-                {
-                    loader: "sass-loader",
-                    options: {
-                        sourceMap: !config.enabled.production,
-                    },
-                },
-            ],
-        },
-        {
-            test: /\.(ttf|otf|eot|woff2?|png|jpe?g|gif|svg|ico)$/,
-            include: config.paths.src,
-            loader: "url-loader",
-            options: {
-                limit: 4096,
-                name: `[path]${config.fileName}.[ext]`,
-            },
-        },
-        {
-            test: /\.(ttf|otf|eot|woff2?|png|jpe?g|gif|svg|ico)$/,
-            include: /node_modules/,
-            loader: "url-loader",
-            options: {
-                limit: 4096,
-                outputPath: "vendor/",
-                name: `${config.fileName}.[ext]`,
-            },
-        },
-    ],
+export default (config, env) => {
+    return {
+        rules: [
+            preLoaders(config, env),
+            scriptLoaders(config, env),
+            styleLoaders(config, env),
+            assetLoaders(config, env),
+        ],
+    };
 };

@@ -1,0 +1,9 @@
+/**
+ * Core styles index
+ */
+
+/* Load reset first to establish baseline */
+@forward 'reset';
+
+/* Load typography styles */
+@forward 'typography/main';

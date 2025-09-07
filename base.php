@@ -1,49 +1,37 @@
 <?php
 
-use CS\Setup;
-use CS\Wrapper;
+// Don't allow direct access to file
+defined( 'ABSPATH' ) || die;
 
-?>
+do_action( 'pumpkin_page_config_common' );
+do_action( 'pumpkin_page_config_specific' ); ?>
+
 <!doctype html>
-<html <?php language_attributes(); ?>>
-<?php get_template_part('templates/partials/head'); ?>
-	<body <?php body_class(); ?>>
+<html <?php language_attributes(); ?> class="no-js">
+    <?php do_action( 'pumpkin_page_head' ); ?>
+    <body <?php body_class(); ?>>
+        <?php
+            do_action( 'get_header' );
+            do_action( 'wp_body_open' );
+        
+            do_action( 'pumpkin_page_header' ); ?>
 
-	<?php
+        <article class="page-grid">
+            <main class="main">
+                <?php do_action( 'pumpkin_page_main' ); ?>
+            </main>
 
-	do_action('get_header');
-	get_template_part('templates/partials/header');
+            <aside class="sidebar">
+                <?php do_action( 'pumpkin_page_sidebar' ); ?>
+            </aside>
+        </article>
 
-	if ( has_nav_menu( 'nav_offcanvas' ) ) : ?>
-		<nav class="sidebar-offcanvas">
-			<div class="menu-wrap">
+        <?php
+        
+        // Theme custom footer
+        do_action( 'pumpkin_page_footer' );
 
-				<?php wp_nav_menu([
-					'theme_location' => 'nav_offcanvas',
-					'menu_class'     => 'nav nav-offcanvas'
-				]); ?>
-
-			</div>
-		</nav>
-	<?php endif; ?>
-
-	<div class="row-offcanvas right">
-		<div class="wrap">
-
-			<main class="main">
-				<?php include Wrapper\template_path(); ?>
-			</main>
-
-			<?php if ( CS()->get_sidebar() ) : ?>
-				<aside class="sidebar">
-					<?php get_template_part('templates/partials/sidebar'); ?>
-				</aside>
-			<?php endif; ?>
-		</div>
-
-		<?php get_template_part('templates/partials/footer'); ?>
-	</div>
-
-	<?php wp_footer(); ?>
-	</body>
+        // Footer
+        wp_footer(); ?>
+    </body>
 </html>

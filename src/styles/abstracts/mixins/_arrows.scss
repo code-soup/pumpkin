@@ -1,0 +1,19 @@
+@mixin get-arrow($direction: 'bottom-right') {
+    @if $direction == 'top' {
+        content: '\2191'; // ↑
+    } @else if $direction == 'bottom' {
+        content: '\2193'; // ↓
+    } @else if $direction == 'left' {
+        content: '\2190'; // ←
+    } @else if $direction == 'right' {
+        content: '\2192'; // →
+    } @else if $direction == 'top-right' {
+        content: '\2197'; // ↗
+    } @else if $direction == 'top-left' {
+        content: '\2196'; // ↖
+    } @else if $direction == 'bottom-right' {
+        content: '\2198'; // ↘
+    } @else if $direction == 'bottom-left' {
+        content: '\2199'; // ↙
+    }
+}
