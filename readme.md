@@ -7,6 +7,8 @@ It's a collection of best practices for streamlined theme development and mainte
 After more than 300 custom WP theme built and more than 15 years working with WordPress this is a custom workflow proven to work for me in every environment.
 Focus is on keeping things DRY, reusable and organized.
 
+I will provide more examples in the theme soon.
+
 ## Key concepts:
 
 #### Folder based template loader with per-page-template overrides
@@ -38,11 +40,14 @@ All files related to a specifc template are saved inside same page-template fold
     /index-async.js     => Dynamic Webpack entrypoint
 
 
-Webpack script looks for page templates on build, based on index.scss/js index-async.scss/js, bundles it and script-loader class is loading appropriate css/js per page template. index-async.scss/js loading is defered.
-common/shared scss/js is manually added in config.user.js
+Webpack script looks for page templates on build, based on index.scss/js index-async.scss/js, bundles it and script-loader class is loading appropriate css/js per page template.
+
+Appending `-async` to index.scss/js filename makes bundled loading is defered.
+common/shared scss/js is manually added in config.user.js, in webpack config folder.
 
 #### ACF Flexible Field
 - Used to create reusable sections, ACF Admin categories to organize them
+- Each section of page is created as a specific ACF Field group and then added to `Sections` Flexible Field as a Clone.
 - Field values are retrieved with helper PHP class
 
 #### Theme Options to Post Type
