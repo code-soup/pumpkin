@@ -1,0 +1,23 @@
+/**
+ * Main Stylesheet
+ * 
+ * This is the main entry point for the public-facing styles.
+ */
+
+// Abstract imports (variables, functions, mixins)
+@use '@/styles/abstracts' as *;
+
+// Core imports
+@use '@styles/core' as *;
+
+// Components
+@use '@styles/components' as *;
+
+// Layouts
+@use '@styles/layouts' as *;
+
+// Sections
+@use '@styles/sections' as *;
+
+// @use '@styles/vendor/sprites' as *;
+

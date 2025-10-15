@@ -1,0 +1,58 @@
+{
+    "name": "codesoup/pumpkin",
+    "type": "wordpress-theme",
+    "license": "MIT",
+    "version": "1.0.0",
+    "description": "Component oriented WordPress starter theme.",
+    "homepage": "https://www.codesoup.co/pumpkin",
+    "authors": [
+        {
+            "name": "Vlado Bosnjak",
+            "email": "hi@codesoup.co",
+            "homepage": "https://www.codesoup.co"
+        }
+    ],
+    "keywords": [
+        "wordpress"
+    ],
+    "support": {
+        "issues": "https://github.com/code-soup/pumpkin/issues"
+    },
+    "autoload": {
+        "files": [
+            "includes/utils/html-helpers.php"
+        ],
+        "classmap": [
+            "includes/"
+        ],
+        "psr-4": {
+            "CodeSoup\\Pumpkin\\Components\\": "templates/shared/components/",
+            "CodeSoup\\Pumpkin\\Components\\WebsiteLogo\\": "templates/shared/components/website-logo/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://connect.advancedcustomfields.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.2.0",
+        "composer/installers": "~2.3.0",
+        "wpengine/advanced-custom-fields-pro": "*",
+        "codesoup/acf-admin-categories": "^0.0.1"
+    },
+    "extra": {
+        "installer-paths": {
+            "vendor/{$name}": [
+                "vendor/package",
+                "type:wordpress-plugin"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

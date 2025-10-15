@@ -1,0 +1,46 @@
+[data-name="sections"]
+{
+    > .acf-label {
+        display: none;
+    }
+
+    > .acf-input > .acf-fields {
+        border: none;
+        background: none;
+    }
+
+    > .acf-input > .acf-fields > .acf-field {
+        margin: 0;
+        padding: 0;
+    }
+
+    > .acf-input > .acf-fields > .acf-field + .acf-field {
+        margin-top: 15px;
+    }
+}
+
+[data-layout] > .acf-fields > .acf-field:not([data-name="section"]) {
+    padding: 0;
+
+    > .acf-label {
+        display: none;
+    }
+
+    > .acf-input > div,
+    > .acf-input > table {
+        border: none;
+    }
+}
+
+[data-layout] > .acf-table > tbody > .acf-row > [data-name="group"],
+[data-layout] > .acf-table > tbody > .acf-row > [data-name="clone"] {
+    padding: 0;
+
+    > .acf-input > .acf-fields {
+        border: none !important;
+    }
+}
+
+.height-150 textarea {
+    height: 100px !important;
+}

@@ -1,0 +1,10 @@
+{
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": false,
+    "plugins": ["@prettier/plugin-php"],
+    "parser": "php",
+    "phpVersion": "8.0",
+    "braceStyle": "per-cs"
+}
