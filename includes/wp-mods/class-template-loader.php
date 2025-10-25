@@ -318,6 +318,8 @@ class TemplateLoader {
 	 * @return array Template hierarchy
 	 */
 	private function get_template_hierarchy( string $filename ): array {
+
+		error_log( print_r( $filename, true ) );
 	
 		/**
 		 * Detect WordPress context and build appropriate hierarchy

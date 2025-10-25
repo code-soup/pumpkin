@@ -27,25 +27,38 @@ class TemplateAdmin {
 	private static $instance = null;
 
 	/**
+	 * Hooker instance for managing hooks
+	 *
+	 * @var \CodeSoup\Pumpkin\Core\Hooker|null
+	 */
+	private $hooker;
+
+	/**
 	 * Get singleton instance
 	 *
+	 * @param \CodeSoup\Pumpkin\Core\Hooker|null $hooker Optional hooker instance
 	 * @return self
 	 */
-	public static function get_instance(): self {
+	public static function get_instance( $hooker = null ): self {
 		if ( null === self::$instance ) {
-			self::$instance = new self();
+			self::$instance = new self( $hooker );
 		}
 		return self::$instance;
 	}
 
 	/**
 	 * Private constructor to prevent direct instantiation
+	 *
+	 * @param \CodeSoup\Pumpkin\Core\Hooker|null $hooker Optional hooker instance
 	 */
-	private function __construct() {
+	private function __construct( $hooker = null ) {
+		$this->hooker = $hooker;
+
 		// Allow configuration of cache expiration via filter
 		$this->cache_expiration = apply_filters( 'pumpkin_template_cache_expiration', WEEK_IN_SECONDS );
-		$this->init();
 	}
+
+
 
 	/**
 	 * Custom templates cache
@@ -71,9 +84,8 @@ class TemplateAdmin {
 	/**
 	 * Initialize admin functionality
 	 */
-	private function init(): void {
-		// Add template selector filter - will only run when needed (lazy loading)
-		add_filter( 'theme_templates', [ $this, 'populate_template_selector' ], 10, 4 );
+	public function init(): void {
+		$this->hooker->add_filter( 'theme_templates', $this, 'populate_template_selector', 10, 4 );
 
 		// Initialize cache invalidation hooks
 		$this->init_cache_invalidation();
@@ -216,7 +228,7 @@ class TemplateAdmin {
 	 */
 	private function init_cache_invalidation(): void {
 		// Clear cache when theme/plugins are updated
-		add_action( 'upgrader_process_complete', [ $this, 'maybe_clear_cache_on_update' ], 10, 2 );
+		$this->hooker->add_action( 'upgrader_process_complete', $this, 'maybe_clear_cache_on_update', 10, 2 );
 	}
 
 	/**

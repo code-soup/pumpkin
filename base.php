@@ -1,10 +1,7 @@
 <?php
 
-// Don't allow direct access to file
-defined( 'ABSPATH' ) || die;
-
-do_action( 'pumpkin_page_config_common' );
-do_action( 'pumpkin_page_config_specific' ); ?>
+// Don't allow direct access to file.
+defined( 'ABSPATH' ) || die; ?>
 
 <!doctype html>
 <html <?php language_attributes(); ?> class="no-js">
@@ -28,10 +25,10 @@ do_action( 'pumpkin_page_config_specific' ); ?>
 
         <?php
         
-        // Theme custom footer
+        // Theme custom footer.
         do_action( 'pumpkin_page_footer' );
 
-        // Footer
+        // Footer.
         wp_footer(); ?>
     </body>
 </html>

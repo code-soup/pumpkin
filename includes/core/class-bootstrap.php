@@ -43,7 +43,8 @@ class Bootstrap {
 	 * Private constructor to prevent direct instantiation
 	 */
 	private function __construct() {
-		$this->init();
+		// Initialize core components
+		$this->hooker = new Hooker();
 	}
 
 	/**
@@ -65,26 +66,59 @@ class Bootstrap {
 	/**
 	 * Initialize the bootstrap
 	 */
-	private function init(): void {
+	public function init(): void {
 		// Register custom autoloader for components
 		\CodeSoup\Pumpkin\Core\Component::register_autoloader();
-        
 
-		// Initialize core components
-		$this->hooker = new Hooker();
-
-		// Initialize other components
-		\CodeSoup\Pumpkin\WpMods\TemplateLoader::get_instance();
+		// Initialize core components (not template-dependent)
 		new \CodeSoup\Pumpkin\WpMods\ScriptLoader( $this->hooker );
 		new \CodeSoup\Pumpkin\WpMods\ThemeSetup( $this->hooker );
-
 
 		// Initialize ACF configuration
 		\CodeSoup\Pumpkin\ACF\Setup::get_instance()->init();
         \CodeSoup\Pumpkin\ACF\Options::get_instance()->init();
 
+		// Initialize admin-specific components
+		if ( is_admin() ) {
+			\CodeSoup\Pumpkin\WpMods\TemplateAdmin::get_instance( $this->hooker )->init();
+			\CodeSoup\Pumpkin\WpMods\AdminCustomizations::get_instance( $this->hooker )->init();
+		}
+
 		// Run all hooks here
 		$this->hooker->run();
+	}
+
+
+	/**
+	 * Initialize TemplateLoader on template_redirect for WooCommerce compatibility
+	 */
+	public function init_template_redirect(): void {
+
+		add_action('template_redirect', function() {
+
+			static $template_initialized = false;
+
+			// Only run once
+			if ($template_initialized) {
+				return;
+			}
+
+			// Only run in frontend
+			if (is_admin() || wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST)) {
+				return;
+			}
+
+			// Skip in autosave or cron
+			if (defined('DOING_AUTOSAVE') || defined('DOING_CRON')) {
+				return;
+			}
+
+			// Initialize TemplateLoader and setup template wrapper
+			$template_loader = \CodeSoup\Pumpkin\WpMods\TemplateLoader::get_instance();
+			$template_loader->init_template_wrapper();
+
+			$template_initialized = true;
+		}, 5);
 	}
 
 	/**

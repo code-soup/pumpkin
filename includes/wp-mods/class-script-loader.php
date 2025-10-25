@@ -118,9 +118,8 @@ final class ScriptLoader {
 	 * Load Frontend scripts and styles
 	 */
 	public function wp_enqueue_scripts(): void {
-		// Get template name from template loader
-		$template_loader = TemplateLoader::get_instance();
-		$template_name   = $template_loader->get_template_name() ?? 'index';
+		// Get template name - use fallback if TemplateLoader not ready yet
+		$template_name = $this->get_current_template_name();
 
 		// Check if jQuery is enabled at runtime
 		$is_jquery_enabled = PageConfig::getConfig( 'ENABLE_JQUERY' );
@@ -288,5 +287,44 @@ final class ScriptLoader {
 		if ( $admin_css ) {
 			wp_enqueue_style( 'pumpkin-wp-css', $admin_css, false, null );
 		}
+	}
+
+	/**
+	 * Get current template name safely
+	 *
+	 * @return string
+	 */
+	private function get_current_template_name(): string {
+		// Try to get from TemplateLoader if it exists and is initialized
+		if (class_exists('\CodeSoup\Pumpkin\WpMods\TemplateLoader')) {
+			try {
+				$template_loader = TemplateLoader::get_instance();
+				$template_name = $template_loader->get_template_name();
+				if ($template_name) {
+					return $template_name;
+				}
+			} catch (Exception $e) {
+				// TemplateLoader not ready yet, fall back to WordPress detection
+			}
+		}
+
+		// Fallback: detect template from WordPress globals
+		if (is_front_page()) {
+			return 'front-page';
+		} elseif (is_home()) {
+			return 'home';
+		} elseif (is_single()) {
+			return 'single';
+		} elseif (is_page()) {
+			return 'page';
+		} elseif (is_archive()) {
+			return 'archive';
+		} elseif (is_search()) {
+			return 'search';
+		} elseif (is_404()) {
+			return '404';
+		}
+
+		return 'index';
 	}
 }
