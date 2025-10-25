@@ -55,7 +55,7 @@ add_action('template_redirect', function() {
     $template_loader = \CodeSoup\Pumpkin\WpMods\TemplateLoader::get_instance();
     
     // Load page config using template loader's method 
-    $template_loader->set_page_config();
+    // $template_loader->set_page_config();
     
     // Then initialize Bootstrap (which will use the config we just loaded)
     \CodeSoup\Pumpkin\Core\Bootstrap::get_instance();

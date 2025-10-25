@@ -20,14 +20,7 @@ export default (config) => {
                 presets: [
                     '@babel/preset-env',
                 ],
-                plugins: [
-                    [
-                        '@babel/plugin-transform-runtime',
-                        {
-                            regenerator: true,
-                        },
-                    ],
-                ],
+                plugins: [],
             },
         },
     ],

@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || die;
 use CodeSoup\Pumpkin\ACF\Options;
 use CodeSoup\Pumpkin\Utils\TemplateUtilities;
 
+
 /**
  * Template Loader Class
  *
@@ -108,11 +109,76 @@ class TemplateLoader {
 		// Set the queried object
 		$this->queried_object = get_queried_object();
 
-		// Add filters
-		add_filter( 'template_include', [ $this, 'template_wrapper' ], 1 );
-
-		// Add actions for template parts (performance optimized)
+		// Add actions for template parts.
 		$this->init_template_part_actions();
+	}
+
+	/**
+	 * Initialize template wrapper filter
+	 */
+	public function init_template_wrapper(): void {
+		add_filter( 'template_include', [ $this, 'template_wrapper' ], 50 );
+	}
+
+	/**
+	 * Get current page template from meta (static method for global access)
+	 *
+	 * @param int|null $post_id Optional post ID. If not provided, uses current post
+	 * @return string|null Template name without 'template-' prefix and '.php' extension, or null if not set
+	 */
+	public static function get_current_template_meta( ?int $post_id = null ): ?string {
+		// Get post ID - use provided ID or current post
+		if ( null === $post_id ) {
+			$post_id = get_the_ID();
+		}
+
+		// Return null if no valid post ID
+		if ( ! $post_id ) {
+			return null;
+		}
+
+		// Get post object
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			return null;
+		}
+
+		// Get template from post meta
+		$template = str_replace( 'template-', '', get_post_meta( $post->ID, '_wp_page_template', true ) );
+
+		// Return null if empty or default
+		return empty( $template ) || $template === 'default' ? null : $template;
+	}
+
+	/**
+	 * Get current template name being used for rendering (static method for global access)
+	 *
+	 * @return string|null Current template name or null if TemplateLoader not initialized
+	 */
+	public static function get_current_template_name(): ?string {
+		// Try to get from existing instance
+		if ( null !== self::$instance ) {
+			return self::$instance->get_template_name();
+		}
+
+		// If no instance exists, try to determine from WordPress context
+		if ( is_front_page() ) {
+			return 'front-page';
+		} elseif ( is_home() ) {
+			return 'home';
+		} elseif ( is_single() ) {
+			return 'single';
+		} elseif ( is_page() ) {
+			return 'page';
+		} elseif ( is_archive() ) {
+			return 'archive';
+		} elseif ( is_search() ) {
+			return 'search';
+		} elseif ( is_404() ) {
+			return '404';
+		}
+
+		return 'index';
 	}
 
 	/**
@@ -227,7 +293,7 @@ class TemplateLoader {
 	 *
 	 * @return void
 	 */
-	public function set_page_config(): void {
+	public function load_page_config(): void {
 		$this->load_template_part( 'page-config' );
 	}
 
@@ -252,7 +318,13 @@ class TemplateLoader {
 	 * @return array Template hierarchy
 	 */
 	private function get_template_hierarchy( string $filename ): array {
-		// Detect WordPress context and build appropriate hierarchy
+	
+		/**
+		 * Detect WordPress context and build appropriate hierarchy
+		 * 
+		 * TODO: Update checker, make a WP look-a-like
+		 * https://github.com/WordPress/wordpress-develop/blob/6.8.3/src/wp-includes/template-loader.php#L104-L104
+		 */
 		if ( is_404() ) {
 			return $this->get_404_templates( $filename );
 		} elseif ( is_search() ) {
@@ -314,11 +386,21 @@ class TemplateLoader {
 	/**
 	 * Get post template paths (posts, pages, custom post types)
 	 *
-	 * @param \WP_Post $post The post object
+	 * @param \WP_Post|null $post The post object or null for current post
 	 * @param string $filename The filename to look for
 	 * @return array Template paths
 	 */
-	private function get_post_templates( \WP_Post $post, string $filename ): array {
+	private function get_post_templates( ?\WP_Post $post, string $filename ): array {
+		// Get current post if not provided
+		if ( null === $post ) {
+			$post = $this->get_current_object();
+		}
+
+		// Ensure we have a valid WP_Post object
+		if ( ! is_a( $post, 'WP_Post' ) ) {
+			return [ "templates/shared/parts/{$filename}.php" ];
+		}
+
 		$post_type = str_replace( '_', '-', $post->post_type );
 		$template = $this->get_template_from_meta( $post );
 		$custom_template = $template ? $this->sanitize_template_name( $template, 'file' ) : '';
@@ -415,6 +497,7 @@ class TemplateLoader {
 			"templates/shared/parts/{$filename}.php",
 		];
 	}
+
 
 	/**
 	 * Get default fallback template paths

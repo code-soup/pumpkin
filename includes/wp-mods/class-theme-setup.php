@@ -36,10 +36,16 @@ class ThemeSetup {
 	 *
 	 * @var array<string, string>
 	 */
-	private const SIDEBAR_LOCATIONS = [
-		'footer-01' => 'Footer 01',
-		'footer-02' => 'Footer 02',
-		'footer-03' => 'Footer 03',
+	private const SIDEBAR_LOCATIONS = [];
+
+	/**
+	 * Template options pages
+	 *
+	 * @var array<string, string>
+	 */
+	private const TEMPLATE_OPTIONS = [
+		'footer' => 'Footer',
+		'general' => 'General Options'
 	];
 
 	/**
@@ -51,7 +57,7 @@ class ThemeSetup {
 		'post-thumbnails',
 		'title-tag',
 		'pumpkin-template-caching',
-		
+
 		'customize-selective-refresh-widgets',
 		'align-wide',
 		'responsive-embeds',
@@ -76,6 +82,7 @@ class ThemeSetup {
 	private function register_hooks(): void {
 		$this->hooker->add_action( 'after_setup_theme', $this, 'setup_theme_features' );
 		$this->hooker->add_action( 'init', $this, 'register_menus' );
+		$this->hooker->add_action( 'init', $this, 'register_template_options' );
 		$this->hooker->add_action( 'widgets_init', $this, 'register_sidebars' );
 		$this->hooker->add_filter( 'additional_capabilities_display', null, '__return_false' );
 		$this->hooker->add_filter( 'upload_mimes', $this, 'upload_mimes' );
@@ -94,6 +101,7 @@ class ThemeSetup {
 	 * @return void
 	 */
 	public function setup_theme_features(): void {
+
 		// Add theme support for various features
 		foreach ( self::THEME_SUPPORTS as $feature => $args ) {
 			if ( is_numeric( $feature ) ) {
@@ -117,9 +125,22 @@ class ThemeSetup {
 	public function register_menus(): void {
 		register_nav_menus( self::MENU_LOCATIONS );
 
-		remove_post_type_support( 'post', 'editor' );
 		remove_post_type_support( 'page', 'editor' );
 		remove_post_type_support( 'page', 'thumbnail' );
+	}
+
+	/**
+	 * Register template options pages
+	 *
+	 * @return void
+	 */
+	public function register_template_options(): void {
+		// Expose template options via filter for ACF location rules
+		add_filter( 'pumpkin_template_options', fn() => self::TEMPLATE_OPTIONS );
+
+		foreach ( self::TEMPLATE_OPTIONS as $template_name => $display_name ) {
+			\CodeSoup\Pumpkin\ACF\Options::register_template_options( $template_name, $display_name );
+		}
 	}
 
 
@@ -183,7 +204,17 @@ class ThemeSetup {
 	 */
 	public function simplify_body_classes( $classes ) {
 
-		return [];
+		$body_class = [];
+
+		if ( is_singular() )
+		{
+			$body_class = [
+				'single-' . get_post_type()
+			];
+		}
+		
+
+		return $body_class;
 	}
 
 	/**

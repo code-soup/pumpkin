@@ -165,6 +165,7 @@ pumpkin/
 │
 ├── 📁 includes/                      # Core PHP functionality
 │   ├── 📁 acf/                       # ACF integration classes
+│   │   ├── class-acf-options.php     # ACF integration for options handling
 │   │   ├── class-options.php         # ACF options handling
 │   │   ├── class-sections.php        # Flexible content sections
 │   │   ├── class-setup.php           # ACF configuration
@@ -284,3 +285,118 @@ Templates follow this loading order for maximum flexibility:
 3. **Shared fallback**: `/templates/shared/index.php`
 
 The same hierarchy applies to template parts (header.php, footer.php, etc.), allowing granular customization per template while maintaining DRY principles.
+
+# Template Options Guide
+
+This guide explains how to use the template-specific options feature in the Pumpkin theme.
+
+## Overview
+
+Template Options allow you to create ACF field groups for organizing theme options. Options are stored in a custom `pumpkin_options` post type (not in `wp_options` table), with all field values serialized and stored in the post's `post_content` field. This approach provides better organization, portability across domains, and easier management of related options.
+
+## Setup
+
+### 1. Define Template Options
+
+Edit `includes/wp-mods/class-theme-setup.php` and add your template options to the `TEMPLATE_OPTIONS` constant:
+
+```php
+private const TEMPLATE_OPTIONS = [
+    'footer' => 'Footer',
+    'general' => 'General Options',
+    'landing-page' => 'Landing Page Options',
+    'contact' => 'Contact Form Options',
+];
+```
+
+**Key:** Template name/slug (used internally, must be unique)  
+**Value:** Display name (shown in WordPress admin)
+
+### 2. Create ACF Field Groups
+
+1. Go to **ACF → Field Groups** in WordPress admin
+2. Create a new field group and assign them to your "Pumpkin Options - Page Template"
+
+
+### 3. Retrieve Options in Templates
+
+Use the `Options` class to get values:
+
+```php
+// Get a single option value
+$footer_text = \CodeSoup\Pumpkin\ACF\Options::get( 'footer', 'footer_text_field' );
+
+// Get all options for a template
+$footer_options = \CodeSoup\Pumpkin\ACF\Options::get( 'footer' );
+```
+
+## How It Works
+
+1. **Registration:** When the theme initializes, `TEMPLATE_OPTIONS` are automatically registered
+2. **Post Creation:** A `pumpkin_options` post is created for each template
+3. **Storage:** All ACF field values are serialized and stored in the post's `post_content` field (not in `wp_options`)
+4. **Portability:** Template names are stored in post meta, making them portable across domains
+5. **ACF Integration:** Field groups are assigned to specific template options via location rules
+
+### Storage Details
+
+- **Post Type:** `pumpkin_options`
+- **Storage Location:** Post `post_content` field (serialized)
+- **Post Meta:** `_pumpkin_template_name` stores the template identifier
+- **Advantage:** Options are grouped by template, easier to export/import, and don't clutter the `wp_options` table
+
+## Example: Footer Options
+
+### Step 1: Add to TEMPLATE_OPTIONS
+```php
+private const TEMPLATE_OPTIONS = [
+    'footer' => 'Footer',
+];
+```
+
+### Step 2: Create ACF Field Group
+- Field Group Name: "Footer Settings"
+- Fields:
+  - `footer_text` (Text)
+  - `footer_logo` (Image)
+  - `footer_links` (Repeater)
+- Location: Pumpkin Options - Page Template = Footer
+
+### Step 3: Use in Template
+```php
+<?php
+// Get individual field values from the pumpkin_options post
+$footer_text = \CodeSoup\Pumpkin\ACF\Options::get( 'footer', 'footer_text' );
+$footer_logo = \CodeSoup\Pumpkin\ACF\Options::get( 'footer', 'footer_logo' );
+
+echo $footer_text;
+echo wp_get_attachment_image( $footer_logo, 'full' );
+
+// Or get all options for the template
+$all_footer_options = \CodeSoup\Pumpkin\ACF\Options::get( 'footer' );
+?>
+```
+
+**Note:** All values are retrieved from the `pumpkin_options` post's `post_content` field, not from `wp_options` table.
+
+## Storage Architecture
+
+### Why `pumpkin_options` Post Type?
+
+Instead of storing options in the `wp_options` table (which can become cluttered), this system uses a custom post type:
+
+- **Organization:** Related options are grouped in a single post
+- **Portability:** Options are stored as post content, making them easy to export/import between domains
+- **Scalability:** No performance impact on the `wp_options` table
+- **Flexibility:** Each template can have its own set of options without conflicts
+
+### Data Structure
+
+```
+pumpkin_options Post
+├── post_title: "Footer"
+├── post_content: [serialized ACF field values]
+├── post_meta:
+│   └── _pumpkin_template_name: "footer"
+└── ACF Fields: footer_text, footer_logo, etc.
+```
