@@ -400,3 +400,42 @@ pumpkin_options Post
 │   └── _pumpkin_template_name: "footer"
 └── ACF Fields: footer_text, footer_logo, etc.
 ```
+
+
+# Hooker
+
+The `Hooker` class is a centralized service for adding WordPress actions and filters. It is registered in the Dependency Injection container and can be accessed from any class that has access to the container, such as a service provider or a class instantiated by one.
+
+The primary benefit of using this service is to have a consistent, injectable way to manage WordPress hooks, which is useful for organization and testing.
+
+## Basic Usage
+
+### Getting the Hooker Instance
+
+```php
+// From Bootstrap
+$hooker = \CodeSoup\Pumpkin\Core\Bootstrap::get_instance()->get_hooker();
+```
+
+### Adding Actions and Filters
+
+```php
+// Add a single action
+$hooker->add_action( 'wp_footer', $this, 'render_footer' );
+
+// Add a single filter
+$hooker->add_filter( 'the_title', $this, 'modify_title', 10, 2 );
+
+// Add multiple actions at once
+$hooker->add_actions( [
+    [ 'wp_enqueue_scripts', $this, 'enqueue_scripts' ],
+    [ 'wp_footer', $this, 'render_footer', 20 ],
+] );
+
+// Add multiple filters at once
+$hooker->add_filters( [
+    [ 'the_content', $this, 'filter_content' ],
+    [ 'the_title', $this ], // Method name matches hook name, can be omitted
+    [ 'quick_edit_enabled_for_post_type', '__return_false' ], // Use WordPress built in global function
+] );
+```
