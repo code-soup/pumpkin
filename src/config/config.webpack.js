@@ -13,10 +13,17 @@ import optimizationConfig from './webpack/config.optimization.js';
 import watchConfig from './webpack/config.watch.js';
 import findEntryPoints from './util/dynamic-entry.js';
 
-// Dynamically discover entry points from templates/post-type directory
-// Looks for index.js/scss/sass (sync) and index-async.js/scss/sass (async) files
 const dynamicEntryPath = process.cwd() + '/templates/post-type/';
 const dynamicEntries = findEntryPoints(dynamicEntryPath);
+
+// Dynamically discover entry points from templates/shared/sections directory
+// Looks for js/index.js and scss/index.scss files in each section
+// Prefixed with 'section-' to avoid naming conflicts
+const sectionsEntryPath = process.cwd() + '/templates/shared/sections/';
+const sectionsEntries = findEntryPoints(sectionsEntryPath, '', {}, 'section-');
+
+// Merge all dynamic entries
+const allDynamicEntries = { ...dynamicEntries, ...sectionsEntries };
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -25,7 +32,7 @@ const createWebpackConfig = (envArgs, argv) => {
 	const fileName = isProduction ? '[name].[contenthash]' : '[name]';
 
 	const baseConfig = {
-		entry: { ...userConfig.entry, ...dynamicEntries },
+		entry: { ...userConfig.entry, ...allDynamicEntries },
 		context: userConfig.paths.root,
 		output: {
 			path: userConfig.paths.dist,

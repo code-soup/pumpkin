@@ -71,6 +71,7 @@ class Setup {
 		$this->define_constants();
 		$this->register_hooks();
 		$this->initialize_sections();
+		$this->load_acf_admin_categories();
 	}
 
 	/**
@@ -205,5 +206,35 @@ class Setup {
 	 */
 	public function hide_acf_admin( bool $show_admin ): bool {
 		return ('local' === wp_get_environment_type());
+	}
+
+	/**
+	 * Load ACF admin categories plugin if available and in admin context
+	 *
+	 * @return void
+	 */
+	private function load_acf_admin_categories(): void {
+		// Only load in admin context
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		// Check if ACF admin categories package exists
+		$acf_categories_path = $this->join_paths( $this->get_theme_directory(), 'vendor/codesoup/acf-admin-categories/index.php' );
+
+		if ( ! file_exists( $acf_categories_path ) ) {
+			return;
+		}
+
+		// Set up the plugin directory URL filter
+		add_filter( 'acf_admin_categories_plugin_dir_url', function( $base_url ) {
+			return sprintf(
+				'%s/vendor/codesoup/acf-admin-categories',
+				get_stylesheet_directory_uri()
+			);
+		});
+
+		// Load the ACF admin categories plugin
+		require_once $acf_categories_path;
 	}
 }

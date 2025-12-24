@@ -21,6 +21,13 @@ final class Sections {
 	use ScriptLoader;
 
 	/**
+	 * Singleton instance
+	 *
+	 * @var self|null
+	 */
+	private static $instance = null;
+
+	/**
 	 * Path constants
 	 */
 	private const SHARED_SECTIONS_PATH = 'templates/shared/sections';
@@ -40,6 +47,13 @@ final class Sections {
 	 * @var array<string, bool>
 	 */
 	private static array $template_cache = [];
+
+	/**
+	 * Cache for sections data (prevents multiple DB queries)
+	 *
+	 * @var array<int, array>
+	 */
+	private static array $sections_data_cache = [];
 
 	/**
 	 * Post ID
@@ -88,16 +102,44 @@ final class Sections {
 	private array $render_params = [];
 
 	/**
-	 * Constructor
+	 * Get singleton instance
+	 *
+	 * @return self
+	 */
+	public static function get_instance(): self {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Private constructor to prevent direct instantiation
 	 *
 	 * @param int|null $post_id Post ID
 	 * @param array<string, mixed> $args Additional arguments
 	 * @throws RuntimeException If ACF PRO is not available
 	 * @throws InvalidArgumentException If post ID is invalid
 	 */
-	public function __construct( ?int $post_id = null, array $args = [] ) {
+	private function __construct( ?int $post_id = null, array $args = [] ) {
 		$this->validate_dependencies();
 		$this->initialize( $post_id, $args );
+	}
+
+	/**
+	 * Prevent cloning of the instance
+	 *
+	 * @return void
+	 */
+	private function __clone() {}
+
+	/**
+	 * Prevent unserializing of the instance
+	 *
+	 * @return void
+	 */
+	public function __wakeup() {
+		throw new \Exception( 'Cannot unserialize singleton' );
 	}
 
 	/**
@@ -130,6 +172,12 @@ final class Sections {
 		$this->set_args( $args );
 		$this->set_post_type( get_post_type( $this->post_id ) ?: self::POST_TYPE_DEFAULT );
 		$this->set_paths();
+
+		// Load sections data immediately (not lazy)
+		$this->load_sections_data();
+
+		// Include all inc/index.php files from all sections
+		// $this->include_all_section_inc_files();
 	}
 
 	/**
@@ -363,19 +411,23 @@ final class Sections {
 	 */
 	public static function save_post_cache( $post_id ) {
 
-		if ( ! in_array( get_post_type(), [ 'case_study', 'post', 'page' ] ) )
+		// Get post type from the actual post being saved
+		$post_type = get_post_type( $post_id );
+
+		if ( ! in_array( $post_type, [ 'post', 'page' ], true ) ) {
 			return;
+		}
 
 		ob_start();
 
-		$sections = new \CodeSoup\Pumpkin\ACF\Sections;
+		$sections = new \CodeSoup\Pumpkin\ACF\Sections( $post_id );
 		$sections->render_sections();
 
 		$content = ob_get_clean();
 
+		// Don't pass post_type to wp_update_post - it shouldn't change
 		wp_update_post( [
 			'ID'           => $post_id,
-            'post_type'    => get_post_type(),
 			'post_content' => strip_tags( $content, '<a><img><ul><ol><li><p><h1><h2><h3><h4><h5>' ),
 		], true );
 	}
@@ -467,7 +519,7 @@ final class Sections {
 			include $template_file;
 		} elseif ( $this->template_exists( $fallback_file ) ) {
 			include $fallback_file;
-		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		} elseif ( defined( 'WP_DEBU_DEV' ) && WP_DEBU_DEV ) {
 			error_log(
 				sprintf(
 					"Section template not found. Expected locations:\nDefault: %s\nFallback: %s",
@@ -497,6 +549,52 @@ final class Sections {
 
         return $nested_data;
     }
+
+	/**
+	 * TODO: Check when to include inc/index.php
+	 * Include inc/index.php files from all sections
+	 *
+	 * @return void
+	 */
+	private function include_all_section_inc_files(): void {
+		$sections = $this->get_sections();
+
+		if ( empty( $sections ) ) {
+			return;
+		}
+
+		foreach ( $sections as $data ) {
+			if ( is_string( $data ) || empty( $data['acf_fc_layout'] ) ) {
+				continue;
+			}
+
+			$slug = $this->normalize_slug( (string) $data['acf_fc_layout'] );
+
+			// Check post-type specific inc file first (at post-type level, not section level)
+			$post_type_inc = sprintf(
+				'%s/%s/%s/inc/index.php',
+				$this->get_theme_directory(),
+				self::POST_TYPE_PATH,
+				$this->get_post_type()
+			);
+
+			// Check shared sections inc file
+			$shared_inc = sprintf(
+				'%s/%s/%s/inc/index.php',
+				$this->get_theme_directory(),
+				self::SHARED_SECTIONS_PATH,
+				$slug
+			);
+
+			if ( $this->template_exists( $post_type_inc ) ) {
+				include_once $post_type_inc;
+			}
+			
+			if ( $this->template_exists( $shared_inc ) ) {
+				include_once $shared_inc;
+			}
+		}
+	}
 
 	/**
 	 * Check if section should be rendered based on parameters
@@ -615,29 +713,41 @@ final class Sections {
 	}
 
 	/**
-	 * Load sections data from ACF (lazy loading)
+	 * Load sections data from ACF (lazy loading with cache)
 	 */
 	private function load_sections_data(): void {
-		$sections = get_field(
-			$this->get_arg( 'field_name' ),
-			$this->get_post_id()
-		);
+		$post_id = $this->get_post_id();
+		$field_name = $this->get_arg( 'field_name' );
+		$cache_key = $post_id . '_' . $field_name;
+
+		// Check static cache first
+		if ( isset( self::$sections_data_cache[ $cache_key ] ) ) {
+			$this->sections = self::$sections_data_cache[ $cache_key ];
+			return;
+		}
+
+		// Load from database
+		$sections = get_field( $field_name, $post_id );
 
 		if ( ! is_array( $sections ) ) {
 			$sections = [];
 		}
 
-		if ( empty( $sections ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		if ( empty( $sections ) && defined( 'WP_DEBUG_DEV' ) && WP_DEBUG_DEV ) {
 			error_log(
 				sprintf(
 					'No ACF postmeta data found for post_id "%d", and field group "%s"',
-					$this->get_post_id(),
-					$this->get_arg( 'field_name' )
+					$post_id,
+					$field_name
 				)
 			);
 		}
 
-		$this->sections = $this->process_section_data( $sections );
+		$processed = $this->process_section_data( $sections );
+
+		// Cache the processed data
+		self::$sections_data_cache[ $cache_key ] = $processed;
+		$this->sections = $processed;
 	}
 
 	// Property setters with validation
@@ -762,20 +872,5 @@ final class Sections {
 	 */
 	public function get_asset_uri( string $filename ): ?string {
 		return $this->get_template_asset_uri( $filename );
-	}
-
-	/**
-	 * Calculate reading time in minutes based on character count
-	 *
-	 * @param string $content The content to analyze
-	 * @param int    $wpm     Words per minute reading speed (default: 200)
-	 * @return int Reading time in minutes (minimum 1)
-	 */
-	public function get_reading_time_minutes( string $content, int $wpm = 200 ): int {
-		$char_count = mb_strlen( wp_strip_all_tags( $content ) );
-		$word_count = ceil( $char_count / 5.5 );
-		$minutes    = (int) ceil( $word_count / $wpm );
-
-		return max( 1, $minutes );
 	}
 }

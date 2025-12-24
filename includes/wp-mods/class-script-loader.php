@@ -148,9 +148,20 @@ final class ScriptLoader {
 		$common_js  = self::get_asset( 'common.js' );
 
 		if ( $common_js ) {
-			wp_enqueue_script( 'pumpkin-runtime-js', $runtime_js, [], null, true );
-			wp_enqueue_script( 'pumpkin-vendor-js', $vendor_js, ['pumpkin-runtime-js'], null, true );
-			wp_enqueue_script( 'pumpkin-common-js', $common_js, [ 'pumpkin-runtime-js', 'pumpkin-vendor-js', 'jquery' ], null, true );
+			$dependencies = [];
+
+			if ( $runtime_js ) {
+				wp_enqueue_script( 'pumpkin-runtime-js', $runtime_js, [], null, true );
+				$dependencies[] = 'pumpkin-runtime-js';
+			}
+
+			if ( $vendor_js ) {
+				wp_enqueue_script( 'pumpkin-vendor-js', $vendor_js, $dependencies, null, true );
+				$dependencies[] = 'pumpkin-vendor-js';
+			}
+
+			$dependencies[] = 'jquery';
+			wp_enqueue_script( 'pumpkin-common-js', $common_js, $dependencies, null, true );
 
 			wp_localize_script( 'pumpkin-common-js', 'pumpkin', [
 				'ajax_url' => wp_make_link_relative( admin_url( 'admin-ajax.php' ) ),
@@ -175,7 +186,7 @@ final class ScriptLoader {
 		$template_js = self::get_asset( $template_name . '.js' );
 		if ( $template_js ) {
 			wp_enqueue_script(
-				'pumpkin-template-' . $template_name,
+				'pumpkin-template-js-' . $template_name,
 				$template_js,
 				['jquery'],
 				null,
@@ -187,7 +198,7 @@ final class ScriptLoader {
 		$template_css = self::get_asset( $template_name . '.css' );
 		if ( $template_css ) {
 			wp_enqueue_style(
-				'pumpkin-template-' . $template_name,
+				'pumpkin-template-css-' . $template_name,
 				$template_css,
 				[],
 				null,
@@ -198,7 +209,7 @@ final class ScriptLoader {
 		$template_async_js = self::get_asset( $template_name . '-async.js' );
 		if ( $template_async_js ) {
 			wp_enqueue_script(
-				'pumpkin-template-' . $template_name . '-async',
+				'pumpkin-template-js-' . $template_name . '-async',
 				$template_async_js,
 				['jquery'],
 				null,
@@ -210,11 +221,55 @@ final class ScriptLoader {
 		$template_async_css = self::get_asset( $template_name . '-async.css' );
 		if ( $template_async_css ) {
 			wp_enqueue_style(
-				'pumpkin/template-' . $template_name . '-async',
+				'pumpkin/template-css-' . $template_name . '-async',
 				$template_async_css,
 				[],
 				null,
 			);
+		}
+
+		/**
+		 * Load section based CSS/Js
+		 */
+		if ( class_exists('CodeSoup\Pumpkin\ACF\Sections') )
+		{
+			$sections = \CodeSoup\Pumpkin\ACF\Sections::get_instance();
+			$sections_data = $sections->get_sections();
+
+			if ( ! empty( $sections_data ) && is_array( $sections_data ) ) {
+				foreach ( $sections_data as $section ) {
+					// Skip invalid section data
+					if ( ! is_array( $section ) || empty( $section['acf_fc_layout'] ) ) {
+						continue;
+					}
+					
+					$section_slug = str_replace( '_', '-', $section['acf_fc_layout'] );
+
+					// Enqueue section JS if exists
+					$section_js = self::get_asset( 'section-' . $section_slug . '.js' );
+					if ( $section_js ) {
+						wp_enqueue_script(
+							'pumpkin-section-js-' . $section_slug,
+							$section_js,
+							[],
+							null,
+							true,
+						);
+					}
+
+					// Enqueue section CSS if exists
+					$section_css = self::get_asset( 'section-' . $section_slug . '.css' );
+					
+					if ( $section_css ) {
+						wp_enqueue_style(
+							'pumpkin-section-css-' . $section_slug,
+							$section_css,
+							[],
+							null,
+						);
+					}
+				}
+			}
 		}
 	}
 
@@ -270,9 +325,19 @@ final class ScriptLoader {
 		$admin_css = self::get_asset( 'admin.css' );
 
 		if ( $admin_js ) {
-            wp_enqueue_script( 'admin-runtime-js', $runtime_js, [], null, true );
-            wp_enqueue_script( 'admin-vendor-js', $vendor_js, ['admin-runtime-js'], null, true );
-			wp_enqueue_script( 'pumpkin-wp-js', $admin_js, ['admin-runtime-js', 'admin-vendor-js', 'jquery'], null, true );
+			$dependencies = [];
+
+			if ( $runtime_js ) {
+				wp_enqueue_script( 'admin-runtime-js', $runtime_js, [], null, true );
+				$dependencies[] = 'admin-runtime-js';
+			}
+
+			if ( $vendor_js ) {
+				wp_enqueue_script( 'admin-vendor-js', $vendor_js, $dependencies, null, true );
+				$dependencies[] = 'admin-vendor-js';
+			}
+
+			wp_enqueue_script( 'pumpkin-wp-js', $admin_js, $dependencies, null, true );
 
 			wp_localize_script( 'pumpkin-wp-js', 'pumpkin', [
 				'page_id'  => get_the_ID(),

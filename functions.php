@@ -15,5 +15,7 @@ $bootstrap->init();
 $bootstrap->init_template_redirect();
 
 // Include plugin mods for admin
-// include 'includes/utils/index.php';
 include 'includes/plugin-mods/index.php';
+
+// Load all template inc files for AJAX handlers and early initialization
+\CodeSoup\Pumpkin\WpMods\TemplateLoader::load_inc_files();

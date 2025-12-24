@@ -76,7 +76,6 @@ class Bootstrap {
 
 		// Initialize ACF configuration
 		\CodeSoup\Pumpkin\ACF\Setup::get_instance()->init();
-        \CodeSoup\Pumpkin\ACF\Options::get_instance()->init();
 
 		// Initialize admin-specific components
 		if ( is_admin() ) {
@@ -119,6 +118,24 @@ class Bootstrap {
 
 			$template_initialized = true;
 		}, 5);
+
+		// Initialize Sections after post is selected
+		add_action('template_redirect', function() {
+
+			// Only run in frontend
+			if (is_admin() || wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST)) {
+				return;
+			}
+
+			// Skip in autosave or cron
+			if (defined('DOING_AUTOSAVE') || defined('DOING_CRON')) {
+				return;
+			}
+
+			// Initialize Sections singleton
+			\CodeSoup\Pumpkin\ACF\Sections::get_instance();
+
+		}, 10);
 	}
 
 	/**

@@ -5,12 +5,17 @@ import path from 'path';
  * Recursively find entry point files (index.js/scss/sass and index-async.js/scss/sass)
  *
  * @param {string} folderPath - The directory path to search
- * @param {string} parent1 - The grandparent folder name (used as entry key)
- * @param {string} parent2 - The parent folder name
+ * @param {string} basePath - The base path to calculate relative paths from
  * @param {Object} indexFiles - Accumulated entry points object
+ * @param {string} prefix - Optional prefix to prepend to entry keys
  * @returns {Object} Object with entry names as keys and file paths as values
  */
-function findEntryPoints(folderPath, parent1 = '', parent2 = '', indexFiles = {}) {
+function findEntryPoints(folderPath, basePath = '', indexFiles = {}, prefix = '') {
+    // Set basePath to folderPath on first call
+    if (!basePath) {
+        basePath = folderPath;
+    }
+
     // Validate input
     if (!folderPath || typeof folderPath !== 'string') {
         console.warn('[dynamic-entry] Invalid folder path provided:', folderPath);
@@ -53,7 +58,7 @@ function findEntryPoints(folderPath, parent1 = '', parent2 = '', indexFiles = {}
 
             if (fileStats.isDirectory()) {
                 // Recurse into subdirectory
-                findEntryPoints(filePath, parent2, file, indexFiles);
+                findEntryPoints(filePath, basePath, indexFiles, prefix);
             } else {
                 // Check if file is an index file
                 const ext = path.extname(file);
@@ -62,8 +67,15 @@ function findEntryPoints(folderPath, parent1 = '', parent2 = '', indexFiles = {}
 
                     // Sync loading scripts
                     if (fileName === 'index') {
-                        // Store file in object with keys based on parent folders
-                        const key = parent1;
+                        // Calculate relative path from base and extract folder structure
+                        const relativePath = path.relative(basePath, folderPath);
+                        const pathParts = relativePath.split(path.sep).filter(Boolean);
+
+                        // Remove asset type folders (js, scss, sass, styles, scripts)
+                        const assetFolders = ['js', 'scss', 'sass', 'styles', 'scripts'];
+                        const keyParts = pathParts.filter(part => !assetFolders.includes(part));
+
+                        const key = prefix + keyParts.join('-');
 
                         if (!indexFiles[key]) {
                             indexFiles[key] = [];
@@ -72,8 +84,15 @@ function findEntryPoints(folderPath, parent1 = '', parent2 = '', indexFiles = {}
                     }
                     // Async loading scripts
                     else if (fileName === 'index-async') {
-                        // Store file in object with keys based on parent folders
-                        const key = parent1 + '-async';
+                        // Calculate relative path from base and extract folder structure
+                        const relativePath = path.relative(basePath, folderPath);
+                        const pathParts = relativePath.split(path.sep).filter(Boolean);
+
+                        // Remove asset type folders (js, scss, sass, styles, scripts)
+                        const assetFolders = ['js', 'scss', 'sass', 'styles', 'scripts'];
+                        const keyParts = pathParts.filter(part => !assetFolders.includes(part));
+
+                        const key = prefix + keyParts.join('-') + '-async';
 
                         if (!indexFiles[key]) {
                             indexFiles[key] = [];

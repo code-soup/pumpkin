@@ -39,13 +39,21 @@ class ThemeSetup {
 	private const SIDEBAR_LOCATIONS = [];
 
 	/**
-	 * Template options pages
+	 * ACF Options pages
 	 *
-	 * @var array<string, string>
+	 * @var array<string, array>
 	 */
-	private const TEMPLATE_OPTIONS = [
-		'footer' => 'Footer',
-		'general' => 'General Options'
+	private const ACF_OPTIONS_PAGES = [
+		[
+			'id'         => 'general',
+			'title'      => 'General Settings',
+			'capability' => 'manage_options',
+		],
+		[
+			'id'         => 'footer',
+			'title'      => 'Footer Settings',
+			'capability' => 'manage_options',
+		]
 	];
 
 	/**
@@ -57,7 +65,6 @@ class ThemeSetup {
 		'post-thumbnails',
 		'title-tag',
 		'pumpkin-template-caching',
-
 		'customize-selective-refresh-widgets',
 		'align-wide',
 		'responsive-embeds',
@@ -80,19 +87,20 @@ class ThemeSetup {
 	 * @return void
 	 */
 	private function register_hooks(): void {
-		$this->hooker->add_action( 'after_setup_theme', $this, 'setup_theme_features' );
-		$this->hooker->add_action( 'init', $this, 'register_menus' );
-		$this->hooker->add_action( 'init', $this, 'register_template_options' );
-		$this->hooker->add_action( 'widgets_init', $this, 'register_sidebars' );
-		$this->hooker->add_filter( 'additional_capabilities_display', null, '__return_false' );
-		$this->hooker->add_filter( 'upload_mimes', $this, 'upload_mimes' );
+		$this->hooker->add_actions([
+			[ 'after_setup_theme', $this, 'setup_theme_features' ],
+			[ 'after_setup_theme', $this, 'register_acf_options' ],
+			[ 'init', $this, 'register_menus' ],
+			[ 'widgets_init', $this, 'register_sidebars' ],
+		]);
 
-		// Simplify menu classes
-		$this->hooker->add_filter( 'nav_menu_css_class', $this, 'simplify_menu_classes', 10, 4 );
-		$this->hooker->add_filter( 'nav_menu_item_id', null, '__return_empty_string' );
-
-		// Simplify body classes
-		$this->hooker->add_filter( 'body_class', $this, 'simplify_body_classes' );
+		$this->hooker->add_filters([
+			[ 'additional_capabilities_display', null, '__return_false' ],
+			[ 'upload_mimes', $this, 'upload_mimes' ],
+			[ 'nav_menu_css_class', $this, 'simplify_menu_classes', 10, 4 ],
+			[ 'nav_menu_item_id', null, '__return_empty_string' ],
+			[ 'body_class', $this, 'simplify_body_classes' ]
+		]);
 	}
 
 	/**
@@ -129,20 +137,6 @@ class ThemeSetup {
 		remove_post_type_support( 'page', 'thumbnail' );
 	}
 
-	/**
-	 * Register template options pages
-	 *
-	 * @return void
-	 */
-	public function register_template_options(): void {
-		// Expose template options via filter for ACF location rules
-		add_filter( 'pumpkin_template_options', fn() => self::TEMPLATE_OPTIONS );
-
-		foreach ( self::TEMPLATE_OPTIONS as $template_name => $display_name ) {
-			\CodeSoup\Pumpkin\ACF\Options::register_template_options( $template_name, $display_name );
-		}
-	}
-
 
 	/**
 	 * Register sidebars
@@ -156,6 +150,30 @@ class ThemeSetup {
 				'id'   => $id,
 			] );
 		}
+	}
+
+	/**
+	 * Register ACF Options pages
+	 *
+	 * @return void
+	 */
+	public function register_acf_options(): void {
+
+		if ( ! class_exists('\CodeSoup\ACFOptions\Manager') )
+		{
+			return;
+		}
+
+		// Create manager instance with custom prefix
+		$manager = \CodeSoup\ACFOptions\Manager::create( 'pumpkin', [
+			'menu_label' => 'Theme Options',
+		]);
+
+		// Register all pages from configuration
+		$manager->register_pages( self::ACF_OPTIONS_PAGES );
+
+		// Initialize
+		$manager->init();
 	}
 
 	/**

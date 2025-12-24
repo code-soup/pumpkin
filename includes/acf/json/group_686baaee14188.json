@@ -53,9 +53,9 @@
     "location": [
         [
             {
-                "param": "post_template",
+                "param": "codesoup_acf_options",
                 "operator": "==",
-                "value": "options-general"
+                "value": "pumpkin:general"
             }
         ]
     ],
@@ -68,5 +68,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1751886630
+    "display_title": "",
+    "modified": 1766572768
 }

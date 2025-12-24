@@ -2,12 +2,11 @@
     "name": "codesoup/pumpkin",
     "type": "wordpress-theme",
     "license": "MIT",
-    "version": "1.0.0",
     "description": "Component oriented WordPress starter theme.",
     "homepage": "https://www.codesoup.co/pumpkin",
     "authors": [
         {
-            "name": "Vlado Bosnjak",
+            "name": "Code Soup",
             "email": "hi@codesoup.co",
             "homepage": "https://www.codesoup.co"
         }
@@ -40,7 +39,7 @@
         "php": ">=8.2.0",
         "composer/installers": "~2.3.0",
         "wpengine/advanced-custom-fields-pro": "*",
-        "codesoup/acf-admin-categories": "^0.0.1"
+        "codesoup/acf-options": "^1.0"
     },
     "extra": {
         "installer-paths": {
@@ -54,5 +53,8 @@
         "allow-plugins": {
             "composer/installers": true
         }
+    },
+    "require-dev": {
+        "codesoup/acf-admin-categories": "^1.0"
     }
 }

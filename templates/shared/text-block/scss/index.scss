@@ -1,0 +1,24 @@
+@use "@styles/abstracts" as *;
+
+.section-text-block {
+    margin: 0 auto;
+    max-width: 720px;
+    text-align: center;
+    padding-bottom: 40px;
+
+    h2 {
+        margin: 0 0 12px;
+        @include font-size(28,36,600);
+    }
+
+    p {
+        @include font-size(14, 24);
+    }
+
+    @include breakpoint( 720px )
+    {
+        h2 {
+            @include font-size(36,44,600);
+        }
+    }
+}

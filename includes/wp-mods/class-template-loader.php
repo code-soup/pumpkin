@@ -121,6 +121,87 @@ class TemplateLoader {
 	}
 
 	/**
+	 * Load all template inc files for AJAX handlers and early initialization
+	 *
+	 * This static method loads inc/index.php files from:
+	 * - Post-type level: templates/post-type/{post_type}/inc/index.php
+	 * - Template level: templates/post-type/{post_type}/{template}/inc/index.php
+	 * - Shared sections: templates/shared/sections/{section}/inc/index.php
+	 *
+	 * Uses transient cache to avoid filesystem scanning on every request.
+	 * Cache is cleared on theme switch.
+	 *
+	 * @return void
+	 */
+	public static function load_inc_files(): void {
+		$start = microtime( true );
+		$cache_key = 'pumpkin_inc_files_' . get_stylesheet();
+
+		// Try to get cached file list
+		$cached_files = get_transient( $cache_key );
+
+		if ( $cached_files !== false && is_array( $cached_files ) ) {
+			// Load from cache
+			$file_count = 0;
+			foreach ( $cached_files as $file ) {
+				if ( file_exists( $file ) ) {
+					require_once $file;
+					$file_count++;
+				}
+			}
+
+			if ( defined( 'WP_DEBUG_DEV' ) && WP_DEBUG_DEV ) {
+				error_log( sprintf(
+					'[INC FILES - CACHE HIT] Loaded %d files in %.4fms',
+					$file_count,
+					( microtime( true ) - $start ) * 1000
+				) );
+			}
+			return;
+		}
+
+		// Cache miss - discover files
+		$patterns = [
+			'/templates/post-type/*/inc/index.php',       // Post-type level
+			'/templates/post-type/*/*/inc/index.php',     // Template level
+			'/templates/shared/sections/*/inc/index.php', // Shared sections
+		];
+
+		$files = [];
+		foreach ( $patterns as $pattern ) {
+			$found = glob( get_template_directory() . $pattern );
+			if ( $found ) {
+				$files = array_merge( $files, $found );
+			}
+		}
+
+		// Cache the file list for 1 hour
+		set_transient( $cache_key, $files, HOUR_IN_SECONDS );
+
+		// Load the files
+		foreach ( $files as $file ) {
+			require_once $file;
+		}
+
+		if ( defined( 'WP_DEBUG_DEV' ) && WP_DEBUG_DEV ) {
+			error_log( sprintf(
+				'[INC FILES - CACHE MISS] Discovered and loaded %d files in %.4fms',
+				count( $files ),
+				( microtime( true ) - $start ) * 1000
+			) );
+		}
+	}
+
+	/**
+	 * Clear inc files cache
+	 *
+	 * @return void
+	 */
+	public static function clear_inc_files_cache(): void {
+		delete_transient( 'pumpkin_inc_files_' . get_stylesheet() );
+	}
+
+	/**
 	 * Get current page template from meta (static method for global access)
 	 *
 	 * @param int|null $post_id Optional post ID. If not provided, uses current post
@@ -257,6 +338,7 @@ class TemplateLoader {
 	 * Load the head template part
 	 */
 	public function load_head_template(): void {
+		// $this->load_template_part( 'inc/index' );
 		$this->load_template_part( 'head' );
 	}
 
@@ -318,8 +400,6 @@ class TemplateLoader {
 	 * @return array Template hierarchy
 	 */
 	private function get_template_hierarchy( string $filename ): array {
-
-		error_log( print_r( $filename, true ) );
 	
 		/**
 		 * Detect WordPress context and build appropriate hierarchy
@@ -655,5 +735,9 @@ class TemplateLoader {
 	private function init_cache_invalidation(): void {
 		add_action( 'switch_theme', [ $this, 'clear_template_cache' ] );
 		add_action( 'upgrader_process_complete', [ $this, 'clear_template_cache' ] );
+
+		// Clear inc files cache on theme switch
+		add_action( 'switch_theme', [ self::class, 'clear_inc_files_cache' ] );
+		add_action( 'upgrader_process_complete', [ self::class, 'clear_inc_files_cache' ] );
 	}
 }
